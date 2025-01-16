@@ -1,0 +1,17 @@
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+.navbar .col3 img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.navbar .css-1uent87-MuiButtonBase-root-MuiButton-root {
+    border-radius: 0;
+}
+.navbar .categories-btn .text-section svg {
+    font-size: 20px;
+    padding-right: 2px;
+}

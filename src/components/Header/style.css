@@ -1,0 +1,38 @@
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+#header ul.dropdown-menu {
+    position: absolute;
+    margin: 0 0;
+    padding: 15px;
+    right: 128px;
+    left: auto;
+    top: 45px;
+    min-width: 160px;
+    box-shadow: 0 4px 9px rgba(0, 0, 0, .10);
+    -moz-box-shadow: 0 4px 9px rgba(0, 0, 0, .10);
+    -webkit-box-shadow: 0 4px 9px rgba(0, 0, 0, .10);
+}
+
+#header ul.dropdown-menu .dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header .quick-actions {
+    font-size: 30px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.header .quick-actions .quick-action-btn {
+    margin: 0 10px;
+}
+
+.header .quick-actions .quick-action-btn:hover {
+    color: var(--primary);
+}
+
