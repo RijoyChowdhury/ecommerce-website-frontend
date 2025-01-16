@@ -2,17 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: #ff5252;
+  --white: #fff;
+  --gray: #ddd;
+  --dark-gray: #666;
+  --body-background: #f5f0f0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   font-family: "Roboto", serif;
   font-optical-sizing: auto;
   font-size: 14px;
   font-weight: 400;
-  color: #666;
+  color: var(--dark-gray);
   line-height: 26px;
-  background: #fff;
+  background: var(--body-background);
   letter-spacing: .5px;
 }
 
 .link:hover {
-  color: #ff5252;
+  color: var(--primary);
+  cursor: pointer;
 }
