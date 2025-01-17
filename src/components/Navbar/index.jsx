@@ -4,13 +4,19 @@ import { FaChevronRight } from 'react-icons/fa';
 import RocketLogo from '../../assets/images/rocket.svg'
 import { MdSegment } from 'react-icons/md';
 import './style.css';
+import DrawerComponent from '../Drawer';
 
 const Navbar = () => {
+    const [open, setOpen] = React.useState(false);
+    const toggleDrawer = (newOpen) => () => {
+        setOpen(newOpen);
+    };
+
     return (
         <nav>
             <div className='navbar container flex items-center justify-end p-2'>
                 <div className='col1 w-[20%] mr-2'>
-                    <Button className='!text-black w-[100%]'>
+                    <Button className='!text-black w-[100%]' onClick={toggleDrawer(true)}>
                         <div className='categories-btn w-[100%] flex items-center justify-between'>
                             <div className='text-section w-[60%] flex items-center justify-around'><MdSegment /> Shop By Categories</div>
                             <div><FaChevronRight /></div>
@@ -34,6 +40,8 @@ const Navbar = () => {
                     Free International Delivery
                 </div>
             </div>
+
+            <DrawerComponent open={open} toggleDrawer={toggleDrawer} />
         </nav>
     )
 };
