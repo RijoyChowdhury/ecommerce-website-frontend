@@ -27,7 +27,7 @@ const Navbar = () => {
                 <div className='navbar-categories col1 w-[20%] mr-2'>
                     <Button className='!text-black w-[100%]' onClick={toggleDrawer(true)}>
                         <div className='categories-btn w-[100%] flex items-center justify-between'>
-                            <div className='text-section w-[60%] flex items-center justify-around'><MdSegment /> Shop By Categories</div>
+                            <div className='text-section w-[75%] flex items-center justify-around'><MdSegment /> Shop By Categories</div>
                             <div><FaChevronRight /></div>
                         </div>
                     </Button>

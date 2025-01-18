@@ -1,0 +1,123 @@
+/* main banner section */
+.content img {
+    border-radius: 5px;
+}
+
+.swiper-button-prev, .swiper-button-next {
+    border: 1px solid var(--dark-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+}
+
+.swiper-button-prev:after {  
+    left: 9px;
+}
+
+.swiper-button-next:after {
+    right: 9px;
+}
+
+.swiper-button-prev:after, .swiper-button-next:after {
+    position: absolute;
+    font-size: 15px;
+    color: black;
+}
+
+.swiper-button-prev:hover, .swiper-button-next:hover {
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
+    color: #fff;
+}
+
+.swiper-button-prev:hover:after, .swiper-button-next:hover:after {
+    color: var(--white);
+}
+
+.swiper-pagination .swiper-pagination-bullet {
+    width: 15px;
+    height: 15px;
+}
+.swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+    background-color: var(--primary) !important;
+}
+
+.main-banner-text {
+    height: 100%;
+    width: 45%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: 50px;
+}
+
+.main-banner-text .headings {
+    font-size: 20px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 100px;
+}
+.main-banner-text .headings .sub-heading {
+    font-weight: 500;
+    font-size: 44px;
+    line-height: 56px;
+    margin: 10px 0;
+}
+
+.main-banner-text .headings .offer-text span{
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-left: 10px;
+}
+
+.sub-banner-text {
+    /* border: 1px solid red; */
+    height: 100%;
+    width: 50%;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.sub-banner-section-item:nth-child(2) .sub-banner-text {
+    left: auto;
+    right: 0;
+}
+
+.lower-banner .lower-banner-slide {
+    display: flex;
+    justify-content: center;
+}
+
+/* offer section */
+.block {
+    background-color: var(--white);
+}
+
+.offer-details .offercms-text {
+    border: 2px solid red;
+    border-radius: 5px;
+    padding: 30px;
+    margin: 28px 0;
+}
+
+.offercms-item {
+    padding: 0 auto;
+}
+
+/* banner section 2 */
+.banner-section-2 .banner-content .cmsbanner {
+    position: relative;
+}
+.banner-section-2 .banner-content .cmsbanner .banner-text {
+    /* border: 1px solid red; */
+    height: 100%;
+    position: absolute;
+    left: 250px;
+    top: 0;
+}

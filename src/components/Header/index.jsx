@@ -30,60 +30,60 @@ const Header = () => {
                                 <li className='list-none border-l-[1px] pl-4 pr-2'>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition' onClick={() => setShowDropdownMenu(!showDropdownMenu)}>
                                         <div className='flex items-center gap-3'>
-                                            <img class="lang-flag ls-is-cached lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/1.jpg" />
+                                            <img className="lang-flag ls-is-cached lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/1.jpg" />
                                             English
                                         </div>
                                     </Link>
-                                    {showDropdownMenu && <ul class="dropdown-menu" aria-labelledby="language-dropdown">
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag ls-is-cached lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/1.jpg" />
+                                    {showDropdownMenu && <ul className="dropdown-menu" aria-labelledby="language-dropdown">
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag ls-is-cached lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/1.jpg" />
                                                 English
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/2.jpg" />Français
+                                        <li className="link">
+                                            <Link className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/2.jpg" />Français
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/3.jpg" />Español
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/3.jpg" />Español
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/4.jpg" />Deutsch
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/4.jpg" />Deutsch
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/5.jpg" />Italiano
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/5.jpg" />Italiano
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/6.jpg" />Polski
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/6.jpg" />Polski
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/7.jpg" />Nederlands
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/7.jpg" />Nederlands
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/8.jpg" />Русский
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/8.jpg" />Русский
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/9.jpg" />Português PT
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/9.jpg" />Português PT
                                             </Link>
                                         </li>
-                                        <li class="link">
-                                            <Link to='#' class="dropdown-item">
-                                                <img class="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/10.jpg" />اللغة العربية
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                <img className="lang-flag lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/10.jpg" />اللغة العربية
                                             </Link>
                                         </li>
                                     </ul>}
