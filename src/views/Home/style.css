@@ -98,10 +98,6 @@
 }
 
 /* offer section */
-.block {
-    background-color: var(--white);
-}
-
 .offer-details .offercms-text {
     border: 2px solid red;
     border-radius: 5px;

@@ -1,5 +1,4 @@
 import React from 'react';
-import Header from '../../components/Header';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -39,7 +38,6 @@ import './style.css';
 const Home = () => {
     return (
         <>
-            <Header />
             <div className='home'>
                 <div className='content'>
                     <div className='top-banner-segment my-7'>
@@ -381,18 +379,8 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <div className='block footer-section pb-20 border-t-2 pt-16'>
-                        <div className='container'>
-                            Footer
-                            <div className='footer flex'>
-
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
-
         </>
     )
 };

@@ -9,6 +9,7 @@ export default {
       colors: {
         primary: '#ff5252',
         'custom-gray': '#ddd',
+        'custom-dark-gray': '#666',
       },
       backgroundColor: {
         primary: '#ff5252',
