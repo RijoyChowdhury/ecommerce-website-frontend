@@ -1,0 +1,30 @@
+.product-slider-component-wrapper .btn-segment {
+    position: relative;
+}
+.product-slider-component-wrapper .btn-segment .slider-btn {
+    border: 1px solid var(--dark-gray);
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    font-size: 25px;
+    position: relative;
+}
+
+.product-slider-component-wrapper .btn-segment .slider-btn.slider-button-next span {
+    position: absolute;
+    right: 0;
+    top: 1.5px;
+}
+
+.product-slider-component-wrapper .btn-segment .slider-btn:hover {
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
+    color: #fff;
+}
+
+/* swiper css */
+.product-slider-component .swiper-button-prev, .product-slider-component .swiper-button-next {
+    visibility: hidden;
+}
+
+/* swiper css end */

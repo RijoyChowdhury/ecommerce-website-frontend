@@ -3,6 +3,7 @@
     border-radius: 5px;
 }
 
+/* swiper css */
 .swiper-button-prev, .swiper-button-next {
     border: 1px solid var(--dark-gray);
     display: flex;
@@ -45,6 +46,8 @@
 .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
     background-color: var(--primary) !important;
 }
+
+/* swiper css end */
 
 .main-banner-text {
     height: 100%;
@@ -111,13 +114,45 @@
 }
 
 /* banner section 2 */
-.banner-section-2 .banner-content .cmsbanner {
+.banner-section-2 .banner-content .cmsbanner, 
+.banner-section-6 .banner-content .cmsbanner,
+.banner-section-9 .banner-content .cmsbanner {
     position: relative;
 }
+
 .banner-section-2 .banner-content .cmsbanner .banner-text {
     /* border: 1px solid red; */
     height: 100%;
     position: absolute;
     left: 250px;
     top: 0;
+}
+
+/* banner section 6 */
+.banner-section-6 .banner-content .cmsbanner .banner-text {
+    /* border: 1px solid red; */
+    height: 100%;
+    width: 60%;
+    padding: 0 40px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* banner section 9 */
+.banner-section-9 .banner-content .cmsbanner .banner-text {
+    /* border: 1px solid red; */
+    height: 100%;
+    width: 60%;
+    padding: 0 40px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+/* service section */
+.service-section .footer .service-heading {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--black);
 }

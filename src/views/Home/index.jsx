@@ -10,18 +10,29 @@ import main_banner_1 from '../../assets/images/main-banner-1.jpg'
 import main_banner_2 from '../../assets/images/main-banner-2.jpg'
 import sub_banner_1 from '../../assets/images/sub-banner-1.jpg'
 import sub_banner_2 from '../../assets/images/sub-banner-2.jpg'
-import category_img_1 from '../../assets/images/category-image-list-1.jpg'
-import category_img_2 from '../../assets/images/category-image-list-2.jpg'
-import category_img_3 from '../../assets/images/category-image-list-3.jpg'
-import category_img_4 from '../../assets/images/category-image-list-4.jpg'
-import category_img_5 from '../../assets/images/category-image-list-5.jpg'
-import category_img_6 from '../../assets/images/category-image-list-6.jpg'
-import category_img_7 from '../../assets/images/category-image-list-7.jpg'
-import category_img_8 from '../../assets/images/category-image-list-8.jpg'
+import category_img_1 from '../../assets/images/categories/category-image-list-1.jpg'
+import category_img_2 from '../../assets/images/categories/category-image-list-2.jpg'
+import category_img_3 from '../../assets/images/categories/category-image-list-3.jpg'
+import category_img_4 from '../../assets/images/categories/category-image-list-4.jpg'
+import category_img_5 from '../../assets/images/categories/category-image-list-5.jpg'
+import category_img_6 from '../../assets/images/categories/category-image-list-6.jpg'
+import category_img_7 from '../../assets/images/categories/category-image-list-7.jpg'
+import category_img_8 from '../../assets/images/categories/category-image-list-8.jpg'
 import cms_banner_1 from '../../assets/images/cms-banner-1.jpg'
 import cms_banner_2 from '../../assets/images/cms-banner-2.jpg'
 import cms_banner_3 from '../../assets/images/cms-banner-3.jpg'
+import cms_banner_4 from '../../assets/images/cms-banner-4.jpg'
+import cms_banner_5 from '../../assets/images/cms-banner-5.jpg'
+import cms_banner_6 from '../../assets/images/cms-banner-6.jpg'
+import cms_banner_7 from '../../assets/images/cms-banner-7.jpg'
+import offer_banner_1 from '../../assets/images/offer-banner-1.jpg'
 import DeliveryIcon from '../../assets/images/delivery.svg'
+import service_return from '../../assets/images/service-logo/return.svg'
+import service_delivery from '../../assets/images/service-logo/delivery.svg'
+import service_gift from '../../assets/images/service-logo/gift.svg'
+import service_payment from '../../assets/images/service-logo/payment.svg'
+import service_support from '../../assets/images/service-logo/support.svg'
+import ProductSlider from '../../components/ProductSlider';
 import './style.css';
 
 
@@ -222,6 +233,159 @@ const Home = () => {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='block banner-section-3'>
+                        <div className='container'>
+                            <ProductSlider />
+                        </div>
+                    </div>
+
+                    <div className='block banner-section-4 banner-custom-ad-block py-14'>
+                        <div className='container'>
+                            <img src={offer_banner_1} />
+                        </div>
+                    </div>
+
+                    <div className='block banner-section-5 pb-7'>
+                        <div className='container'>
+                            <ProductSlider />
+                        </div>
+                    </div>
+
+                    <div className='block banner-section-6 pb-7'>
+                        <div className='container'>
+                            <div class="banner-content flex justify-between gap-7">
+                                <div class="banner-content-section">
+                                    <div class="cmsbanner cmsbanner1">
+                                        <a href="#" class="banner-anchor"><img src={cms_banner_4} /></a>
+                                        <div class="banner-text flex items-center">
+                                            <div>
+                                                <div class="offer-title text-lg">Save Up To 20% Off</div>
+                                                <div class="main-title text-3xl text-black font-base my-3">Santa Lucia Three <span>Seater Sofa</span></div>
+                                                <button class="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="banner-content-section">
+                                    <div class="cmsbanner cmsbanner2">
+                                        <a href="#" class="banner-anchor"><img src={cms_banner_5} /></a>
+                                        <div class="banner-text flex items-center">
+                                            <div>
+                                                <div class="offer-title text-lg">Best Online Discount</div>
+                                                <div class="main-title text-3xl text-black font-base my-3">Woman In Red Crew <span>Neck T-shirt</span></div>
+                                                <button class="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='block banner-section-7 pb-7'>
+                        <div className='container'>
+                            <ProductSlider />
+                        </div>
+                    </div>
+
+                    <div className='block banner-section-8 pb-7'>
+                        <div className='container'>
+                            <ProductSlider />
+                        </div>
+                    </div>
+
+                    <div className='block banner-section-9 pb-7'>
+                        <div className='container'>
+                            <div class="banner-content flex justify-between gap-7">
+                                <div class="banner-content-section">
+                                    <div class="cmsbanner cmsbanner1">
+                                        <a href="#" class="banner-anchor"><img src={cms_banner_6} /></a>
+                                        <div class="banner-text flex items-center">
+                                            <div>
+                                                <div class="offer-title text-lg">20 Days Return Policy</div>
+                                                <div class="main-title text-3xl text-black font-base my-3">Mobile Shope-Smart <span>Watch T-55</span></div>
+                                                <button class="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="banner-content-section">
+                                    <div class="cmsbanner cmsbanner2">
+                                        <a href="#" class="banner-anchor"><img src={cms_banner_7} /></a>
+                                        <div class="banner-text flex items-center">
+                                            <div>
+                                                <div class="offer-title text-lg">Save Up To 30% Off</div>
+                                                <div class="main-title text-3xl text-black font-base my-3">Decoration Design <span>Lamp Light</span></div>
+                                                <button class="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='block service-section py-16'>
+                        <div className='container'>
+                            <div className='footer flex'>
+                                <div className='w-[20%] flex flex-col items-center'>
+                                    <div className='service-icon w-[50px]'>
+                                        <div><img src={service_delivery} /></div>
+                                    </div>
+                                    <div class="service-content text-center">
+                                        <div class="service-heading">Free Shipping</div>
+                                        <div class="service-description">For all Orders Over $100</div>
+                                    </div>
+                                </div>
+                                <div className='w-[20%] flex flex-col items-center'>
+                                    <div className='service-icon w-[40px] pb-2'>
+                                        <div><img src={service_return} /></div>
+                                    </div>
+                                    <div class="service-content text-center">
+                                        <div class="service-heading">30 Days Returns</div>
+                                        <div class="service-description">For an Exchange Product</div>
+                                    </div>
+                                </div>
+                                <div className='w-[20%] flex flex-col items-center'>
+                                    <div className='service-icon w-[40px] pb-2'>
+                                        <img src={service_payment} />
+                                    </div>
+                                    <div class="service-content text-center">
+                                        <div class="service-heading">Secured Payment</div>
+                                        <div class="service-description">Payment Cards Accepted</div>
+                                    </div>
+                                </div>
+                                <div className='w-[20%] flex flex-col items-center'>
+                                    <div className='service-icon w-[40px] pb-2'>
+                                        <img src={service_gift} />
+                                    </div>
+                                    <div class="service-content text-center">
+                                        <div class="service-heading">Special Gifts</div>
+                                        <div class="service-description">Our First Product Order</div>
+                                    </div>
+                                </div>
+                                <div className='w-[20%] flex flex-col items-center'>
+                                    <div className='service-icon w-[40px] pb-2'>
+                                        <img src={service_support} />
+                                    </div>
+                                    <div class="service-content text-center">
+                                        <div class="service-heading">Support 24/7</div>
+                                        <div class="service-description">Contact us Anytime</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='block footer-section pb-20 border-t-2 pt-16'>
+                        <div className='container'>
+                            Footer
+                            <div className='footer flex'>
+
                             </div>
                         </div>
                     </div>

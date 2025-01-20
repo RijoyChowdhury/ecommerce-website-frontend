@@ -7,10 +7,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#ff5252'
+        primary: '#ff5252',
+        'custom-gray': '#ddd',
       },
       backgroundColor: {
-        primary: '#ff5252'
+        primary: '#ff5252',
       }
     },
   },
