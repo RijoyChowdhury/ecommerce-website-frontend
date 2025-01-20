@@ -302,8 +302,8 @@ const Home = () => {
                         <div className='container'>
                             <div class="banner-content flex justify-between gap-7">
                                 <div class="banner-content-section">
-                                    <div class="cmsbanner cmsbanner1">
-                                        <a href="#" class="banner-anchor"><img src={cms_banner_6} /></a>
+                                    <div class="cmsbanner cmsbanner1 overflow-hidden rounded-md group">
+                                        <a href="#" class="banner-anchor"><img src={cms_banner_6} className='transition-all ease-in-out duration-1000 group-hover:scale-110' /></a>
                                         <div class="banner-text flex items-center">
                                             <div>
                                                 <div class="offer-title text-lg">20 Days Return Policy</div>
