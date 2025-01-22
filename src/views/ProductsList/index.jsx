@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './style.css';
 import Checkbox from '../../components/Checkbox';
 import ColorCheckbox from '../../components/ColorCheckbox';
@@ -11,10 +10,12 @@ import { MenuItem, Pagination, Select } from '@mui/material';
 import { IoGridOutline } from 'react-icons/io5';
 import { FaList } from 'react-icons/fa';
 import img_not_found from '../../assets/images/default-no-img.jpg'
+import Breadcrumb from '../../components/Breadcrumb';
 
 const ProductsList = () => {
     const [age, setAge] = useState(0);
     const [displayType, setDisplayType] = useState(0);
+    const breadcrumbList = ['Home', 'Fashion'];
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -23,16 +24,7 @@ const ProductsList = () => {
     return (
         <>
             <div className='container py-8'>
-                <div className='breadcrumb'>
-                    <ol className='flex'>
-                        <li>
-                            <Link><span>Home</span></Link>
-                        </li>
-                        <li>
-                            <Link><span>Fashion</span></Link>
-                        </li>
-                    </ol>
-                </div>
+                <Breadcrumb breadcrumbList={breadcrumbList} />
             </div>
 
             <div className='block py-10'>

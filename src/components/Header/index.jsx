@@ -5,7 +5,6 @@ import SearchBar from '../SearchBar';
 import { Badge, Tooltip } from '@mui/material';
 import { IoIosGitCompare, IoIosHeartEmpty } from 'react-icons/io';
 import { IoCartOutline } from 'react-icons/io5';
-import Navbar from '../Navbar';
 import './style.css';
 
 const Header = () => {
@@ -143,8 +142,6 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-
-            <Navbar />
         </header>
     )
 };

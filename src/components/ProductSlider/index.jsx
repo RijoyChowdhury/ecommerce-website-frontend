@@ -45,23 +45,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix flex">
-                                        {/* <div class="star text-xs"><FaStar /></div>
-                                        <div class="star text-xs"><FaStar /></div>
-                                        <div class="star text-xs"><FaStar /></div>
-                                        <div class="star text-xs text-custom-gray"><FaStar /></div>
-                                        <div class="star text-xs text-custom-gray"><FaStar /></div> */}
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix flex">
+                                        {/* <div className="star text-xs"><FaStar /></div>
+                                        <div className="star text-xs"><FaStar /></div>
+                                        <div className="star text-xs"><FaStar /></div>
+                                        <div className="star text-xs text-custom-gray"><FaStar /></div>
+                                        <div className="star text-xs text-custom-gray"><FaStar /></div> */}
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>
@@ -75,23 +75,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix">
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix">
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>
@@ -105,23 +105,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix">
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix">
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>
@@ -135,23 +135,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix">
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix">
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>
@@ -165,23 +165,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix">
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix">
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>
@@ -195,23 +195,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix">
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix">
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>
@@ -225,23 +225,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix">
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix">
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>
@@ -255,23 +255,23 @@ const ProductSlider = () => {
                             <div className='thumbnail-container'>
                                 <img src={product_img_1} />
                             </div>
-                            <div class="product-description">
-                                <div class="brand-title" itemprop="name">
+                            <div className="product-description">
+                                <div className="brand-title" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 class="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
-                                <div class="comments_note">
-                                    <div class="star_content clearfix">
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
-                                        <div class="star"></div>
+                                <h3 className="h3 product-title"><a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black" content="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/clothes/5-270-today-is-a-good-day-framed-poster.html#/1-size-small/11-color-black">Cropped Satin Bomber Jacket</a></h3>
+                                <div className="comments_note">
+                                    <div className="star_content clearfix">
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
+                                        <div className="star"></div>
                                     </div>
-                                    <span class="total-rating">0 Review(s)&nbsp;</span>
+                                    <span className="total-rating">0 Review(s)&nbsp;</span>
                                 </div>
-                                <div class="product-price-and-shipping">
-                                    <span class="price" aria-label="Price">
+                                <div className="product-price-and-shipping">
+                                    <span className="price" aria-label="Price">
                                         $94.00
                                     </span>
                                 </div>

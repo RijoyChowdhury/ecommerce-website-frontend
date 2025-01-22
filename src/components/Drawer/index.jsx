@@ -211,7 +211,7 @@ const DrawerComponent = (props) => {
                 <div className={`${isMenuOpen(category.categoryId) ? '' : 'hidden'}`}>
                     {category.hasSubcategory && <ul>
                         {category.subCategories.map((subCategory, subIndex) => (
-                            <div className='subMenu transition'>{listItem(subCategory, subIndex, marginLeft + 4)}</div>
+                            <div key={subIndex} className='subMenu transition'>{listItem(subCategory, subIndex, marginLeft + 4)}</div>
                         ))}
                     </ul>}
                 </div>
@@ -231,11 +231,12 @@ const DrawerComponent = (props) => {
             <Divider />
             <div className='menu-content p-6'>
                 <ul>
-                    {CategoryList.map((category, index) => (
+                    {/* {CategoryList.map((category, index) => (
                         <>
                             {listItem(category, index, 0)}
                         </>
-                    ))}
+                    ))} */}
+                    {CategoryList.map((category, index) => <div key={index}>{listItem(category, index, 0)}</div>)}
                 </ul>
             </div>
         </Box>

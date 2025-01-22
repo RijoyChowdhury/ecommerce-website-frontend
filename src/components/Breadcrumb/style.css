@@ -1,0 +1,10 @@
+/* breadcrumbs css */
+.breadcrumb li:not(:last-child)::after {
+    content: "|";
+    margin: 0.5rem;
+}
+
+.breadcrumb li:not(:last-child) span {
+    color: var(--black);
+    font-weight: 500;
+}
