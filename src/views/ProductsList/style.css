@@ -1,0 +1,11 @@
+/* breadcrumbs css */
+.breadcrumb li:not(:last-child)::after {
+    content: "|";
+    margin: 0.5rem;
+}
+
+/* dropdown select box */
+.MuiPaper-root.css-1tktgsa-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+    box-shadow: none;
+    border: 1px solid var(--gray);
+}

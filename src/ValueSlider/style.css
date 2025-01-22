@@ -1,0 +1,19 @@
+.value-slider .css-xvk2i-MuiSlider-track {
+    color: #555;
+    height: 3px;
+}
+
+.value-slider .css-r64h58-MuiSlider-rail {
+    border: 1px solid #555;
+    background-color: var(--white);
+    height: 4px;
+}
+
+.value-slider .css-1xcmt9q-MuiSlider-thumb  {
+    border: 3px solid #555;
+    background-color: var(--white);
+}
+
+/* .css-13vpke-MuiSlider-root {
+    color: #555 !important;
+} */
