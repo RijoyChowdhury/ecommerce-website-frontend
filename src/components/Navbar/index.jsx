@@ -23,7 +23,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className='block'>
+            <nav className='nav-wrapper block sticky top-0 border-b-[1px] border-gray-200 shadow-md'>
                 <div className='navbar container flex items-center justify-end p-2'>
                     <div className='navbar-categories col1 w-[20%] mr-2'>
                         <Button className='!text-black w-[100%] z-1000' onClick={toggleDrawer(true)}>

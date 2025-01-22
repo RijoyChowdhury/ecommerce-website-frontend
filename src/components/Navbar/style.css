@@ -1,3 +1,7 @@
+.nav-wrapper {
+    z-index: 1000 !important;
+}
+
 .navbar .col3 img {
     width: 20px;
     margin-right: 10px;
