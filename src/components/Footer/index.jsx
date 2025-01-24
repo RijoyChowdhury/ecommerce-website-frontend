@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import './style.css';
 import { Link } from 'react-router-dom';
-import { FaPhone } from 'react-icons/fa';
+import { FaFacebook, FaPhone } from 'react-icons/fa';
 import ChatLogo from '../../assets/images/chat.svg'
-import { MdOutlineCheckBox, MdOutlineCheckBoxOutlineBlank } from 'react-icons/md';
 import Checkbox from '../Checkbox';
+import { FaRegCopyright } from "react-icons/fa";
+import { FaXTwitter, FaFacebookF, FaYoutube, FaInstagram, FaPinterestP } from 'react-icons/fa6';
+import visa from '../../assets/images/transaction_cards/visa.png'
+import paypal from '../../assets/images/transaction_cards/paypal.png'
+import master_card from '../../assets/images/transaction_cards/master_card.png'
+import american_express from '../../assets/images/transaction_cards/american_express.png'
 
 const Footer = () => {
     const [privacyPolicy, setPrivacyPolicy] = useState(false);
+    const [acceptedCookieUse, setAcceptedCookieUse] = useState(false);
+
     return (
         <>
             <div className='block footer-section pb-20 border-t-2 pt-16'>
@@ -80,6 +87,42 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
+
+            {/* disclaimer footer section */}
+            <div className='block border-2'>
+                <div className='container h-[70px] flex gap-2'>
+                    <div className='w-[33%] flex items-center'>
+                        <span>
+                        <ul className='flex gap-2 text-base text-black'>
+                            <li className='border-2 rounded-full p-2 hover:text-white hover:bg-primary cursor-pointer'><FaFacebookF /></li>
+                            <li className='border-2 rounded-full p-2 hover:text-white hover:bg-primary cursor-pointer'><FaXTwitter /></li>
+                            <li className='border-2 rounded-full p-2 hover:text-white hover:bg-primary cursor-pointer'><FaYoutube /></li>
+                            <li className='border-2 rounded-full p-2 hover:text-white hover:bg-primary cursor-pointer'><FaInstagram /></li>
+                            <li className='border-2 rounded-full p-2 hover:text-white hover:bg-primary cursor-pointer'><FaPinterestP /></li>
+                        </ul>
+                        </span>
+                    </div>
+                    <div className='property-disclaimer w-[33%] flex items-center justify-center'>
+                        <span className='flex justify-center items-center gap-1 link cursor-pointer'><FaRegCopyright /><span className='text-sm'> 2025 - Ecommerce software by WhettaWorks<sup>TM</sup></span></span>
+                    </div>
+                    <div className='w-[33%] flex items-center justify-end gap-2'>
+                        <span className='text-sm'>Powered By:</span>
+                        <ul className='flex gap-2'>
+                            <li><img src={visa} /></li>
+                            <li><img src={paypal} /></li>
+                            <li><img src={master_card} /></li>
+                            <li><img src={american_express} /></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            {/* cookies accept popup */}
+            {!acceptedCookieUse && <div className='cookies-section text-white text-base bg-black border-2 fixed bottom-0 w-[100%] border-black h-[50px] flex justify-center items-center gap-2'>
+                This site uses cookies. By continuing use this site, you are agreeing to our use of cookies.
+                <span className='underline hover:no-underline cursor-pointer'>Privacy Policy</span>
+                <button className='bg-white text-black rounded-md px-2 py-1 text-sm ml-2' onClick={() => setAcceptedCookieUse(true)}>ACCEPT</button>
+            </div>}
         </>
     )
 }

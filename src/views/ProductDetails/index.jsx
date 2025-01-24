@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
-import { FaStar } from 'react-icons/fa';
+import { FaRegThumbsUp, FaStar } from 'react-icons/fa';
 import ProgressBar from '../../components/ProgressBar';
 import ColorCheckbox from '../../components/ColorCheckbox';
 import Counter from '../../components/Counter';
@@ -23,6 +23,7 @@ import { PiHandArrowDownLight } from 'react-icons/pi';
 const ProductDetails = () => {
     const breadcrumbList = ['Home', 'Fashion', 'Cropped Satin Bomber Jacket'];
     const [swiper, setSwiper] = useState(null);
+    const [sectionId, setSectionId] = useState(0);
 
     return (
         <>
@@ -33,12 +34,14 @@ const ProductDetails = () => {
             <div className='block py-10'>
                 <div className='container'>
                     <div className='product-details-wrapper flex gap-5'>
+
                         <div className='product-img-sticky-wrapper w-[40%]'>
                             <div className='product-img-wrapper sticky top-20'>
                                 <div className='img-display-wrapper'>
                                     <div className='border-2 mb-6'><img src={product_big_1} /></div>
                                 </div>
 
+                                {/* product img section wrapper */}
                                 <div className='img-selector-wrapper flex'>
                                     <div className='w-[5%] py-2 px-1'>
                                         <div className='btn-navigate btn-up h-full'>
@@ -83,6 +86,7 @@ const ProductDetails = () => {
                             </div>
                         </div>
 
+                        {/* product quick info wrapper */}
                         <div className='product-info-wrapper w-[60%] border-2 p-4'>
                             <div className='ratings-wrapper flex items-baseline gap-2'>
                                 <div className='ratings flex gap-0.5'>
@@ -222,13 +226,113 @@ const ProductDetails = () => {
                         </div>
                     </div>
 
-                    <div className='product-description-wrapper py-8'>
-                        <div className='h-[500px] border-2'></div>
+                    {/* product description and details wrapper */}
+                    <div className='product-description-wrapper py-10'>
+                        <div className=''>
+
+                            <div className='topic-selection flex gap-4 my-4'>
+                                <span className='text-2xl text-black hover:text-primary cursor-pointer' onClick={() => setSectionId(0)}>Description</span>
+                                <span className='text-2xl text-black hover:text-primary cursor-pointer' onClick={() => setSectionId(1)}>Product Details</span>
+                            </div>
+
+                            {/* description section */}
+                            {sectionId === 0 && <div className='description-wrapper border-2 rounded-lg'>
+                                <div className='m-8'>
+                                    The best is yet to come! Give your walls a voice with a framed poster. This aesthethic, optimistic poster will look great in your desk or in an open-space office.
+                                    Painted wooden frame with passe-partout for more depth.
+
+                                    <span className='block mt-4 font-semibold text-black text-base'>Lightweight Design</span>
+                                    Designed with a super light geometric case, the Versa family watches are slim, casual and comfortable enough to wear all day and night.
+                                    Switch up your look with classic, leather, metal and woven accessory bands. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+
+                                    <span className='block mt-4 font-semibold text-black text-base'>Free Shipping & Return</span>
+                                    We offer free shipping for products on orders above 50$ and offer free delivery for all orders in US.
+
+                                    <span className='block mt-4 font-semibold text-black text-base'>Money Back Guarantee</span>
+                                    We guarantee our products and you could get back all of your money anytime you want in 30 days.
+
+                                    <span className='block mt-4 font-semibold text-black text-base'>Online Support</span>
+                                    You will get 24 hour support with this purchase product and you can return it within 30 days for an exchange.
+                                </div>
+                            </div>}
+
+                            {/* details section */}
+                            {sectionId === 1 && <div className='details-wrapper border-2 rounded-lg'>
+                                <div className='m-8'>
+                                    <div className='brand-img-wrapper border-2 rounded-md inline-block p-2'>
+                                        <img src={minim_brand_1} />
+                                    </div>
+
+                                    <div className=''>
+                                        <div className='flex gap-5'><span className='text-black font-semibold'>Reference:</span> Product5</div>
+                                        <div className='flex gap-5'><span className='text-black font-semibold'>Condition:</span> Refurbished</div>
+                                        <div className='flex gap-5'><span className='text-black font-semibold'>In stock:</span><span className='text-green-500'>142 Items</span></div>
+                                        <div>
+                                            <span className='text-black font-semibold'>Data sheet</span>
+                                            <dl className="data-sheet flex flex-col gap-2 text-black mt-2">
+                                                <div className='flex gap-2'>
+                                                    <dt className="name w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Composition</dt>
+                                                    <dd className="value w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Ceramic</dd>
+                                                </div>
+                                                <div className='flex gap-2'>
+                                                    <dt className="name w-[50%] border-[1px] py-2 pl-4">Property</dt>
+                                                    <dd className="value w-[50%] border-[1px] py-2 pl-4">Long sleeves</dd>
+                                                </div>
+                                                <div className='flex gap-2'>
+                                                    <dt className="name w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Style</dt>
+                                                    <dd className="value w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Classic</dd>
+                                                </div>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
+
+                        </div>
                     </div>
 
+                    {/* product slider section */}
                     <div className='pb-8'><ProductSlider /></div>
 
-                    <div><ProductSlider /></div>
+                    {/* product slider section */}
+                    <div className='pb-8'><ProductSlider /></div>
+
+                    {/* reviews section */}
+                    <div className='review-section-wrapper'>
+                        <div className=''>
+                            <div className='review-section-header text-2xl text-black'>Reviews</div>
+                            <div className='review-section-content'>
+                                <div className='review-wrapper flex'>
+                                    <div className='review-owner w-[20%] p-4'>
+                                        <div className='rating-section flex mb-2'>
+                                            <span className='w-[50%]'>Rating</span>
+                                            <div className='ratings w-[50%] flex gap-0.5 items-center'>
+                                                <div className="star text-xs text-yellow"><FaStar /></div>
+                                                <div className="star text-xs text-yellow"><FaStar /></div>
+                                                <div className="star text-xs text-yellow"><FaStar /></div>
+                                                <div className="star text-xs text-custom-gray"><FaStar /></div>
+                                                <div className="star text-xs text-custom-gray"><FaStar /></div>
+                                            </div>
+                                        </div>
+                                        <div className='user-section flex flex-col bg-custom-light-gray'>
+                                            <span className='flex justify-center text-black'>Marco</span>
+                                            <em className='flex justify-center'>03/05/2024</em>
+                                        </div>
+                                    </div>
+                                    <div className='review-content w-[80%] border-l-2 p-4'>
+                                        <div>
+                                            <span className='block'>Perfect product!</span>
+                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+                                        </div>
+                                        <div className='flex items-center gap-2'>
+                                            <FaRegThumbsUp />
+                                            <span>2 people found this review useful.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </>
