@@ -1,0 +1,10 @@
+.btn-navigate .btn {
+    background-color: var(--gray);
+    color: var(--black);
+}
+
+.btn-navigate .btn:hover {
+    background-color: var(--primary);
+    color: var(--white);
+}
+

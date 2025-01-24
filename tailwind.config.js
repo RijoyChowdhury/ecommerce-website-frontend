@@ -10,8 +10,14 @@ export default {
         primary: '#ff5252',
         'custom-gray': '#ddd',
         'custom-dark-gray': '#666',
+        yellow: '#f2b600'
       },
       backgroundColor: {
+        primary: '#ff5252',
+        'custom-gray': '#ddd',
+        'custom-light-gray': '#cccccc26'
+      },
+      borderColor: {
         primary: '#ff5252',
       }
     },

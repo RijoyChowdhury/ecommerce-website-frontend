@@ -4,7 +4,7 @@
 }
 
 /* swiper css */
-.swiper-button-prev, .swiper-button-next {
+.mySwiper .swiper-button-prev, .mySwiper .swiper-button-next {
     border: 1px solid var(--dark-gray);
     display: flex;
     align-items: center;
@@ -15,35 +15,35 @@
     height: 30px;
 }
 
-.swiper-button-prev:after {  
+.mySwiper .swiper-button-prev:after {  
     left: 9px;
 }
 
-.swiper-button-next:after {
+.mySwiper .swiper-button-next:after {
     right: 9px;
 }
 
-.swiper-button-prev:after, .swiper-button-next:after {
+.mySwiper .swiper-button-prev:after, .mySwiper .swiper-button-next:after {
     position: absolute;
     font-size: 15px;
     color: black;
 }
 
-.swiper-button-prev:hover, .swiper-button-next:hover {
+.mySwiper .swiper-button-prev:hover, .mySwiper .swiper-button-next:hover {
     border: 1px solid var(--primary);
     background-color: var(--primary);
     color: #fff;
 }
 
-.swiper-button-prev:hover:after, .swiper-button-next:hover:after {
+.mySwiper .swiper-button-prev:hover:after, .mySwiper .swiper-button-next:hover:after {
     color: var(--white);
 }
 
-.swiper-pagination .swiper-pagination-bullet {
+.mySwiper .swiper-pagination .swiper-pagination-bullet {
     width: 15px;
     height: 15px;
 }
-.swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+.mySwiper .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
     background-color: var(--primary) !important;
 }
 

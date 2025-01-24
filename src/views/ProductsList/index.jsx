@@ -63,14 +63,14 @@ const ProductsList = () => {
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Color</p>
                                         <ul>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#AAB2BD'}>Grey</ColorCheckbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#E84C3D'}>Red</ColorCheckbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#434A54'}>Black</ColorCheckbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#F39C11'}>Orange</ColorCheckbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#5D9CEC'}>Blue</ColorCheckbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#A0D468'}>Green</ColorCheckbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#F1C40F'}>Yellow</ColorCheckbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><ColorCheckbox val={'#FCCACD'}>Pink</ColorCheckbox><span>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#AAB2BD'}>Grey</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#E84C3D'}>Red</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#434A54'}>Black</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#F39C11'}>Orange</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#5D9CEC'}>Blue</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#A0D468'}>Green</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#F1C40F'}>Yellow</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#FCCACD'}>Pink</ColorCheckbox><span className='text-sm'>(6)</span></li>
                                         </ul>
                                     </section>
 

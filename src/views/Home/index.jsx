@@ -126,7 +126,7 @@ const Home = () => {
                                             loop={true}
                                             onSwiper={(swiper) => console.log(swiper)}
                                             onSlideChange={() => console.log('slide change')}
-                                            className='mySwiper2'
+                                            className='mySwiper'
                                         >
                                             <SwiperSlide className='lower-banner-slide'>
                                                 <img src={category_img_1} />
