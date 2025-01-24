@@ -175,10 +175,10 @@ const ProductDetails = () => {
                                             </span>
                                         </div>
                                         <div className="product-availability flex">
-                                            <div className="product-available border-[1px] px-2">
+                                            <div className="product-available border-[1px] px-2 bg-green-200">
                                                 In Stock
                                             </div>
-                                            <div className="product-unavailable border-[1px] px-2">
+                                            <div className="product-unavailable border-[1px] px-2 bg-red-200">
                                                 Out of Stock
                                             </div>
                                         </div>

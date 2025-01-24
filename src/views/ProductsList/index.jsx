@@ -11,6 +11,7 @@ import { IoGridOutline } from 'react-icons/io5';
 import { FaList } from 'react-icons/fa';
 import img_not_found from '../../assets/images/default-no-img.jpg'
 import Breadcrumb from '../../components/Breadcrumb';
+import ProductMiniature from '../../components/ProductMiniature';
 
 const ProductsList = () => {
     const [age, setAge] = useState(0);
@@ -43,9 +44,9 @@ const ProductsList = () => {
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Availability</p>
                                         <ul>
-                                            <li className='flex justify-between'><Checkbox>Available</Checkbox><span>(17)</span></li>
-                                            <li className='flex justify-between'><Checkbox>In Stock</Checkbox><span>(17)</span></li>
-                                            <li className='flex justify-between'><Checkbox>Not Available</Checkbox><span>(1)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Available</span></Checkbox><span>(17)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>In Stock</span></Checkbox><span>(17)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Not Available</span></Checkbox><span>(1)</span></li>
                                         </ul>
                                     </section>
 
@@ -63,14 +64,14 @@ const ProductsList = () => {
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Color</p>
                                         <ul>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#AAB2BD'}>Grey</ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#E84C3D'}>Red</ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#434A54'}>Black</ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#F39C11'}>Orange</ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#5D9CEC'}>Blue</ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#A0D468'}>Green</ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#F1C40F'}>Yellow</ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#FCCACD'}>Pink</ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#AAB2BD'}><span className='ml-0.5'>Grey</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#E84C3D'}><span className='ml-0.5'>Red</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#434A54'}><span className='ml-0.5'>Black</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#F39C11'}><span className='ml-0.5'>Orange</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#5D9CEC'}><span className='ml-0.5'>Blue</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#A0D468'}><span className='ml-0.5'>Green</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#F1C40F'}><span className='ml-0.5'>Yellow</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
+                                            <li className='flex justify-between text-xl'><ColorCheckbox val={'#FCCACD'}><span className='ml-0.5'>Pink</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
                                         </ul>
                                     </section>
 
@@ -182,28 +183,29 @@ const ProductsList = () => {
                                     </div>
                                 </div>
 
+                                {/* table listing */}
                                 {displayType === 0 && <div className='product-list-table'>
-                                    <div className='grid grid-cols-1 border-2'>
-                                        <ul>
+                                    <div className='grid grid-cols-1 border-2 rounded-md overflow-hidden'>
+                                        <ul className='divide-y-2'>
                                             {new Array(8).fill(0).map((val, index) =>
-                                                <li>
-                                                    <div className=''>
-                                                        <img key={index} src={product_img_1} />
-                                                    </div>
-                                                </li>)
-                                            }
+                                                <li className=''>
+                                                    <ProductMiniature layout='expanded' />
+                                                </li>
+                                            )}
                                         </ul>
                                     </div>
                                 </div>}
 
+                                {/* grid listing */}
                                 {displayType === 1 && <div className='product-list-grid'>
-                                    <div className='grid grid-cols-5 border-2'>
+                                    <div className='grid grid-cols-5 border-2 rounded-md bg-slate-200 gap-0.5 overflow-hidden'>
                                         {new Array(18).fill(0).map((val, index) =>
-                                            <img key={index} src={product_img_1} className='w-[100%]' />)
-                                        }
+                                            <ProductMiniature />
+                                        )}
                                     </div>
                                 </div>}
 
+                                {/* pagination */}
                                 <div className='product-list-footer flex justify-between m-4'>
                                     <div className='poducts-list-count'>
                                         Showing 1-18 of 18 item(s)

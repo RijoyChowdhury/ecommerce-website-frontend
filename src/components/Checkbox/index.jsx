@@ -5,7 +5,7 @@ const Checkbox = ({children}) => {
     const [checked, setChecked] = useState(false);
     return (
         <div className='flex items-center'>
-            <div className='inline-block text-base mr-1'>{checked
+            <div className='inline-block text-base'>{checked
                 ? <GrCheckbox className='cursor-pointer' onClick={() => setChecked(false)} />
                 : <GrCheckboxSelected className='cursor-pointer' onClick={() => setChecked(true)} />}
             </div>
