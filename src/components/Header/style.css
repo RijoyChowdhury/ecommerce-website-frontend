@@ -1,9 +1,9 @@
 #header ul.dropdown-menu {
+    z-index: 2000;
     position: absolute;
     margin: 0 0;
     padding: 15px;
-    right: 128px;
-    left: auto;
+    left: 0;
     top: 45px;
     min-width: 160px;
     box-shadow: 0 4px 9px rgba(0, 0, 0, .10);

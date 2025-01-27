@@ -25,22 +25,28 @@ const Header = () => {
                         <div className='col1 w-[50%]'>
                             <p className='text-[13px] font-[400]'>Get up to 50% off new season styles, limited time only</p>
                         </div>
+                        
                         <div className='col2 flex items-center justify-end'>
                             <ul className='flex items-center gap-2'>
+                                {/* help center */}
                                 <li className='list-none pl-4 pr-2'>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition'>Help Center</Link>
                                 </li>
+                                
+                                {/* order tracking */}
                                 <li className='list-none border-l-[1px] pl-4 pr-2'>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition'>Order Tracking</Link>
                                 </li>
-                                <li className='list-none border-l-[1px] pl-4 pr-2'>
+                                
+                                {/* language dropdown */}
+                                <li className='list-none relative border-l-[1px] pl-4 pr-2'>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition' onClick={() => setShowDropdownMenu(!showDropdownMenu)}>
                                         <div className='flex items-center gap-3'>
                                             <img className="lang-flag ls-is-cached lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/1.jpg" />
                                             English
                                         </div>
                                     </Link>
-                                    {showDropdownMenu && <ul className="dropdown-menu" aria-labelledby="language-dropdown">
+                                    {showDropdownMenu && <ul className="dropdown-menu bg-white" aria-labelledby="language-dropdown">
                                         <li className="link">
                                             <Link to='#' className="dropdown-item">
                                                 <img className="lang-flag ls-is-cached lazyloaded" src="https://demos.codezeel.com/prestashop/PRS21/PRS210502/img/l/1.jpg" />
@@ -94,6 +100,8 @@ const Header = () => {
                                         </li>
                                     </ul>}
                                 </li>
+                                
+                                {/* currency selector */}
                                 <li className='list-none border-l-[1px] pl-4 pr-2'>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition'>USD</Link>
                                 </li>
@@ -106,21 +114,22 @@ const Header = () => {
             {/* second row */}
             <div className='header py-5 border-b-[1px] border-gray-200'>
                 <div className='container flex items-center justify-between'>
-                    <div className='col1 w-[25%] flex items-center justify-center'>
+                    <div className='col1 w-[20%] flex items-center justify-start'>
                         <Link to={'#'}><img src={AppLogo} /></Link>
                     </div>
 
-                    <div className='col2 w-[45%]'>
+                    <div className='col2 w-[55%]'>
                         <SearchBar />
                     </div>
 
-                    <div className='col3 w-[30%] flex items-center justify-center'>
+                    <div className='col3 w-[25%] flex items-center justify-end'>
                         <ul className='flex items-center gap-5'>
                             <li className='list-none'>
                                 <Link className='link transition pr-1' to={''}>Login</Link>
                                 /
                                 <Link className='link transition pl-1' to={''}>Register</Link>
                             </li>
+
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>
                                 <div className='quick-actions'>
                                     <div className='quick-action-btn'>
