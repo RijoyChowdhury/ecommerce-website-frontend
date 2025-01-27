@@ -68,6 +68,7 @@ body {
   background-color: inherit;
   color: var(--black);
   text-decoration: underline;
+  border: none;
 }
 
 .btn-primary:hover {

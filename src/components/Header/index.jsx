@@ -6,12 +6,19 @@ import { Badge, Tooltip } from '@mui/material';
 import { IoIosGitCompare, IoIosHeartEmpty } from 'react-icons/io';
 import { IoCartOutline } from 'react-icons/io5';
 import './style.css';
+import CartDrawer from '../CartDrawer';
 
 const Header = () => {
     const [showDropdownMenu, setShowDropdownMenu] = useState(false);
+    const [open, setOpen] = useState(false);
+
+    const handleCartOpen = (value) => {
+        setOpen(value)
+    };
 
     return (
         <header id='header' className='bg-white'>
+            {/* first row */}
             <div className='top-strip py-2 border-b-[1px] border-gray-200'>
                 <div className='container'>
                     <div className='flex items-center justify-between'>
@@ -96,18 +103,19 @@ const Header = () => {
                 </div>
             </div>
 
+            {/* second row */}
             <div className='header py-5 border-b-[1px] border-gray-200'>
                 <div className='container flex items-center justify-between'>
                     <div className='col1 w-[25%] flex items-center justify-center'>
                         <Link to={'#'}><img src={AppLogo} /></Link>
                     </div>
-                    
+
                     <div className='col2 w-[45%]'>
                         <SearchBar />
                     </div>
-                    
+
                     <div className='col3 w-[30%] flex items-center justify-center'>
-                        <ul className='flex items-center gap-3'>
+                        <ul className='flex items-center gap-5'>
                             <li className='list-none'>
                                 <Link className='link transition pr-1' to={''}>Login</Link>
                                 /
@@ -116,25 +124,25 @@ const Header = () => {
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>
                                 <div className='quick-actions'>
                                     <div className='quick-action-btn'>
-                                    <Tooltip title="Compare Items" arrow>
-                                    <Badge badgeContent={4} color="error">
-                                        <IoIosGitCompare />
-                                    </Badge>
-                                    </Tooltip>
+                                        <Tooltip title="Compare Items" arrow>
+                                            <Badge badgeContent={4} color="error">
+                                                <IoIosGitCompare />
+                                            </Badge>
+                                        </Tooltip>
                                     </div>
                                     <div className='quick-action-btn'>
-                                    <Tooltip title="Wish-List" arrow>
-                                    <Badge badgeContent={4} color="error">
-                                        <IoIosHeartEmpty />
-                                    </Badge>
-                                    </Tooltip>
+                                        <Tooltip title="Wish-List" arrow>
+                                            <Badge badgeContent={4} color="error">
+                                                <IoIosHeartEmpty />
+                                            </Badge>
+                                        </Tooltip>
                                     </div>
-                                    <div className='quick-action-btn'>
-                                    <Tooltip title="My Cart" arrow>
-                                    <Badge badgeContent={4} color="error">
-                                        <IoCartOutline />
-                                    </Badge>
-                                    </Tooltip>
+                                    <div className='quick-action-btn cursor-pointer' onClick={() => handleCartOpen(true)}>
+                                        <Tooltip title="My Cart" arrow>
+                                            <Badge badgeContent={4} color="error">
+                                                <IoCartOutline />
+                                            </Badge>
+                                        </Tooltip>
                                     </div>
                                 </div>
                             </li>
@@ -142,6 +150,10 @@ const Header = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Cart Drawer */}
+            <CartDrawer open={open} toggleDrawer={handleCartOpen} />
+
         </header>
     )
 };

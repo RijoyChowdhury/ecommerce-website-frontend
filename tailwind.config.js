@@ -19,6 +19,7 @@ export default {
       },
       borderColor: {
         primary: '#ff5252',
+        'custom-light-gray': '#cccccc26'
       }
     },
   },
