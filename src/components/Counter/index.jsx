@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const Counter = (props) => {
-    const {start, limit, step} = props;
+    const {start = 1, limit = 99, step = 1} = props;
     const [count, setCount] = useState(start);
     
-    const handleStepUp = () => setCount(state => state + step);
+    const handleStepUp = () => setCount(state => state >= 0 ? state + step : state);
     
-    const handleStepDown = () => setCount(state => state - step);
+    const handleStepDown = () => setCount(state => state > 0 ? state - step : state);
 
     return (
         <div className='border-[1px] border-stone-300 h-[100%] w-[100%] flex'>
