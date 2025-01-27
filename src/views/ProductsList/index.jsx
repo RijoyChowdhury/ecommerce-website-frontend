@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.css';
 import Checkbox from '../../components/Checkbox';
 import ColorCheckbox from '../../components/ColorCheckbox';
-import ValueSlider from '../../ValueSlider';
+import ValueSlider from '../../components/ValueSlider';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import FashionSplashImg from '../../assets/images/fashion.jpg'
 import product_img_1 from '../../assets/images/products-slider-images/blue-laptop-bag.jpg'
