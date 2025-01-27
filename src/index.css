@@ -50,6 +50,7 @@ body {
   background-color: var(--primary);
   text-transform: uppercase;
   box-shadow: none;
+  border: 1px solid var(--primary);
 }
 
 .btn-disabled {

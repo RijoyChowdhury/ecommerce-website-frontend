@@ -37,7 +37,7 @@ const Navbar = () => {
                     <div className='navbar-quick-links col2 w-[50%] font-medium border-l-2 border-gray-150'>
                         <ul className='flex items-center justify-around'>
                             <li className='list-none transition'>
-                                <Link to={'#'} className='link text-black'>Home</Link>
+                                <Link to={'/'} className='link text-black'>Home</Link>
                             </li>
                             <li className='list-none transition relative'>
                                 <Link to={'#'} className='link text-black'>Fashion</Link>

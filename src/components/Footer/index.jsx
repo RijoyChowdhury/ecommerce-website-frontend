@@ -79,7 +79,7 @@ const Footer = () => {
                                         <button className={`btn ${privacyPolicy ? '' : 'btn-disabled'} transition-all !w-[30%] !h-[40px]`} name="submitNewsletter" disabled={true}>Subscribe</button>
                                     </div>
                                     <div className="psgdpr_consent_message mt-4">
-                                        <Checkbox>I agree to the terms and conditions and the privacy policy</Checkbox>
+                                        <Checkbox><span className='ml-1'>I agree to the terms and conditions and the privacy policy</span></Checkbox>
                                     </div>
                                 </form>
                             </div>
