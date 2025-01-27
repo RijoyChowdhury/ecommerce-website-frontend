@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
-import { FaRegThumbsUp, FaStar } from 'react-icons/fa';
+import { FaRegThumbsUp } from 'react-icons/fa';
 import ProgressBar from '../../components/ProgressBar';
 import ColorCheckbox from '../../components/ColorCheckbox';
 import Counter from '../../components/Counter';
@@ -19,6 +19,7 @@ import { HiOutlineSquare2Stack } from 'react-icons/hi2';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { CiDeliveryTruck, CiLock } from 'react-icons/ci';
 import { PiHandArrowDownLight } from 'react-icons/pi';
+import StarRating from '../../components/StarRating';
 
 const ProductDetails = () => {
     const breadcrumbList = ['Home', 'Fashion', 'Cropped Satin Bomber Jacket'];
@@ -33,6 +34,7 @@ const ProductDetails = () => {
 
             <div className='block py-10'>
                 <div className='container'>
+                    {/* product details section */}
                     <div className='product-details-wrapper flex gap-5'>
 
                         <div className='product-img-sticky-wrapper w-[40%]'>
@@ -89,12 +91,8 @@ const ProductDetails = () => {
                         {/* product quick info wrapper */}
                         <div className='product-info-wrapper w-[60%] border-2 p-4'>
                             <div className='ratings-wrapper flex items-baseline gap-2'>
-                                <div className='ratings flex gap-0.5'>
-                                    <div className="star text-xs text-yellow"><FaStar /></div>
-                                    <div className="star text-xs text-yellow"><FaStar /></div>
-                                    <div className="star text-xs text-yellow"><FaStar /></div>
-                                    <div className="star text-xs text-custom-gray"><FaStar /></div>
-                                    <div className="star text-xs text-custom-gray"><FaStar /></div>
+                                <div className='ratings flex gap-0.5 items-center'>
+                                    <StarRating />
                                 </div>
                                 <span>0 Reviews</span>
                             </div>
@@ -306,12 +304,8 @@ const ProductDetails = () => {
                                     <div className='review-owner w-[20%] p-4'>
                                         <div className='rating-section flex mb-2'>
                                             <span className='w-[50%]'>Rating</span>
-                                            <div className='ratings w-[50%] flex gap-0.5 items-center'>
-                                                <div className="star text-xs text-yellow"><FaStar /></div>
-                                                <div className="star text-xs text-yellow"><FaStar /></div>
-                                                <div className="star text-xs text-yellow"><FaStar /></div>
-                                                <div className="star text-xs text-custom-gray"><FaStar /></div>
-                                                <div className="star text-xs text-custom-gray"><FaStar /></div>
+                                            <div className='ratings w-[50%] flex gap-0.5 items-center text-xs'>
+                                                <StarRating />
                                             </div>
                                         </div>
                                         <div className='user-section flex flex-col bg-custom-light-gray'>

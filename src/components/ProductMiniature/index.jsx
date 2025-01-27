@@ -7,30 +7,30 @@ import product_img_5 from '../../assets/images/products-slider-images/nike-black
 import product_img_6 from '../../assets/images/products-slider-images/nike-black-shoes.jpg'
 import product_img_7 from '../../assets/images/products-slider-images/white-cotton-jacket.jpg'
 import product_img_8 from '../../assets/images/products-slider-images/wireless-mouse.jpg'
-import { FaStar } from 'react-icons/fa';
 import ColorCheckbox from '../ColorCheckbox';
 import { LiaExpandArrowsAltSolid, LiaHeart } from 'react-icons/lia';
+import { IoIosCloseCircleOutline } from 'react-icons/io';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import StarRating from '../StarRating';
+import ProductDetailsModal from '../ProductDetailsModal';
 
 const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
-    height: 700,
+    width: 1700,
+    // height: 850,
     bgcolor: 'background.paper',
     border: '2px solid #ddd',
     borderRadius: '5px',
-    // boxShadow: 24,
     "& fieldset": {
         border: "1px solid var(--gray) !important",
     },
     p: 4,
+    outline: 0
 };
 
 const ProductMiniature = (props) => {
@@ -79,8 +79,8 @@ const ProductMiniature = (props) => {
 
                             <div className='product-utils absolute top-0 right-0'>
                                 <ul className='text-xl flex flex-col gap-1'>
-                                    <li className='border-2 rounded-full p-2' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
-                                    <li className='border-2 rounded-full p-2'><LiaHeart /></li>
+                                    <li className='border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
+                                    <li className='border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
                                 </ul>
                             </div>
                         </div>
@@ -92,11 +92,7 @@ const ProductMiniature = (props) => {
                             <h3 className="h3 product-title text-black text-sm">Cropped Satin Bomber Jacket</h3>
                             <div className="comments_note flex justify-between">
                                 <div className="star_content clearfix flex gap-0.5">
-                                    <div className="star text-yellow"><FaStar /></div>
-                                    <div className="star text-yellow"><FaStar /></div>
-                                    <div className="star text-yellow"><FaStar /></div>
-                                    <div className="star text-custom-gray"><FaStar /></div>
-                                    <div className="star text-custom-gray"><FaStar /></div>
+                                    <StarRating />
                                 </div>
                                 <span className="text-xs total-rating">0 Review(s)</span>
                             </div>
@@ -129,13 +125,13 @@ const ProductMiniature = (props) => {
 
                             <div className='product-utils absolute top-0 right-0'>
                                 <ul className='text-xl flex flex-col gap-1'>
-                                    <li className='border-2 rounded-full p-2' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
-                                    <li className='border-2 rounded-full p-2'><LiaHeart /></li>
+                                    <li className='border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
+                                    <li className='border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div className='description-container w-[80%] px-4'>
+                        <div className='description-container w-[80%] px-4 ml-4'>
                             <div className="product-description flex flex-col gap-2">
                                 <div className="brand-title text-xs" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
@@ -143,11 +139,7 @@ const ProductMiniature = (props) => {
                                 <h3 className="product-title text-black text-sm">Cropped Satin Bomber Jacket</h3>
                                 <div className="comments_note flex gap-4">
                                     <div className="star_content clearfix flex gap-0.5">
-                                        <div className="star text-yellow"><FaStar /></div>
-                                        <div className="star text-yellow"><FaStar /></div>
-                                        <div className="star text-yellow"><FaStar /></div>
-                                        <div className="star text-custom-gray"><FaStar /></div>
-                                        <div className="star text-custom-gray"><FaStar /></div>
+                                        <StarRating />
                                     </div>
                                     <span className="text-xs total-rating">0 Review(s)</span>
                                 </div>
@@ -192,12 +184,8 @@ const ProductMiniature = (props) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                        Text in a modal
-                    </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                    </Typography>
+                    <IoIosCloseCircleOutline className='text-4xl rounded-full absolute top-4 right-4 cursor-pointer bg-stone-200' style={{zIndex: '1000'}} onClick={handleClose} />
+                    <ProductDetailsModal />
                 </Box>
             </Modal>
         </>
