@@ -8,6 +8,7 @@ import ProductDetails from './views/ProductDetails';
 import Navbar from './components/Navbar';
 import Login from './views/Login';
 import ForgotPassword from './views/ForgotPassword';
+import SignIn from './views/SignIn';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
       <Footer />
     </>

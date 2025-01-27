@@ -9,7 +9,7 @@ const Checkbox = ({children}) => {
                 ? <GrCheckbox className='cursor-pointer' onClick={() => setChecked(false)} />
                 : <GrCheckboxSelected className='cursor-pointer' onClick={() => setChecked(true)} />}
             </div>
-            <div className='text-sm link' onClick={() => setChecked(!checked)}><span className='align-middle leading-3'>{children}</span></div>
+            <div className='text-sm' onClick={() => setChecked(!checked)}><span className='align-middle leading-3 cursor-pointer'>{children}</span></div>
         </div>
     )
 };
