@@ -6,7 +6,10 @@ import { PiHandArrowDownLight } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import cart_thumbnail_product from '../../assets/images/cart-thumbnail-product.jpg'
 import Counter from '../../components/Counter';
+import toast, { Toaster } from 'react-hot-toast';
 import './style.css';
+
+const notify = (value) => toast.success(`Product ${value} removed from cart.`);
 
 const CartPage = () => {
     const navigate = useNavigate();
@@ -56,7 +59,7 @@ const CartPage = () => {
                                             <span className='text-primary text-lg'>$51.04</span>
                                         </div>
                                         <div className='w-[10%] text-2xl flex justify-center items-center'>
-                                            <FaRegTrashAlt className='cursor-pointer hover:text-red-500' />
+                                            <FaRegTrashAlt className='cursor-pointer hover:text-red-500' onClick={() => notify(index)} />
                                         </div>
                                     </div>)}
 
@@ -125,6 +128,8 @@ const CartPage = () => {
                     </div>
                 </div>
             </div>
+
+            <Toaster />
         </>
     )
 };
