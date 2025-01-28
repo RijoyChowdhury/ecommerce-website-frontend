@@ -125,9 +125,9 @@ const Header = () => {
                     <div className='col3 w-[25%] flex items-center justify-end'>
                         <ul className='flex items-center gap-5'>
                             <li className='list-none'>
-                                <Link className='link transition pr-1' to={''}>Login</Link>
+                                <Link className='link transition pr-1' to={'/login'}>Login</Link>
                                 /
-                                <Link className='link transition pl-1' to={''}>Register</Link>
+                                <Link className='link transition pl-1' to={'/signin'}>Register</Link>
                             </li>
 
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>

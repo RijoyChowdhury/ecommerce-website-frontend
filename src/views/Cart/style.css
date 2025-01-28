@@ -1,0 +1,11 @@
+.cart-content .cart-item:not(:last-child) {
+    border-bottom: 1px solid var(--custom-gray);
+}
+
+.promo-segment input {
+    padding: 0 15px;
+}
+
+.promo-segment input:focus {
+    outline: none;
+}

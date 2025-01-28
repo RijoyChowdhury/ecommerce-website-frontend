@@ -32,7 +32,7 @@ const ForgotPassword = () => {
                         </div>
                     </div>
                 </section>
-                <Link to="/login" className='flex gap-2 items-center link mt-4'><FaChevronLeft /> Back to login</Link>
+                <div className='flex'><Link to="/login" className='flex gap-2 items-center link mt-4 border-2'><FaChevronLeft /> Back to login</Link></div>
             </div>
         </div>
     )

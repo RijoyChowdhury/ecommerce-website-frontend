@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FormControl, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { FormControl, FormControlLabel, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
+import { MdAccountCircle, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import Checkbox from '../../components/Checkbox';
 
 const SignIn = () => {
@@ -32,64 +32,101 @@ const SignIn = () => {
 
                     <section className='sigin-form flex justify-center'>
                         <div className='form w-[65%] flex flex-col gap-6'>
+
+                            {/* prefix section */}
+                            <div className="form-group row flex items-center gap-2">
+                                <div className='w-[15%] text-base flex justify-end'><span>Preferred Prefix</span></div>
+                                <div className='w-[85%] ml-2'>
+                                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                                        <RadioGroup
+                                            row
+                                            aria-labelledby="demo-row-radio-buttons-group-label"
+                                            name="row-radio-buttons-group"
+                                        >
+                                            <FormControlLabel value="single" control={<Radio />} label="Mr./Ms." />
+                                            <FormControlLabel value="married" control={<Radio />} label="Mrs." />
+                                        </RadioGroup>
+                                    </FormControl>
+                                </div>
+                            </div>
+
                             {/* first name section */}
-                            <div className="form-group row flex justify-center">
-                                <FormControl sx={{ width: '100%' }} variant="outlined">
-                                    <TextField id="outlined-basic" label="First Name" variant="outlined" />
-                                </FormControl>
+                            <div className="form-group row flex items-baseline gap-2">
+                                <div className='w-[15%] text-base flex justify-end'><span>First Name</span></div>
+                                <div className='w-[85%] flex flex-col'>
+                                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                                        <TextField id="outlined-basic" variant="outlined" size="small" />
+                                    </FormControl>
+                                    <span>Only letters and the dot (.) character, followed by a space, are allowed.</span>
+                                </div>
                             </div>
 
                             {/* last name section */}
-                            <div className="form-group row flex justify-center">
-                                <FormControl sx={{ width: '100%' }} variant="outlined">
-                                    <TextField id="outlined-basic" label="Last Name" variant="outlined" />
-                                </FormControl>
+                            <div className="form-group row flex items-baseline gap-2">
+                                <div className='w-[15%] text-base flex justify-end'><span>Last Name</span></div>
+                                <div className='w-[85%] flex flex-col'>
+                                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                                        <TextField id="outlined-basic" variant="outlined" size="small" />
+                                    </FormControl>
+                                    <span>Only letters and the dot (.) character, followed by a space, are allowed.</span>
+                                </div>
                             </div>
 
                             {/* email section */}
-                            <div className="form-group row flex justify-center">
-                                <FormControl sx={{ width: '100%' }} variant="outlined">
-                                    <TextField id="outlined-basic" label="Email" variant="outlined" />
-                                </FormControl>
+                            <div className="form-group row flex items-center gap-2">
+                                <div className='w-[15%] text-base flex justify-end'><span>Email</span></div>
+                                <div className='w-[85%]'>
+                                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                                        <TextField id="outlined-basic" variant="outlined" size="small" />
+                                    </FormControl>
+                                </div>
                             </div>
 
                             {/* password section */}
-                            <div className="form-group row flex justify-center">
-                                <FormControl sx={{ width: '100%' }} variant="outlined">
-                                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                                    <OutlinedInput
-                                        id="outlined-adornment-password"
-                                        type={showPassword ? 'text' : 'password'}
-                                        endAdornment={
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label={
-                                                        showPassword ? 'hide the password' : 'display the password'
-                                                    }
-                                                    onClick={handleClickShowPassword}
-                                                    onMouseDown={handleMouseDownPassword}
-                                                    onMouseUp={handleMouseUpPassword}
-                                                    edge="end"
-                                                    className='hover:text-primary'
-                                                >
-                                                    {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        }
-                                        label="Password"
-                                    />
-                                </FormControl>
+                            <div className="form-group row flex items-center gap-2">
+                                <div className='w-[15%] text-base flex justify-end'><span>Password</span></div>
+                                <div className='w-[85%]'>
+                                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                                        <TextField id="outlined-basic" type={showPassword ? 'text' : 'password'} variant="outlined" size="small"
+                                            slotProps={{
+                                                input: {
+                                                    endAdornment: (
+                                                        <InputAdornment position="end">
+                                                            <IconButton
+                                                                aria-label={
+                                                                    showPassword ? 'hide the password' : 'display the password'
+                                                                }
+                                                                onClick={handleClickShowPassword}
+                                                                onMouseDown={handleMouseDownPassword}
+                                                                onMouseUp={handleMouseUpPassword}
+                                                                edge="end"
+                                                                className='hover:text-primary'
+                                                                disableRipple={true}
+                                                            >
+                                                                {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
+                                                            </IconButton>
+                                                        </InputAdornment>
+                                                    ),
+                                                },
+                                            }}
+                                        />
+                                    </FormControl>
+                                </div>
                             </div>
 
-                            {/* email section */}
-                            <div className="form-group row flex justify-center">
-                                <FormControl sx={{ width: '100%' }} variant="outlined">
-                                    <TextField id="outlined-basic" label="Date of Birth" placeholder="DD/MM/YYYY" variant="outlined" />
-                                </FormControl>
+                            {/* dob section */}
+                            <div className="form-group row flex items-center gap-2">
+                                <div className='w-[15%] text-base flex justify-end'><span>Date of Birth</span></div>
+                                <div className='w-[85%]'>
+                                    <FormControl sx={{ width: '100%' }} variant="outlined">
+                                        <TextField id="outlined-basic" placeholder="DD/MM/YYYY" variant="outlined" size="small" />
+                                    </FormControl>
+                                </div>
                             </div>
 
-                            <div className=''>
-                                <ul className='flex flex-col gap-4'>
+                            {/* service checklist */}
+                            <div className='flex justify-end'>
+                                <ul className='w-[84%] flex flex-col gap-4'>
                                     <li><div><Checkbox><span className='ml-1'>Receive offers from our partners</span></Checkbox></div></li>
                                     <li><div>
                                         <Checkbox><span className='ml-1'>Sign up for our newsletter</span></Checkbox>
@@ -109,8 +146,8 @@ const SignIn = () => {
                             </div>
 
                             {/* submit btn */}
-                            <div className='h-[40px]'>
-                                <button className='btn'>Create</button>
+                            <div className='h-[40px] flex justify-center'>
+                                <button className='btn !w-[20%]'>Create</button>
                             </div>
 
                         </div>

@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Divider } from '@mui/material';
 import { CiDeliveryTruck, CiLock } from 'react-icons/ci';
 import { FaChevronLeft, FaRegTrashAlt } from 'react-icons/fa';
 import { PiHandArrowDownLight } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import cart_thumbnail_product from '../../assets/images/cart-thumbnail-product.jpg'
 import Counter from '../../components/Counter';
+import './style.css';
 
 const CartPage = () => {
+    const navigate = useNavigate();
+    const [showPromoSegment, setShowPromoSegment] = useState(false);
+    const togglePromoSegment = () => {
+        setShowPromoSegment(state => !state);
+    }
+    const goToCheckout = () => {
+        navigate('/checkout');
+    }
     return (
         <>
             <div className='block cart-page'>
@@ -26,17 +35,27 @@ const CartPage = () => {
                                                 <img src={cart_thumbnail_product} className='border-2 rounded-md overflow-hidden' />
                                             </div>
                                         </div>
-                                        <div className='w-[50%] flex flex-col border-2'>
-                                            <span>Apple AirPods Max Over-Ear Wireless Headphone</span>
-                                            <span>$47.00 -$5.00 $42.00</span>
-                                            <span>Color: Grey</span>
-                                            <span>Dimension: 60x90cm</span>
+                                        <div className='w-[50%] flex flex-col ml-6'>
+                                            <span className='text-black font-semibold'>Apple AirPods Max Over-Ear Wireless Headphone</span>
+                                            <span className='flex gap-2 items-center'>
+                                                <span className='line-through'>$47.00</span>
+                                                <span className='text-sm text-red-500'>-$5.00</span>
+                                                <span className='text-base text-primary'> $42.00</span>
+                                            </span>
+                                            <span className='flex gap-2 items-center'>
+                                                <span className='text-black font-semibold'>Color:</span>
+                                                <span> Grey</span>
+                                            </span>
+                                            <span className='flex gap-2 items-center'>
+                                                <span className='text-black font-semibold'>Dimension:</span>
+                                                <span> 60x90cm</span>
+                                            </span>
                                         </div>
-                                        <div className='w-[15%] p-7 border-2'><Counter /></div>
-                                        <div className='w-[15%] flex justify-center items-center border-2'>
+                                        <div className='w-[15%] p-7'><Counter /></div>
+                                        <div className='w-[15%] flex justify-center items-center'>
                                             <span className='text-primary text-lg'>$51.04</span>
                                         </div>
-                                        <div className='w-[10%] text-2xl flex justify-center items-center border-2'>
+                                        <div className='w-[10%] text-2xl flex justify-center items-center'>
                                             <FaRegTrashAlt className='cursor-pointer hover:text-red-500' />
                                         </div>
                                     </div>)}
@@ -44,7 +63,7 @@ const CartPage = () => {
                                 </div>
                             </div>
 
-                            <Link to="/login" className='flex gap-2 items-center link pt-8'><FaChevronLeft /> Continue Shopping</Link>
+                            <Link to="/products" className='flex gap-2 items-center link pt-8'><FaChevronLeft /> Continue Shopping</Link>
                         </div>
 
                         <div className='w-[30%]'>
@@ -59,10 +78,16 @@ const CartPage = () => {
                                     <li className='flex justify-between font-semibold'><span>Total (tax excl.)</span><span className='text-primary'>$49.00</span></li>
                                     <li className='flex justify-between font-semibold'><span>Total (tax incl.)</span><span className='text-primary'>$49.00</span></li>
                                     <li className='flex justify-between font-semibold'><span>Taxes:</span><span className='text-primary'>$0.00</span></li>
-                                    <span className='link underline'>Have a promo code?</span>
+                                    <div className='my-2'>
+                                        <span className='link underline' onClick={togglePromoSegment}>Have a promo code?</span>
+                                        {showPromoSegment && <div className='promo-segment flex gap-2 h-[40px] mt-2'>
+                                            <input className='w-[100%] border-2 rounded-md border-primary' type='text' placeholder='NEWUSER50' />
+                                            <div className='w-[55%]'><button className='btn' >Add Code</button></div>
+                                        </div>}
+                                    </div>
                                 </div>
                                 <div className='flex p-2 gap-2 h-[60px]'>
-                                    <button className='btn' >Proceed to Checkout</button>
+                                    <button className='btn' onClick={goToCheckout}>Proceed to Checkout</button>
                                 </div>
                             </div>
 

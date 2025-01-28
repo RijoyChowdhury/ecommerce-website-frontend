@@ -10,6 +10,8 @@
   --dark-gray: #666;
   --body-background: #f5f0f0;
   --black: #000;
+  --custom-light-gray: #cccccc26;
+  --custom-gray: #ddd;
 }
 
 * {
