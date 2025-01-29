@@ -8,6 +8,7 @@ import cart_thumbnail_product from '../../assets/images/cart-thumbnail-product.j
 import Counter from '../../components/Counter';
 import toast, { Toaster } from 'react-hot-toast';
 import './style.css';
+import DeliveryPolicies from '../../components/Policies';
 
 const notify = (value) => toast.success(`Product ${value} removed from cart.`);
 
@@ -95,34 +96,8 @@ const CartPage = () => {
                             </div>
 
                             {/* policies */}
-                            <div className="policies-wrapper flex flex-col gap-2 mt-6">
-                                <div className='rounded-md bg-custom-light-gray flex py-2'>
-                                    <span className="item-product flex items-center text-4xl mx-6 text-primary">
-                                        <CiLock />
-                                    </span>
-                                    <span>
-                                        <span className="block-title text-black text-base font-semibold">Security policy</span>
-                                        <p>(edit with the Customer Reassurance module)</p>
-                                    </span>
-                                </div>
-                                <div className='rounded-md bg-custom-light-gray flex py-2'>
-                                    <span className="item-product flex items-center text-4xl mx-6 text-primary">
-                                        <CiDeliveryTruck />
-                                    </span>
-                                    <span>
-                                        <span className="block-title text-black text-base font-semibold">Delivery policy</span>
-                                        <p>(edit with the Customer Reassurance module)</p>
-                                    </span>
-                                </div>
-                                <div className='rounded-md bg-custom-light-gray flex py-2'>
-                                    <span className="item-product flex items-center text-4xl mx-6 text-primary">
-                                        <PiHandArrowDownLight />
-                                    </span>
-                                    <span>
-                                        <span className="block-title text-black text-base font-semibold">Return policy</span>
-                                        <p>(edit with the Customer Reassurance module)</p>
-                                    </span>
-                                </div>
+                            <div className='mt-6'>
+                                <DeliveryPolicies />
                             </div>
                         </div>
                     </div>

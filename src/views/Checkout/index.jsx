@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Divider } from '@mui/material';
 import { CiDeliveryTruck, CiLock } from 'react-icons/ci';
-import { FaChevronDown, FaChevronLeft, FaRegTrashAlt } from 'react-icons/fa';
+import { FaChevronDown, FaChevronLeft, FaChevronUp, FaRegTrashAlt } from 'react-icons/fa';
 import { PiHandArrowDownLight } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
 import cart_thumbnail_product from '../../assets/images/cart-thumbnail-product.jpg'
 import Counter from '../../components/Counter';
 import toast, { Toaster } from 'react-hot-toast';
+import DeliveryPolicies from '../../components/Policies';
 
 const CheckoutPage = () => {
     const [showPromoSegment, setShowPromoSegment] = useState(false);
@@ -37,7 +38,11 @@ const CheckoutPage = () => {
                                 {/* items list */}
                                 <div className='flex flex-col p-2'>
                                     <div><span>5 Items</span></div>
-                                    <div className='flex'><div className='flex items-center gap-2 cursor-pointer link' onClick={toggleItemList}><span>Show Cart Items</span><FaChevronDown /></div></div>
+                                    <div className='flex'>
+                                        <div className='flex items-center gap-2 cursor-pointer link' onClick={toggleItemList}>
+                                            <span>Show Cart Items</span>{showItemLIst ? <FaChevronUp /> : <FaChevronDown />}
+                                        </div>
+                                    </div>
                                 </div>
 
                                 {showItemLIst && <div className=''>
@@ -50,7 +55,7 @@ const CheckoutPage = () => {
                                             <li>Color: Grey</li>
                                             <li>Dimension: 60x90cm</li>
                                         </ul>
-                                        <div className='absolute border-2 bottom-0 right-0'>$42.00</div>
+                                        <div className='absolute bottom-3 right-0 text-primary text-base'>$42.00</div>
                                     </div>)}
                                 </div>}
                                 <Divider />
@@ -76,34 +81,8 @@ const CheckoutPage = () => {
                             </div>
 
                             {/* policies */}
-                            <div className="policies-wrapper flex flex-col gap-2 mt-6">
-                                <div className='rounded-md bg-custom-light-gray flex py-2'>
-                                    <span className="item-product flex items-center text-4xl mx-6 text-primary">
-                                        <CiLock />
-                                    </span>
-                                    <span>
-                                        <span className="block-title text-black text-base font-semibold">Security policy</span>
-                                        <p>(edit with the Customer Reassurance module)</p>
-                                    </span>
-                                </div>
-                                <div className='rounded-md bg-custom-light-gray flex py-2'>
-                                    <span className="item-product flex items-center text-4xl mx-6 text-primary">
-                                        <CiDeliveryTruck />
-                                    </span>
-                                    <span>
-                                        <span className="block-title text-black text-base font-semibold">Delivery policy</span>
-                                        <p>(edit with the Customer Reassurance module)</p>
-                                    </span>
-                                </div>
-                                <div className='rounded-md bg-custom-light-gray flex py-2'>
-                                    <span className="item-product flex items-center text-4xl mx-6 text-primary">
-                                        <PiHandArrowDownLight />
-                                    </span>
-                                    <span>
-                                        <span className="block-title text-black text-base font-semibold">Return policy</span>
-                                        <p>(edit with the Customer Reassurance module)</p>
-                                    </span>
-                                </div>
+                            <div className='mt-6'>
+                                <DeliveryPolicies />
                             </div>
                         </div>
                     </div>
