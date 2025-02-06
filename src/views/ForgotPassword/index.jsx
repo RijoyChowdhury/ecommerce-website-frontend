@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { FaCheck, FaChevronLeft } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import OTPBox from '../../components/OTPBox';
+import OtpInputBox from '../../components/OtpInputBox';
 
 const ForgotPassword = () => {
     const [showOTPWindow, setShowOTPWindow] = useState(false);
@@ -45,10 +46,8 @@ const ForgotPassword = () => {
                             <span className='flex items-center px-4'>If this email address has been registered in our shop, you will receive an OTP to reset your password at yuiyuiuyi@jkjhk.com.</span>
                         </div>
 
-                        <div className='mt-4 flex gap-2 justify-center'>
-                            <div className='flex items-center text-primary text-lg'>ENTER OTP :</div>
-                            <OTPBox length={6} onChange={() => { }} />
-                            <div className='w-[20%]'><button className='btn'>Change Password</button></div>
+                        <div className='mt-4'>
+                            <OtpInputBox />
                         </div>
                     </div>}
                 </section>

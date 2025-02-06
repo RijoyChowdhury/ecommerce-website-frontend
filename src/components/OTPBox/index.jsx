@@ -5,7 +5,6 @@ const OTPBox = ({ length, onChange }) => {
     const [otp, setOTP] = useState(new Array(length).fill(''));
 
     const handleChange = (event, index) => {
-        console.log('cjange')
         const value = event.value;
         if (isNaN(value)) return;
 

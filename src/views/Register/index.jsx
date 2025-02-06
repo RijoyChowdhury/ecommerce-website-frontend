@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CircularProgress, FormControl, FormControlLabel, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { MdAccountCircle, MdVisibility, MdVisibilityOff } from 'react-icons/md';
@@ -18,6 +18,7 @@ const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
 
 const Register = () => {
+    const navigate = useNavigate();
     const [formFields, setFormFields] = useState({
         firstName: '',
         lastName: '',
@@ -63,6 +64,8 @@ const Register = () => {
             if (response.error) {
                 notifyError('User already registered with this email.');
             }
+
+            navigate('/verifyaccount');
         } catch (err) {
             console.log(err);
         }
