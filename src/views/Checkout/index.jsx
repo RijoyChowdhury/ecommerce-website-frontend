@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Divider } from '@mui/material';
-import { CiDeliveryTruck, CiLock } from 'react-icons/ci';
+import { CiDeliveryTruck, CiEdit, CiLock } from 'react-icons/ci';
 import { FaChevronDown, FaChevronLeft, FaChevronUp, FaRegTrashAlt } from 'react-icons/fa';
 import { PiHandArrowDownLight } from 'react-icons/pi';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,6 +8,7 @@ import cart_thumbnail_product from '../../assets/images/cart-thumbnail-product.j
 import Counter from '../../components/Counter';
 import toast, { Toaster } from 'react-hot-toast';
 import DeliveryPolicies from '../../components/Policies';
+import { FaCheck } from 'react-icons/fa6';
 
 const CheckoutPage = () => {
     const [showPromoSegment, setShowPromoSegment] = useState(false);
@@ -24,10 +25,41 @@ const CheckoutPage = () => {
                     <div className='flex gap-8'>
                         <div className='w-[70%]'>
                             <div className='cart-content-wrapper'>
-                                <div className='border-2 rounded-md h-[50px]'>Personal Information</div>
-                                <div className='border-2 rounded-md h-[50px]'>Address</div>
-                                <div className='border-2 rounded-md h-[50px]'>Shipping Method</div>
-                                <div className='border-2 rounded-md h-[50px]'>Payment</div>
+
+                                <div className='section flex flex-col border-2 rounded-md'>
+                                    <div className='section-header h-[50px] flex items-center'>
+                                        <div className='text-2xl text-green-500 mx-4'><FaCheck /></div>
+                                        <div className='section-header flex items-center h-full w-[100%]'>
+                                            <span className='text-base text-black '>Personal Information</span>
+                                        </div>
+                                        <div className='flex items-center justify-end text-sm mx-4'><CiEdit /><em className='ml-1'>Edit</em></div>
+                                    </div>
+
+                                    <div className='section-content h-[200px]'></div>
+                                </div>
+
+                                <div className='border-2 rounded-md h-[50px] flex items-center'>
+                                    <div className='text-2xl text-green-500 mx-4'><FaCheck /></div>
+                                    <div className='section-header flex items-center h-full w-[100%]'>
+                                        <span className='text-base text-black '>Address</span>
+                                    </div>
+                                    <div className='flex items-center justify-end text-sm mx-4'><CiEdit /><em className='ml-1'>Edit</em></div>
+                                </div>
+
+                                <div className='border-2 rounded-md h-[50px] flex items-center'>
+                                    <div className='text-2xl text-green-500 mx-4'><FaCheck /></div>
+                                    <div className='section-header flex items-center h-full w-[100%]'>
+                                        <span className='text-base text-black '>Shipping Method</span>
+                                    </div>
+                                    <div className='flex items-center justify-end text-sm mx-4'><CiEdit /><em className='ml-1'>Edit</em></div>
+                                </div>
+
+                                <div className='border-2 rounded-md h-[50px] flex items-center'>
+                                    <div className='text-2xl text-green-500 mx-4'><FaCheck /></div>
+                                    <div className='section-header flex items-center h-full w-[100%]'>
+                                        <span className='text-base text-black '>Payment</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
