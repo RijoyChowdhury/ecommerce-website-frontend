@@ -8,9 +8,10 @@ import ProductDetails from './views/ProductDetails';
 import Navbar from './components/Navbar';
 import Login from './views/Login';
 import ForgotPassword from './views/ForgotPassword';
-import SignIn from './views/SignIn';
+import Register from './views/Register';
 import CartPage from './views/Cart';
 import CheckoutPage from './views/Checkout';
+import VerifyAccount from './views/VerifyAccount';
 
 function App() {
   return (
@@ -25,7 +26,8 @@ function App() {
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<SignIn />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/verifyaccount" element={<VerifyAccount />} />
       </Routes>
       <Footer />
     </>

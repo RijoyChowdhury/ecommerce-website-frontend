@@ -83,9 +83,9 @@ const Login = () => {
 
                     {/* no account */}
                     <div id="no-account" className='flex justify-center mt-6'>
-                        <a className='link' href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/registration" data-link-action="display-register-form">
+                        <Link className='link' to='/register'>
                             No account? Create one here
-                        </a>
+                        </Link>
                     </div>
 
                 </section>

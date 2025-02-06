@@ -55,15 +55,20 @@ body {
   border: 1px solid var(--primary);
 }
 
-.btn-disabled {
-  background-color: var(--primary-light);
-}
-
 .btn:hover {
   box-shadow: none;
   color: var(--primary);
   background-color: var(--white);
   border: 1px solid var(--primary);
+}
+
+.btn-disabled {
+  background-color: var(--primary-light);
+}
+
+.btn-disabled:hover {
+  background-color: var(--primary-light);
+  color: var(--white);
 }
 
 .btn-primary {
