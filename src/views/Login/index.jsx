@@ -1,13 +1,56 @@
-import { FormControl, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
+import { CircularProgress, FormControl, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import React from 'react';
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../api/postData';
+
+const notifySuccess = (value) => toast.success(value);
+const notifyError = (value) => toast.error(value);
+
+const blankForm = {
+    email: '',
+    password: '',
+};
 
 const Login = () => {
-    const [showPassword, setShowPassword] = React.useState(false);
+    const navigate = useNavigate();
+    const [formFields, setFormFields] = useState({ ...blankForm });
+    const [showPassword, setShowPassword] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleInput = (event) => {
+        const { name, value } = event.target;
+        setFormFields((state) => ({
+            ...state,
+            [name]: value,
+        }));
+    }
+
+    const flushFormData = () => {
+        setFormFields((state) => ({ ...blankForm }));
+    }
+
+    const submitForm = async () => {
+        setLoading(true);
+        const response = await login('/api/user/login', {
+            ...formFields,
+        });
+        console.log(response);
+        if (response.success) {
+            setLoading(false);
+            flushFormData();
+            notifySuccess('Login successful');
+            navigate('/');
+        }
+
+        if (response.error) {
+            notifyError('Incorrect Credentials');
+        }
+    }
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -27,12 +70,12 @@ const Login = () => {
                 </header>
                 <section className='border-2 rounded-md p-8'>
                     <section id="content" className='border-b-2 flex justify-center'>
-                        <form id="login-form" className='w-[70%]'>
+                        <div id="login-form" className='w-[50%]'>
                             <div className='flex flex-col gap-6'>
                                 {/* email section */}
                                 <div className="form-group row flex justify-center">                                    
                                     <FormControl sx={{ width: '100%' }} variant="outlined">
-                                        <TextField id="outlined-basic" label="Email" variant="outlined" />
+                                        <TextField id="outlined-basic" value={formFields.email} name="email" label="Email" variant="outlined" onChange={e => handleInput(e)} />
                                     </FormControl>
                                 </div>
 
@@ -43,6 +86,8 @@ const Login = () => {
                                         <OutlinedInput
                                             id="outlined-adornment-password"
                                             type={showPassword ? 'text' : 'password'}
+                                            value={formFields.password}
+                                            name="password"
                                             endAdornment={
                                                 <InputAdornment position="end">
                                                     <IconButton
@@ -54,12 +99,14 @@ const Login = () => {
                                                         onMouseUp={handleMouseUpPassword}
                                                         edge="end"
                                                         className='hover:text-primary'
+                                                        disableRipple={true}
                                                     >
                                                         {showPassword ? <MdVisibilityOff /> : <MdVisibility />}
                                                     </IconButton>
                                                 </InputAdornment>
                                             }
                                             label="Password"
+                                            onChange={e => handleInput(e)} 
                                         />
                                     </FormControl>
                                 </div>
@@ -74,11 +121,11 @@ const Login = () => {
 
                             {/* sign in button */}
                             <footer className="form-footer text-sm-center clearfix my-4 h-[50px]">
-                                <button id="submit-login" className="btn" data-link-action="sign-in" type="submit">
-                                    Sign in
+                                <button id="submit-login" className="btn" onClick={submitForm}>
+                                    {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: '#ff5252' }} size="20px" className='mr-4' />Signing In..</span> : 'Sign In'}
                                 </button>
                             </footer>
-                        </form>
+                        </div>
                     </section>
 
                     {/* no account */}
