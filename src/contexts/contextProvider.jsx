@@ -4,9 +4,12 @@ const UserContext = createContext({});
 
 export const ContextProvider = ({ children }) => {
     const [user, setAuth] = useState({});
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
     const values = {
         user,
         setAuth,
+        isUserLoggedIn,
+        setIsUserLoggedIn,
     };
 
     return (

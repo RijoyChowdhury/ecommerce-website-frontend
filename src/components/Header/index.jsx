@@ -20,6 +20,10 @@ import { BsCurrencyDollar, BsCurrencyRupee } from 'react-icons/bs';
 import './style.css';
 import { FaRegCircleUser } from 'react-icons/fa6';
 import { RiSettings3Line, RiShutDownLine } from 'react-icons/ri';
+import { logout } from '../../api/postData';
+import useAuth from '../../hooks/useAuth';
+
+const notifySuccess = (value) => toast.success(value);
 
 const flagMetadata = [
     { flagImg: flag_1, language: 'English' },
@@ -35,6 +39,7 @@ const flagMetadata = [
 ];
 
 const Header = () => {
+    const { isUserLoggedIn, setIsUserLoggedIn } = useAuth();
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);
@@ -46,6 +51,14 @@ const Header = () => {
     const handleCartOpen = (value) => {
         setOpen(value)
     };
+
+    const handleLogout = async () => {
+        const response = await logout('/api/user/logout');
+        console.log(response);
+        setShowUserDropdownMenu(false);
+        setIsUserLoggedIn(false);
+        notifySuccess('Logout Successful');
+    }
 
     useEffect(() => {
         let handler = (event) => {
@@ -133,44 +146,46 @@ const Header = () => {
             {/* second row */}
             <div className='header py-5 border-b-[1px] border-gray-200'>
                 <div className='container flex items-center justify-between'>
+                    {/* application logo */}
                     <div className='col1 w-[20%] flex items-center justify-start'>
                         <Link to={'#'}><img src={AppLogo} /></Link>
                     </div>
 
+                    {/* search bar */}
                     <div className='col2 w-[55%]'>
                         <SearchBar />
                     </div>
 
                     <div className='col3 w-[25%] flex items-center justify-end'>
                         <ul className='flex items-center gap-5'>
-                            {/* login & resiter */}
-                            <li className='list-none'>
-                                <Link className='link transition pr-1' to={'/login'}>Login</Link>
-                                /
-                                <Link className='link transition pl-1' to={'/register'}>Register</Link>
-                            </li>
+                            {isUserLoggedIn
+                                ? (< li className='list-none relative' ref={userMenuRef}> {/* user account link */}
+                                    <Link to={"#"} className='link transition flex items-center gap-2' onClick={() => setShowUserDropdownMenu(true)}>
+                                        <FaRegCircleUser className='text-2xl' />
+                                        Rijoy Chowdhury
+                                    </Link>
+                                    {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="language-dropdown">
+                                        <li className="link">
+                                            <Link to={'/user'} className="dropdown-item flex items-center">
+                                                <RiSettings3Line className='text-xl' />
+                                                Settings
+                                            </Link>
+                                        </li>
+                                        <li className="link">
+                                            <Link to={'#'} className="dropdown-item flex items-center" onClick={handleLogout}>
+                                                <RiShutDownLine className='text-xl' />
+                                                Logout
+                                            </Link>
+                                        </li>
+                                    </ul>}
+                                </li>)
 
-                            {/* user account link */}
-                            {/* <li className='list-none relative' ref={userMenuRef}>
-                                <Link to={"#"}  className='link transition flex items-center gap-2' onClick={() => setShowUserDropdownMenu(true)}>
-                                    <FaRegCircleUser className='text-2xl' />
-                                    Rijoy Chowdhury
-                                </Link>
-                                {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="language-dropdown">
-                                    <li className="link">
-                                        <Link to={'/user'}  className="dropdown-item flex items-center">
-                                            <RiSettings3Line className='text-xl' />
-                                            Settings
-                                        </Link>
-                                    </li>
-                                    <li className="link">
-                                        <Link to={'/logout'}  className="dropdown-item flex items-center">
-                                            <RiShutDownLine className='text-xl' />
-                                            Logout
-                                        </Link>
-                                    </li>
-                                </ul>}
-                            </li> */}
+                                : (<li className='list-none'> {/* login & resiter */}
+                                    <Link className='link transition pr-1' to={'/login'}>Login</Link>
+                                    /
+                                    <Link className='link transition pl-1' to={'/register'}>Register</Link>
+                                </li>)
+                            }
 
                             {/* user utilities */}
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>

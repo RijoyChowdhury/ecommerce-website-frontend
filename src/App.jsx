@@ -13,6 +13,7 @@ import Register from './views/Register';
 import CartPage from './views/Cart';
 import CheckoutPage from './views/Checkout';
 import VerifyAccount from './views/VerifyAccount';
+import AuthChecker from './components/AuthChecker';
 
 function App() {
     return (
@@ -23,8 +24,10 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/products" element={<ProductsList />} />
                 <Route path="/products/:id" element={<ProductDetails />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
+                <Route element={<AuthChecker />}>
+                    <Route path="/cart" element={<CartPage />} />
+                    <Route path="/checkout" element={<CheckoutPage />} />
+                </Route>
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />

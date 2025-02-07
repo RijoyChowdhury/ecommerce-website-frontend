@@ -65,6 +65,27 @@ const login = async (url, formData) => {
     }
 }
 
+const logout = async (url) => {
+    try {
+        const response = await fetch(apiUrl + url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            return await response.json();
+        } else {
+            return await response.json();
+        }
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 const deleteData = async (url) => {
     const {res} = await axios.delete(`${apiUrl}${url}`, params);
     return res;
@@ -80,4 +101,4 @@ const deleteImage = async (url, image) => {
     return res;
 }
 
-export {postData, verifyOTP, login};
+export {postData, verifyOTP, login, logout};

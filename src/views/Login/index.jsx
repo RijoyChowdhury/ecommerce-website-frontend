@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../../api/postData';
+import useAuth from '../../hooks/useAuth';
 
 const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
@@ -16,6 +17,7 @@ const blankForm = {
 
 const Login = () => {
     const navigate = useNavigate();
+    const { setIsUserLoggedIn } = useAuth();
     const [formFields, setFormFields] = useState({ ...blankForm });
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -44,6 +46,7 @@ const Login = () => {
             setLoading(false);
             flushFormData();
             notifySuccess('Login successful');
+            setIsUserLoggedIn(true);
             navigate('/');
         }
 
