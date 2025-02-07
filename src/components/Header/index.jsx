@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import AppLogo from '../../assets/images/AppLogo.jpg';
 import SearchBar from '../SearchBar';
 import { Badge, Tooltip } from '@mui/material';
 import { IoIosGitCompare, IoIosHeartEmpty } from 'react-icons/io';
 import { IoCartOutline } from 'react-icons/io5';
-import './style.css';
 import CartDrawer from '../CartDrawer';
 import flag_1 from '../../assets/images/flags/1.jpg'
 import flag_2 from '../../assets/images/flags/2.jpg'
@@ -17,28 +16,48 @@ import flag_7 from '../../assets/images/flags/7.jpg'
 import flag_8 from '../../assets/images/flags/8.jpg'
 import flag_9 from '../../assets/images/flags/9.jpg'
 import flag_10 from '../../assets/images/flags/10.jpg'
+import { BsCurrencyDollar, BsCurrencyRupee } from 'react-icons/bs';
+import './style.css';
 
 const flagMetadata = [
-    {flagImg: flag_1, language: 'English'},
-    {flagImg: flag_2, language: 'Français'},
-    {flagImg: flag_3, language: 'Español'},
-    {flagImg: flag_4, language: 'Deutsch'},
-    {flagImg: flag_5, language: 'Italiano'},
-    {flagImg: flag_6, language: 'Polski'},
-    {flagImg: flag_7, language: 'Nederlands'},
-    {flagImg: flag_8, language: 'Русский'},
-    {flagImg: flag_9, language: 'Português PT'},
-    {flagImg: flag_10, language: 'اللغة العربية'},
+    { flagImg: flag_1, language: 'English' },
+    { flagImg: flag_2, language: 'Français' },
+    { flagImg: flag_3, language: 'Español' },
+    { flagImg: flag_4, language: 'Deutsch' },
+    { flagImg: flag_5, language: 'Italiano' },
+    { flagImg: flag_6, language: 'Polski' },
+    { flagImg: flag_7, language: 'Nederlands' },
+    { flagImg: flag_8, language: 'Русский' },
+    { flagImg: flag_9, language: 'Português PT' },
+    { flagImg: flag_10, language: 'اللغة العربية' },
 ];
 
 const Header = () => {
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [open, setOpen] = useState(false);
+    let languageMenuRef = useRef();
+    let currencyMenuRef = useRef();
 
     const handleCartOpen = (value) => {
         setOpen(value)
     };
+
+    useEffect(() => {
+        let handler = (event) => {
+            if (!languageMenuRef.current.contains(event.target)) {
+                setShowLanguageDropdownMenu(false);
+            }
+            if (!currencyMenuRef.current.contains(event.target)) {
+                setShowCurrencyDropdownMenu(false);
+            }
+        }
+        document.addEventListener('mousedown', handler);
+
+        return () => {
+            document.removeEventListener('mousedown', handler);
+        }
+    });
 
     return (
         <header id='header' className='bg-white'>
@@ -49,21 +68,21 @@ const Header = () => {
                         <div className='col1 w-[50%]'>
                             <p className='text-[13px] font-[400]'>Get up to 50% off new season styles, limited time only</p>
                         </div>
-                        
+
                         <div className='col2 flex items-center justify-end'>
                             <ul className='flex items-center gap-2'>
                                 {/* help center */}
                                 <li className='list-none pl-4 pr-2'>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition'>Help Center</Link>
                                 </li>
-                                
+
                                 {/* order tracking */}
                                 <li className='list-none border-l-[1px] pl-4 pr-2'>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition'>Order Tracking</Link>
                                 </li>
-                                
+
                                 {/* language dropdown */}
-                                <li className='list-none relative border-l-[1px] pl-4 pr-2'>
+                                <li className='list-none relative border-l-[1px] pl-4 pr-2' ref={languageMenuRef}>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition' onClick={() => setShowLanguageDropdownMenu(!showLanguageDropdownMenu)}>
                                         <div className='flex items-center gap-3'>
                                             <img className="lang-flag ls-is-cached lazyloaded" src={flag_1} />
@@ -79,14 +98,22 @@ const Header = () => {
                                         </li>)}
                                     </ul>}
                                 </li>
-                                
+
                                 {/* currency selector */}
-                                <li className='list-none relative border-l-[1px] pl-4 pr-2'>
+                                <li className='list-none relative border-l-[1px] pl-4 pr-2' ref={currencyMenuRef}>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition' onClick={() => setShowCurrencyDropdownMenu(!showCurrencyDropdownMenu)}>USD</Link>
                                     {showCurrencyDropdownMenu && <ul className="dropdown-menu bg-white" aria-labelledby="language-dropdown">
                                         <li className="link">
-                                            <Link to='#' className="dropdown-item">USD</Link>
-                                            <Link to='#' className="dropdown-item">INR</Link>
+                                            <Link to='#' className="dropdown-item">
+                                                USD
+                                                <BsCurrencyDollar />
+                                            </Link>
+                                        </li>
+                                        <li className="link">
+                                            <Link to='#' className="dropdown-item">
+                                                INR
+                                                <BsCurrencyRupee />
+                                            </Link>
                                         </li>
                                     </ul>}
                                 </li>
