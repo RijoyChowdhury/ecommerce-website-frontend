@@ -18,6 +18,8 @@ import flag_9 from '../../assets/images/flags/9.jpg'
 import flag_10 from '../../assets/images/flags/10.jpg'
 import { BsCurrencyDollar, BsCurrencyRupee } from 'react-icons/bs';
 import './style.css';
+import { FaRegCircleUser } from 'react-icons/fa6';
+import { RiSettings3Line, RiShutDownLine } from 'react-icons/ri';
 
 const flagMetadata = [
     { flagImg: flag_1, language: 'English' },
@@ -35,9 +37,11 @@ const flagMetadata = [
 const Header = () => {
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
+    const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);
     const [open, setOpen] = useState(false);
     let languageMenuRef = useRef();
     let currencyMenuRef = useRef();
+    let userMenuRef = useRef();
 
     const handleCartOpen = (value) => {
         setOpen(value)
@@ -50,6 +54,9 @@ const Header = () => {
             }
             if (!currencyMenuRef.current.contains(event.target)) {
                 setShowCurrencyDropdownMenu(false);
+            }
+            if (!userMenuRef.current.contains(event.target)) {
+                setShowUserDropdownMenu(false);
             }
         }
         document.addEventListener('mousedown', handler);
@@ -89,7 +96,7 @@ const Header = () => {
                                             English
                                         </div>
                                     </Link>
-                                    {showLanguageDropdownMenu && <ul className="dropdown-menu bg-white" aria-labelledby="language-dropdown">
+                                    {showLanguageDropdownMenu && <ul className="dropdown-menu bg-white border-2 rounded-md" aria-labelledby="language-dropdown">
                                         {flagMetadata.map((data, index) => <li key={index} className="link">
                                             <Link to='#' className="dropdown-item">
                                                 <img className="lang-flag" src={data.flagImg} />
@@ -102,15 +109,15 @@ const Header = () => {
                                 {/* currency selector */}
                                 <li className='list-none relative border-l-[1px] pl-4 pr-2' ref={currencyMenuRef}>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition' onClick={() => setShowCurrencyDropdownMenu(!showCurrencyDropdownMenu)}>USD</Link>
-                                    {showCurrencyDropdownMenu && <ul className="dropdown-menu bg-white" aria-labelledby="language-dropdown">
+                                    {showCurrencyDropdownMenu && <ul className="dropdown-menu bg-white border-2 rounded-md" aria-labelledby="language-dropdown">
                                         <li className="link">
-                                            <Link to='#' className="dropdown-item">
-                                                USD
+                                            <Link to='#' className="dropdown-item flex items-center justify-between">
+                                                <span>USD</span>
                                                 <BsCurrencyDollar />
                                             </Link>
                                         </li>
                                         <li className="link">
-                                            <Link to='#' className="dropdown-item">
+                                            <Link to='#' className="dropdown-item flex items-center justify-between">
                                                 INR
                                                 <BsCurrencyRupee />
                                             </Link>
@@ -136,12 +143,36 @@ const Header = () => {
 
                     <div className='col3 w-[25%] flex items-center justify-end'>
                         <ul className='flex items-center gap-5'>
+                            {/* login & resiter */}
                             <li className='list-none'>
                                 <Link className='link transition pr-1' to={'/login'}>Login</Link>
                                 /
                                 <Link className='link transition pl-1' to={'/register'}>Register</Link>
                             </li>
 
+                            {/* user account link */}
+                            {/* <li className='list-none relative' ref={userMenuRef}>
+                                <Link to={"#"}  className='link transition flex items-center gap-2' onClick={() => setShowUserDropdownMenu(true)}>
+                                    <FaRegCircleUser className='text-2xl' />
+                                    Rijoy Chowdhury
+                                </Link>
+                                {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="language-dropdown">
+                                    <li className="link">
+                                        <Link to={'/user'}  className="dropdown-item flex items-center">
+                                            <RiSettings3Line className='text-xl' />
+                                            Settings
+                                        </Link>
+                                    </li>
+                                    <li className="link">
+                                        <Link to={'/logout'}  className="dropdown-item flex items-center">
+                                            <RiShutDownLine className='text-xl' />
+                                            Logout
+                                        </Link>
+                                    </li>
+                                </ul>}
+                            </li> */}
+
+                            {/* user utilities */}
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>
                                 <div className='quick-actions'>
                                     <div className='quick-action-btn'>
