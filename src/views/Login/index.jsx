@@ -124,7 +124,7 @@ const Login = () => {
 
                             {/* sign in button */}
                             <footer className="form-footer text-sm-center clearfix my-4 h-[50px]">
-                                <button id="submit-login" className="btn" onClick={submitForm}>
+                                <button id="submit-login" className={`btn ${loading ? '!bg-white !text-primary' : ''}`} onClick={submitForm}>
                                     {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: '#ff5252' }} size="20px" className='mr-4' />Signing In..</span> : 'Sign In'}
                                 </button>
                             </footer>

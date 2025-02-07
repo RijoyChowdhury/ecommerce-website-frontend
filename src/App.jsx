@@ -32,6 +32,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/verifyaccount" element={<VerifyAccount />} />
+                {/* <Route path="*" element={<PageNotFound />} /> */}
             </Routes>
             <Footer />
             <Toaster />

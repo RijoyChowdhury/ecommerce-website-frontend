@@ -1,12 +1,33 @@
 import axios from 'axios';
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 
+const getData = async (url) => {
+    try {
+        const response = await fetch(apiUrl + url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            return await response.json();
+        } else {
+            return await response.json();
+        }
+    } catch (err) {
+        console.error(err);
+    }
+}
+
 const postData = async (url, formData) => {
     try {
         const response = await fetch(apiUrl + url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
@@ -27,7 +48,7 @@ const verifyOTP = async (url, formData) => {
         const response = await fetch(apiUrl + url, {
             method: 'POST',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
@@ -49,7 +70,7 @@ const login = async (url, formData) => {
             method: 'POST',
             credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
@@ -71,7 +92,7 @@ const logout = async (url) => {
             method: 'GET',
             credentials: 'include',
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
                 'Content-Type': 'application/json',
             },
         });
