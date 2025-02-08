@@ -18,10 +18,12 @@ import flag_9 from '../../assets/images/flags/9.jpg'
 import flag_10 from '../../assets/images/flags/10.jpg'
 import { BsCurrencyDollar, BsCurrencyRupee } from 'react-icons/bs';
 import './style.css';
-import { FaRegCircleUser } from 'react-icons/fa6';
 import { RiSettings3Line, RiShutDownLine } from 'react-icons/ri';
 import { logout } from '../../api/postData';
 import useAuth from '../../hooks/useAuth';
+import { LiaBoxOpenSolid } from 'react-icons/lia';
+import { HiOutlineUserCircle } from 'react-icons/hi2';
+import toast from 'react-hot-toast';
 
 const notifySuccess = (value) => toast.success(value);
 
@@ -62,13 +64,13 @@ const Header = () => {
 
     useEffect(() => {
         let handler = (event) => {
-            if (!languageMenuRef.current.contains(event.target)) {
+            if (languageMenuRef?.current && !languageMenuRef?.current.contains(event.target)) {
                 setShowLanguageDropdownMenu(false);
             }
-            if (!currencyMenuRef.current.contains(event.target)) {
+            if (currencyMenuRef?.current && !currencyMenuRef?.current.contains(event.target)) {
                 setShowCurrencyDropdownMenu(false);
             }
-            if (!userMenuRef.current.contains(event.target)) {
+            if (userMenuRef?.current && !userMenuRef?.current.contains(event.target)) {
                 setShowUserDropdownMenu(false);
             }
         }
@@ -122,15 +124,15 @@ const Header = () => {
                                 {/* currency selector */}
                                 <li className='list-none relative border-l-[1px] pl-4 pr-2' ref={currencyMenuRef}>
                                     <Link to={"#"} className='text-[13px] font-[400] link transition' onClick={() => setShowCurrencyDropdownMenu(!showCurrencyDropdownMenu)}>USD</Link>
-                                    {showCurrencyDropdownMenu && <ul className="dropdown-menu bg-white border-2 rounded-md" aria-labelledby="language-dropdown">
+                                    {showCurrencyDropdownMenu && <ul className="dropdown-menu bg-white border-2 rounded-md" aria-labelledby="currency-dropdown">
                                         <li className="link">
-                                            <Link to='#' className="dropdown-item flex items-center justify-between">
+                                            <Link to='#' className="dropdown-item justify-between">
                                                 <span>USD</span>
                                                 <BsCurrencyDollar />
                                             </Link>
                                         </li>
                                         <li className="link">
-                                            <Link to='#' className="dropdown-item flex items-center justify-between">
+                                            <Link to='#' className="dropdown-item justify-between">
                                                 INR
                                                 <BsCurrencyRupee />
                                             </Link>
@@ -160,19 +162,27 @@ const Header = () => {
                         <ul className='flex items-center gap-5'>
                             {isUserLoggedIn
                                 ? (< li className='list-none relative' ref={userMenuRef}> {/* user account link */}
-                                    <Link to={"#"} className='link transition flex items-center gap-2' onClick={() => setShowUserDropdownMenu(true)}>
-                                        <FaRegCircleUser className='text-2xl' />
-                                        Rijoy Chowdhury
+                                    
+                                    <Link to={"#"} className='link transition flex items-center justify-between' onClick={() => setShowUserDropdownMenu(true)}>
+                                        <div className='w-[120px]' style={{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>Rijoy Chowdhury</div>
+                                        <HiOutlineUserCircle className='text-3xl' />
                                     </Link>
-                                    {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="language-dropdown">
+                                    
+                                    {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="user-dropdown">
                                         <li className="link">
-                                            <Link to={'/user'} className="dropdown-item flex items-center">
+                                            <Link to={'/user'} className="dropdown-item">
                                                 <RiSettings3Line className='text-xl' />
                                                 Settings
                                             </Link>
                                         </li>
                                         <li className="link">
-                                            <Link to={'#'} className="dropdown-item flex items-center" onClick={handleLogout}>
+                                            <Link to={'/user'} className="dropdown-item">
+                                                <LiaBoxOpenSolid className='text-xl' />
+                                                My Orders
+                                            </Link>
+                                        </li>
+                                        <li className="link">
+                                            <Link to={'#'} className="dropdown-item" onClick={handleLogout}>
                                                 <RiShutDownLine className='text-xl' />
                                                 Logout
                                             </Link>
