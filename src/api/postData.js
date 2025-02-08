@@ -122,4 +122,4 @@ const deleteImage = async (url, image) => {
     return res;
 }
 
-export {postData, verifyOTP, login, logout};
+export {getData, postData, verifyOTP, login, logout};
