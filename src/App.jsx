@@ -14,6 +14,7 @@ import CartPage from './views/Cart';
 import CheckoutPage from './views/Checkout';
 import VerifyAccount from './views/VerifyAccount';
 import AuthChecker from './components/AuthChecker';
+import UserPage from './views/UserPage';
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
                 <Route element={<AuthChecker />}>
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
+                    <Route path="/user" element={<UserPage />} />
                 </Route>
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/login" element={<Login />} />

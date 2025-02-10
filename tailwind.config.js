@@ -15,11 +15,13 @@ export default {
       backgroundColor: {
         primary: '#ff5252',
         'custom-gray': '#ddd',
-        'custom-light-gray': '#cccccc26'
+        'custom-light-gray': '#cccccc26',
+        'global-gray': '#e5e7eb',
       },
       borderColor: {
         primary: '#ff5252',
-        'custom-light-gray': '#cccccc26'
+        'custom-light-gray': '#cccccc26',
+        'global-gray': '#e5e7eb',
       }
     },
   },
