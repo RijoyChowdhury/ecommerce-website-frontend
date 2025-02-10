@@ -50,6 +50,12 @@ const Header = () => {
     let currencyMenuRef = useRef();
     let userMenuRef = useRef();
 
+    const closeMenu = () => {
+        setShowLanguageDropdownMenu(false);
+        setShowCurrencyDropdownMenu(false);
+        setShowUserDropdownMenu(false);
+    }
+
     const handleCartOpen = (value) => {
         setOpen(value)
     };
@@ -57,7 +63,7 @@ const Header = () => {
     const handleLogout = async () => {
         const response = await logout('/api/user/logout');
         console.log(response);
-        setShowUserDropdownMenu(false);
+        closeMenu();
         setIsUserLoggedIn(false);
         notifySuccess('Logout Successful');
     }
@@ -170,13 +176,13 @@ const Header = () => {
                                     
                                     {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="user-dropdown">
                                         <li className="link">
-                                            <Link to={'/user'} className="dropdown-item">
+                                            <Link to={'/user'} className="dropdown-item" onClick={closeMenu}>
                                                 <RiSettings3Line className='text-xl' />
                                                 Settings
                                             </Link>
                                         </li>
                                         <li className="link">
-                                            <Link to={'/user'} className="dropdown-item">
+                                            <Link to={'/user'} className="dropdown-item" onClick={closeMenu}>
                                                 <LiaBoxOpenSolid className='text-xl' />
                                                 My Orders
                                             </Link>
