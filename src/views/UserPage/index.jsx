@@ -11,6 +11,7 @@ import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { logout } from '../../api/postData';
 import { FaList } from 'react-icons/fa';
+import { useEffect } from 'react';
 
 const bankState = {
     section1: false,
@@ -39,6 +40,15 @@ const UserPage = () => {
         notifySuccess('Logout Successful');
     }
 
+    const handleImgUpload = async (event) => {
+        console.log('upload img event');
+        console.log(event);
+    }
+
+    useEffect(() => {
+        console.log('User page opened');
+    }, []);
+
     return (
         <div className='block'>
             <div className='container'>
@@ -55,7 +65,7 @@ const UserPage = () => {
                                         onMouseEnter={() => setShowSymbol(true)}
                                         onMouseLeave={() => setShowSymbol(false)}
                                     >
-                                        {showSymbol && <input type="file" className='cursor-pointer absolute top-0 left-0 w-full h-full opacity-0' />}
+                                        {showSymbol && <input type="file" className='cursor-pointer absolute top-0 left-0 w-full h-full opacity-0' onChange={handleImgUpload} />}
                                         {showSymbol && <IoMdCloudUpload className='text-4xl text-white' />}
                                     </div>
                                 </div>
