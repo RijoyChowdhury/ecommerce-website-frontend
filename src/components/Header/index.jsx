@@ -19,7 +19,7 @@ import flag_10 from '../../assets/images/flags/10.jpg'
 import { BsCurrencyDollar, BsCurrencyRupee } from 'react-icons/bs';
 import './style.css';
 import { RiSettings3Line, RiShutDownLine } from 'react-icons/ri';
-import { logout } from '../../api/postData';
+import { logoutUser } from '../../api/postData';
 import useAuth from '../../hooks/useAuth';
 import { LiaBoxOpenSolid } from 'react-icons/lia';
 import { HiOutlineUserCircle } from 'react-icons/hi2';
@@ -61,9 +61,10 @@ const Header = () => {
     };
 
     const handleLogout = async () => {
-        const response = await logout('/api/user/logout');
+        await logoutUser();
         closeMenu();
         setIsUserLoggedIn(false);
+        localStorage.setItem('isAccessTokenPresent', false);
         notifySuccess('Logout Successful');
     }
 

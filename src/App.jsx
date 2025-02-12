@@ -15,6 +15,7 @@ import CheckoutPage from './views/Checkout';
 import VerifyAccount from './views/VerifyAccount';
 import AuthChecker from './components/AuthChecker';
 import UserPage from './views/UserPage';
+import CustomModal from './components/CustomModal';
 
 function App() {
     return (
@@ -38,6 +39,7 @@ function App() {
             </Routes>
             <Footer />
             <Toaster />
+            <CustomModal />
         </>
     )
 }

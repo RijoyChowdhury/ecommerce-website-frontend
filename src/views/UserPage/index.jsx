@@ -9,7 +9,7 @@ import OrderInfo from '../../components/OrderInfo';
 import FavoriteList from '../../components/FavoriteList';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
-import { logout } from '../../api/postData';
+import { logoutUser } from '../../api/postData';
 import { FaList } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import {actions} from '../../redux/slices/userSlice.jsx';
@@ -38,8 +38,9 @@ const UserPage = () => {
     }
 
     const handleLogout = async () => {
-        const response = await logout('/api/user/logout');
+        await logoutUser();
         setIsUserLoggedIn(false);
+        localStorage.setItem('isAccessTokenPresent', false);
         notifySuccess('Logout Successful');
     }
 

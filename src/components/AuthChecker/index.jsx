@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { getData } from "../../api/postData.js";
 
 const RequireAuth = () => {
-    const { isUserLoggedIn, setIsUserLoggedIn } = useAuth();
+    const { isUserLoggedIn, setIsUserLoggedIn, setOpenModal } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -12,13 +12,16 @@ const RequireAuth = () => {
         async function checkLogin() {
             console.log('isUserLoggedIn', isUserLoggedIn);
             console.log(location);
-            if (!isUserLoggedIn) {
+            const isAccessTokenPresent = localStorage.getItem('isAccessTokenPresent');
+            if (!isUserLoggedIn && isAccessTokenPresent !== 'false') {
+                setOpenModal(true);
                 const response = await getData('/api/user/re-login');
                 console.log(response);
                 if (response.success) {
                     setIsUserLoggedIn(true);
                     navigate(location.pathname);
                 }
+                setOpenModal(false);
             }
         }
         checkLogin();

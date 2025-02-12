@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../../api/postData';
+import { postData } from '../../api/postData';
 import useAuth from '../../hooks/useAuth';
 
 const notifySuccess = (value) => toast.success(value);
@@ -38,7 +38,7 @@ const Login = () => {
 
     const submitForm = async () => {
         setLoading(true);
-        const response = await login('/api/user/login', {
+        const response = await postData('/api/user/login', {
             ...formFields,
         });
         if (response.success) {
@@ -46,6 +46,7 @@ const Login = () => {
             flushFormData();
             notifySuccess('Login successful');
             setIsUserLoggedIn(true);
+            localStorage.setItem('isAccessTokenPresent', true);
             navigate('/');
         }
 

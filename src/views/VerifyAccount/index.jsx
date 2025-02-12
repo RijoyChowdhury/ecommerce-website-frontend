@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import OtpInputBox from '../../components/OtpInputBox';
 import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { verifyOTP } from '../../api/postData';
+import { postData } from '../../api/postData';
 
 const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
@@ -16,7 +16,7 @@ const VerifyAccount = () => {
             notifyError('Invalid OTP');
             return;
         }
-        const response = await verifyOTP('/api/user/verify-email', {
+        const response = await postData('/api/user/verify-email', {
             email: localStorage.getItem('userEmail'),
             otp,
         });
