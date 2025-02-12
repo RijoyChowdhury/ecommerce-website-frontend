@@ -23,7 +23,6 @@ const ForgotPassword = () => {
     
     const handleInput = (event) => {
         const { name, value } = event.target;
-        console.log(name, value);
         setFormFields((state) => ({
             ...state,
             [name]: value,
@@ -36,7 +35,6 @@ const ForgotPassword = () => {
     
     const handleOTPGeneration = async () => {
         const response = await postData('/api/user/forgot-password', { email: formFields.email });
-        console.log(response);
         if (response.success) {
             notifySuccess('OTP sent.');
             setShowEmailWindow(false);
@@ -53,7 +51,6 @@ const ForgotPassword = () => {
             return;
         }
         const response = await postData('/api/user/verify-forgot-password-otp', { email: formFields.email, otp });
-        console.log(response);
         if (response.success) {
             notifySuccess(response.message);
             setShowOTPWindow(false);
@@ -66,9 +63,7 @@ const ForgotPassword = () => {
     }
     
     const changePassword = async () => {
-        console.log({ ...formFields });
         const response = await postData('/api/user/reset-password', { ...formFields });
-        console.log(response);
         if (response.success) {
             notifySuccess(response.message);
             flushFormData();

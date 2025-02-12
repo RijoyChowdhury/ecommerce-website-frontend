@@ -12,7 +12,6 @@ const VerifyAccount = () => {
     const navigate = useNavigate();
 
     const submitOTP = async (otp) => {
-        console.log('OTP:', otp);
         if (otp < 99999) {
             notifyError('Invalid OTP');
             return;
@@ -21,7 +20,6 @@ const VerifyAccount = () => {
             email: localStorage.getItem('userEmail'),
             otp,
         });
-        console.log(response);
         if (response.success) {
             notifySuccess('Email Verified. Taking you to Login screen.');
             navigate('/login');

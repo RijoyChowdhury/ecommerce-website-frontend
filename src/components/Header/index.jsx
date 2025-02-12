@@ -62,7 +62,6 @@ const Header = () => {
 
     const handleLogout = async () => {
         const response = await logout('/api/user/logout');
-        console.log(response);
         closeMenu();
         setIsUserLoggedIn(false);
         notifySuccess('Logout Successful');

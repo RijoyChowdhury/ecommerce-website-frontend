@@ -68,7 +68,6 @@ const Register = () => {
                 name: `${firstName} ${lastName}`,
                 ...formFields,
             });
-            console.log(response);
             setLoading(false);
             if (response.success) {
                 notifySuccess('User registered.');
@@ -91,8 +90,6 @@ const Register = () => {
     // const handleMouseUpPassword = (event) => {
     //     event.preventDefault();
     // };
-
-    // console.log(apiUrl);
 
     return (
         <div className='block'>

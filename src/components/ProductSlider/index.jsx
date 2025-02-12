@@ -28,7 +28,7 @@ const ProductSlider = () => {
                 spaceBetween={2}
                 loop={true}
                 onSwiper={(swiper) => setSwiper(swiper)}
-                onSlideChange={() => console.log('slide change')}
+                onSlideChange={() => {}}
                 className='product-slider-component border-2 rounded-lg bg-slate-200'
             >
                 {new Array(8).fill(0).map((item, index) => <SwiperSlide key={index} className='product-slide'>

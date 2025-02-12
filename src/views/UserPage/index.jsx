@@ -34,20 +34,16 @@ const UserPage = () => {
     const {fetchUser, uploadPhoto} = actions;
 
     const handleSelect = (event) => {
-        console.log(event);
         setSectionState((state) => ({ ...bankState, [event.target.id]: true }));
     }
 
     const handleLogout = async () => {
         const response = await logout('/api/user/logout');
-        console.log(response);
         setIsUserLoggedIn(false);
         notifySuccess('Logout Successful');
     }
 
     const handleImgUpload = async (event) => {
-        console.log('upload img event');
-        console.log(event);
         try {
             dispatch(uploadPhoto('rijoy')).unwrap();
         } catch (err) {
@@ -56,13 +52,11 @@ const UserPage = () => {
     }
 
     useEffect(() => {
-        console.log('actions')
-        console.log(actions)
         dispatch(fetchUser());
     }, [dispatch]);
 
     useEffect(() => {
-        console.log('User page opened');
+        // console.log('User page opened');
     }, []);
 
     if (isLoading) {

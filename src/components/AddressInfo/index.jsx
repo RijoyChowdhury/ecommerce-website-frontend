@@ -18,14 +18,11 @@ const AddressInfo = () => {
     }
     const handleInput = (event) => {
         const { name, value } = event.target;
-        console.log(name, value);
         // setFormFields((state) => ({
         //     ...state,
         //     [name]: value,
         // }));
     }
-
-    console.log(countriesJson.filter((country) => country.code3 === 'IND'));
 
     return (
         <div>

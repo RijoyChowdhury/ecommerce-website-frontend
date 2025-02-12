@@ -41,7 +41,6 @@ const Login = () => {
         const response = await login('/api/user/login', {
             ...formFields,
         });
-        console.log(response);
         if (response.success) {
             setLoading(false);
             flushFormData();

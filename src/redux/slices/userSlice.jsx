@@ -12,7 +12,6 @@ const initialState = {
 const fetchUser = createAsyncThunk('user/fetchUser', async () => {
     try {
         await delay(5000);
-        console.log('delay completed');
         const response = await getData('/api/user/details');
         return response.data;
     } catch (err) {
@@ -42,8 +41,6 @@ const userSlice = createSlice({
             state.isLoading = true;
             state.error = null;
         }).addCase(fetchUser.fulfilled, (state, action) => {
-            console.log('resposne successful');
-            console.log(action.payload);
             state.isLoading = false;
             state.error = null;
             state.user = action.payload;

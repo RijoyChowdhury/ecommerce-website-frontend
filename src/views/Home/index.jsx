@@ -56,8 +56,8 @@ const Home = () => {
                                                 pagination={{
                                                     clickable: true,
                                                 }}
-                                                onSwiper={(swiper) => console.log(swiper)}
-                                                onSlideChange={() => console.log('slide change')}
+                                                onSwiper={(swiper) => {}}
+                                                onSlideChange={() => {}}
                                                 className='mySwiper'
                                             >
                                                 <SwiperSlide className='relative'>
@@ -124,8 +124,8 @@ const Home = () => {
                                             slidesPerView={7}
                                             spaceBetween={30}
                                             loop={true}
-                                            onSwiper={(swiper) => console.log(swiper)}
-                                            onSlideChange={() => console.log('slide change')}
+                                            onSwiper={(swiper) => {}}
+                                            onSlideChange={() => {}}
                                             className='mySwiper'
                                         >
                                             <SwiperSlide className='lower-banner-slide'>
