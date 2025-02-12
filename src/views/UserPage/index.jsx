@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import profile from '../../assets/images/deku.webp';
 import { IoIosHeartEmpty, IoIosInformationCircleOutline, IoIosLogOut, IoMdCloudUpload } from 'react-icons/io';
 import { HiOutlineArchiveBox } from 'react-icons/hi2';
@@ -11,7 +11,9 @@ import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { logout } from '../../api/postData';
 import { FaList } from 'react-icons/fa';
-import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {actions} from '../../redux/slices/userSlice.jsx';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const bankState = {
     section1: false,
@@ -23,10 +25,13 @@ const bankState = {
 const notifySuccess = (value) => toast.success(value);
 
 const UserPage = () => {
+    const dispatch = useDispatch();
+    const {user, isLoading, error} = useSelector(state => state.userSlice);
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
     const [sections, setSectionState] = useState({ ...bankState, section1: true });
     const { isUserLoggedIn, setIsUserLoggedIn } = useAuth();
+    const {fetchUser, uploadPhoto} = actions;
 
     const handleSelect = (event) => {
         console.log(event);
@@ -43,11 +48,30 @@ const UserPage = () => {
     const handleImgUpload = async (event) => {
         console.log('upload img event');
         console.log(event);
+        try {
+            dispatch(uploadPhoto('rijoy')).unwrap();
+        } catch (err) {
+            console.error(err);
+        }
     }
+
+    useEffect(() => {
+        console.log('actions')
+        console.log(actions)
+        dispatch(fetchUser());
+    }, [dispatch]);
 
     useEffect(() => {
         console.log('User page opened');
     }, []);
+
+    if (isLoading) {
+        return <div className='h-[900px]'><LoadingSpinner text={'Getting Data...'} /></div>
+    }
+
+    if (error) {
+        return <div>Error</div>
+    }
 
     return (
         <div className='block'>
@@ -71,8 +95,8 @@ const UserPage = () => {
                                 </div>
                             </div>
                             <div className='mt-4 flex flex-col items-center'>
-                                <span className='text-primary text-lg font-semibold'>Rijoy Chowdhury</span>
-                                <span className='text-base'>test3@test.com</span>
+                                <span className='text-primary text-lg font-semibold'>{user.name}</span>
+                                <span className='text-base'>{user.email}</span>
                             </div>
                         </div>
 
