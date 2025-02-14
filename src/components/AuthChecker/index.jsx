@@ -1,31 +1,28 @@
 import { useLocation, Navigate, Outlet, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth.jsx";
 import { useEffect } from "react";
-import { getData } from "../../api/postData.js";
+// import { getData } from "../../api/postData.js";
+import { useSelector, useDispatch } from "react-redux";
+import { actions } from '../../redux/slices/userSlice.jsx';
 
 const RequireAuth = () => {
-    const { isUserLoggedIn, setIsUserLoggedIn, setOpenModal } = useAuth();
+    const { setOpenModal } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { user, isLoading, error, isUserLoggedIn } = useSelector(state => state.userSlice);
 
     useEffect(() => {
-        async function checkLogin() {
-            console.log('isUserLoggedIn', isUserLoggedIn);
-            console.log(location);
-            const isAccessTokenPresent = localStorage.getItem('isAccessTokenPresent');
-            if (!isUserLoggedIn && isAccessTokenPresent !== 'false') {
-                setOpenModal(true);
-                const response = await getData('/api/user/re-login');
-                console.log(response);
-                if (response.success) {
-                    setIsUserLoggedIn(true);
-                    navigate(location.pathname);
-                }
-                setOpenModal(false);
-            }
-        }
-        checkLogin();
-    }, [])
+        (async () => {console.log('isUserLoggedIn', isUserLoggedIn);
+        console.log(location);
+        const isAccessTokenPresent = localStorage.getItem('isAccessTokenPresent');
+        if (!isUserLoggedIn && isAccessTokenPresent !== 'false') {
+            console.log('refresh user started');
+            await dispatch(actions.refreshUser());
+            console.log('refresh user ended');
+            navigate(location.pathname);
+        }})();
+    }, [isUserLoggedIn]);
 
     return (
         isUserLoggedIn ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />

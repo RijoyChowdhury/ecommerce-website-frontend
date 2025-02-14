@@ -9,11 +9,11 @@ import OrderInfo from '../../components/OrderInfo';
 import FavoriteList from '../../components/FavoriteList';
 import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
-import { logoutUser } from '../../api/postData';
 import { FaList } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import {actions} from '../../redux/slices/userSlice.jsx';
+import { actions } from '../../redux/slices/userSlice.jsx';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import { useNavigate } from 'react-router-dom';
 
 const bankState = {
     section1: false,
@@ -26,22 +26,20 @@ const notifySuccess = (value) => toast.success(value);
 
 const UserPage = () => {
     const dispatch = useDispatch();
-    const {user, isLoading, error} = useSelector(state => state.userSlice);
+    const navigate = useNavigate();
+    const { user, error } = useSelector(state => state.userSlice);
+    const [isLoading, setIsLoading] = useState(true);
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
     const [sections, setSectionState] = useState({ ...bankState, section1: true });
-    const { isUserLoggedIn, setIsUserLoggedIn } = useAuth();
-    const {fetchUser, uploadPhoto} = actions;
+    const { fetchUser, uploadPhoto, logoutUser } = actions;
 
     const handleSelect = (event) => {
         setSectionState((state) => ({ ...bankState, [event.target.id]: true }));
     }
 
     const handleLogout = async () => {
-        await logoutUser();
-        setIsUserLoggedIn(false);
-        localStorage.setItem('isAccessTokenPresent', false);
-        notifySuccess('Logout Successful');
+        await dispatch(logoutUser());
     }
 
     const handleImgUpload = async (event) => {
@@ -53,18 +51,20 @@ const UserPage = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchUser());
-    }, [dispatch]);
-
-    useEffect(() => {
-        // console.log('User page opened');
+        setIsLoading(true);
+        (async () => {
+            if (!user) {
+                await dispatch(fetchUser());
+            }
+            setIsLoading(false);
+        })()
     }, []);
 
     if (isLoading) {
         return <div className='h-[900px]'><LoadingSpinner text={'Getting Data...'} /></div>
     }
 
-    if (error) {
+    if (error || !user) {
         return <div>Error</div>
     }
 

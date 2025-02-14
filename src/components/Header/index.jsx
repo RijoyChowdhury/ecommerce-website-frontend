@@ -19,11 +19,12 @@ import flag_10 from '../../assets/images/flags/10.jpg'
 import { BsCurrencyDollar, BsCurrencyRupee } from 'react-icons/bs';
 import './style.css';
 import { RiSettings3Line, RiShutDownLine } from 'react-icons/ri';
-import { logoutUser } from '../../api/postData';
 import useAuth from '../../hooks/useAuth';
 import { LiaBoxOpenSolid } from 'react-icons/lia';
 import { HiOutlineUserCircle } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
+import { actions } from '../../redux/slices/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
 const notifySuccess = (value) => toast.success(value);
 
@@ -41,7 +42,8 @@ const flagMetadata = [
 ];
 
 const Header = () => {
-    const { isUserLoggedIn, setIsUserLoggedIn } = useAuth();
+    const dispatch = useDispatch();
+    const {user, isLoading, error, isUserLoggedIn} = useSelector(state => state.userSlice);
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);
@@ -49,6 +51,7 @@ const Header = () => {
     let languageMenuRef = useRef();
     let currencyMenuRef = useRef();
     let userMenuRef = useRef();
+    const {logoutUser} = actions;
 
     const closeMenu = () => {
         setShowLanguageDropdownMenu(false);
@@ -61,11 +64,8 @@ const Header = () => {
     };
 
     const handleLogout = async () => {
-        await logoutUser();
         closeMenu();
-        setIsUserLoggedIn(false);
-        localStorage.setItem('isAccessTokenPresent', false);
-        notifySuccess('Logout Successful');
+        await dispatch(logoutUser());
     }
 
     useEffect(() => {
@@ -85,7 +85,7 @@ const Header = () => {
         return () => {
             document.removeEventListener('mousedown', handler);
         }
-    });
+    }, []);
 
     return (
         <header id='header' className='bg-white'>

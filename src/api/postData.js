@@ -47,8 +47,4 @@ const postData = async (url, formData) => {
     }
 }
 
-const logoutUser = async () => {
-    const response = await getData('/api/user/logout');
-}
-
-export { getData, postData, logoutUser };
+export { getData, postData };

@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import { MdAccountCircle, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import Checkbox from '../../components/Checkbox';
-import { postData } from '../../api/postData';
 
 const RadioStyle = {
     color: 'var(--gray)',

@@ -32,7 +32,7 @@ const CustomModal = () => {
             <Box sx={style}>
                 <CircularProgress color="inherit" size="2rem" />
                 <Typography id="loading-modal" variant="h6" component="h2">
-                    Logging you in
+                    Loading Data
                 </Typography>
             </Box>
         </Modal>

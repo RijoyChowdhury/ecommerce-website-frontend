@@ -1,11 +1,12 @@
 import { CircularProgress, FormControl, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
-import { postData } from '../../api/postData';
-import useAuth from '../../hooks/useAuth';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from '../../redux/slices/userSlice';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
@@ -16,11 +17,12 @@ const blankForm = {
 };
 
 const Login = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { setIsUserLoggedIn } = useAuth();
+    const {error, isUserLoggedIn, isLoading} = useSelector(state => state.userSlice);
     const [formFields, setFormFields] = useState({ ...blankForm });
     const [showPassword, setShowPassword] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const {loginUser} = actions;
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -37,31 +39,23 @@ const Login = () => {
     }
 
     const submitForm = async () => {
-        setLoading(true);
-        const response = await postData('/api/user/login', {
-            ...formFields,
-        });
-        if (response.success) {
-            setLoading(false);
-            flushFormData();
-            notifySuccess('Login successful');
-            setIsUserLoggedIn(true);
-            localStorage.setItem('isAccessTokenPresent', true);
-            navigate('/');
-        }
-
-        if (response.error) {
-            notifyError('Incorrect Credentials');
-        }
+        await dispatch(loginUser({...formFields}));
     }
 
-    const handleMouseDownPassword = (event) => {
-        event.preventDefault();
-    };
+    useEffect(() => {
+        if (isUserLoggedIn && !isLoading) {
+            flushFormData();
+            notifySuccess('Login successful');
+            navigate('/');
+        }
+        if (error) {
+            notifyError('Incorrect Credentials');
+        }
+    }, [isUserLoggedIn, isLoading, error]);
 
-    const handleMouseUpPassword = (event) => {
-        event.preventDefault();
-    };
+    // if (isLoading) {
+    //     return <div className='h-[900px]'><LoadingSpinner text={'Logging you in...'} /></div>
+    // }
 
     return (
         <div className='block'>
@@ -98,8 +92,6 @@ const Login = () => {
                                                             showPassword ? 'hide the password' : 'display the password'
                                                         }
                                                         onClick={handleClickShowPassword}
-                                                        onMouseDown={handleMouseDownPassword}
-                                                        onMouseUp={handleMouseUpPassword}
                                                         edge="end"
                                                         className='hover:text-primary'
                                                         disableRipple={true}
@@ -124,8 +116,8 @@ const Login = () => {
 
                             {/* sign in button */}
                             <footer className="form-footer text-sm-center clearfix my-4 h-[50px]">
-                                <button id="submit-login" className={`btn ${loading ? '!bg-white !text-primary' : ''}`} onClick={submitForm}>
-                                    {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: '#ff5252' }} size="20px" className='mr-4' />Signing In..</span> : 'Sign In'}
+                                <button id="submit-login" className={`btn ${isLoading ? '!bg-white !text-primary' : ''}`} disabled={isLoading} onClick={submitForm}>
+                                    {isLoading ? <span className='flex justify-center'><CircularProgress sx={{ color: '#ff5252' }} size="20px" className='mr-4' />Signing In..</span> : 'Sign In'}
                                 </button>
                             </footer>
                         </div>

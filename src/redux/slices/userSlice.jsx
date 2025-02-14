@@ -1,13 +1,44 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getData } from "../../api/postData";
+import { getData, postData } from "../../api/postData";
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const initialState = {
     isLoading: false,
-    user: {},
+    isUserLoggedIn: false,
+    user: null,
     error: null,
 };
+
+const loginUser = createAsyncThunk('user/loginUser', async (formFields) => {
+    try {
+        await delay(5000);
+        const response = await postData('/api/user/login', formFields);
+        return response.message;
+    } catch (err) {
+        return err.message;
+    }
+});
+
+const refreshUser = createAsyncThunk('user/refreshUser', async () => {
+    try {
+        await delay(5000);
+        const response = await getData('/api/user/re-login');
+        return response.message;
+    } catch (err) {
+        return err.message;
+    }
+});
+
+const logoutUser = createAsyncThunk('user/logoutUser', async () => {
+    try {
+        await delay(5000);
+        const response = await getData('/api/user/logout');
+        return response.message;
+    } catch (err) {
+        return err.message;
+    }
+});
 
 const fetchUser = createAsyncThunk('user/fetchUser', async () => {
     try {
@@ -47,12 +78,51 @@ const userSlice = createSlice({
         }).addCase(fetchUser.rejected, (state, action) => {
             state.isLoading = false;
             state.error = action.payload;
-        }).addCase(uploadPhoto.fulfilled, (state, action) => {
-
+        }).addCase(loginUser.pending, (state, action) => {
+            state.isLoading = true;
+            state.isUserLoggedIn = false;
+            localStorage.setItem('isAccessTokenPresent', false);
+            state.error = null;
+        }).addCase(loginUser.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isUserLoggedIn = true;
+            localStorage.setItem('isAccessTokenPresent', true);
+            state.error = null;
+        }).addCase(loginUser.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isUserLoggedIn = false;
+            localStorage.setItem('isAccessTokenPresent', false);
+            state.error = action.payload;
+        }).addCase(logoutUser.pending, (state, action) => {
+            // state.isLoading = true;
+            state.error = null;
+        }).addCase(logoutUser.fulfilled, (state, action) => {
+            // state.isLoading = false;
+            state.isUserLoggedIn = false;
+            state.user = null;
+            localStorage.setItem('isAccessTokenPresent', false);
+        }).addCase(logoutUser.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+        }).addCase(refreshUser.pending, (state, action) => {
+            state.isLoading = true;
+            // state.isUserLoggedIn = false;
+            // localStorage.setItem('isAccessTokenPresent', false);
+            state.error = null;
+        }).addCase(refreshUser.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isUserLoggedIn = true;
+            // localStorage.setItem('isAccessTokenPresent', true);
+            state.error = null;
+        }).addCase(refreshUser.rejected, (state, action) => {
+            state.isLoading = false;
+            state.isUserLoggedIn = false;
+            localStorage.setItem('isAccessTokenPresent', false);
+            state.error = action.payload;
         });
     }
 });
 
 export default userSlice;
 
-export const actions = {...userSlice.actions, fetchUser, uploadPhoto};
+export const actions = {...userSlice.actions, fetchUser, logoutUser, loginUser, refreshUser, uploadPhoto};
