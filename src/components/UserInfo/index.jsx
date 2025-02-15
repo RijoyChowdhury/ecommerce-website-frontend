@@ -5,6 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import { MdAccountCircle, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import Checkbox from '../../components/Checkbox';
+import { actions } from '../../redux/slices/userSlice.jsx';
+import { useDispatch } from 'react-redux';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -26,9 +28,10 @@ const blankForm = {
     userPrefix: '',
 };
 
-const UserInfo = () => {
+const UserInfo = ({data}) => {
     const navigate = useNavigate();
-    const [formFields, setFormFields] = useState({ ...blankForm });
+    const dispatch = useDispatch();
+    const [formFields, setFormFields] = useState(data ?? { ...blankForm });
 
     const [partnerOffers, setPartnerOffers] = useState(false);
     const [newsletterSubscription, setNewsletterSubscription] = useState(false);
@@ -60,7 +63,8 @@ const UserInfo = () => {
     }
 
     const submitForm = async () => {
-        // try {
+        try {
+            dispatch(actions.updateUserDetails(formFields));
         //     setLoading(true);
         //     const { firstName, lastName } = formFields;
         //     const response = await postData('/api/user/register', {
@@ -78,9 +82,9 @@ const UserInfo = () => {
         //     localStorage.setItem('userEmail', formFields.email);
         //     flushFormData();
         //     navigate('/verifyaccount');
-        // } catch (err) {
-        //     console.log(err);
-        // }
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -97,6 +101,7 @@ const UserInfo = () => {
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label"
                                 value={formFields.userPrefix}
+                                defaultValue={formFields.userPrefix}
                                 name="userPrefix"
                                 className='flex gap-8'
                                 onChange={e => handleInput(e)}
@@ -288,8 +293,8 @@ const UserInfo = () => {
 
                 {/* submit btn */}
                 <div className='h-[40px] flex justify-center'>
-                    <button className={`btn !w-[20%] ${isBtnDisabled() || loading ? 'btn-disabled' : ''}`} disabled={isBtnDisabled()} onClick={submitForm}>
-                        {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span> : 'Register'}
+                    <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} disabled={isBtnDisabled()} onClick={submitForm}>
+                        {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span> : 'Update'}
                     </button>
                 </div>
 

@@ -43,7 +43,7 @@ const flagMetadata = [
 
 const Header = () => {
     const dispatch = useDispatch();
-    const {user, isLoading, error, isUserLoggedIn} = useSelector(state => state.userSlice);
+    const {user, isLoading, error, isUserLoggedIn, name} = useSelector(state => state.userSlice);
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);
@@ -170,7 +170,7 @@ const Header = () => {
                                 ? (< li className='list-none relative' ref={userMenuRef}> {/* user account link */}
                                     
                                     <Link to={"#"} className='link transition flex items-center justify-between' onClick={() => setShowUserDropdownMenu(true)}>
-                                        <div className='w-[120px]' style={{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>Rijoy Chowdhury</div>
+                                        <div className='w-[120px] flex justify-center' style={{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{name}</div>
                                         <HiOutlineUserCircle className='text-3xl' />
                                     </Link>
                                     

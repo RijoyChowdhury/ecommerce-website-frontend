@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { actions } from '../../redux/slices/userSlice.jsx';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useNavigate } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 const bankState = {
     section1: false,
@@ -27,12 +28,14 @@ const notifySuccess = (value) => toast.success(value);
 const UserPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { user, error } = useSelector(state => state.userSlice);
+    const { user, error, avatar } = useSelector(state => state.userSlice);
     const [isLoading, setIsLoading] = useState(true);
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
     const [sections, setSectionState] = useState({ ...bankState, section1: true });
-    const { fetchUser, uploadPhoto, logoutUser } = actions;
+    const { fetchUser, uploadAvatar, logoutUser } = actions;
+    const formData = new FormData();
+    const [loadingImg, setLoadingImg] = useState(false);
 
     const handleSelect = (event) => {
         setSectionState((state) => ({ ...bankState, [event.target.id]: true }));
@@ -44,9 +47,18 @@ const UserPage = () => {
 
     const handleImgUpload = async (event) => {
         try {
-            dispatch(uploadPhoto('rijoy')).unwrap();
+            setLoadingImg(true);
+            const files = event.target.files;
+            console.log(files)
+            for (let i = 0; i < files.length; i++){
+                const file = files[i];
+                formData.append('avatar', file);
+            }
+            await dispatch(uploadAvatar(formData));
         } catch (err) {
             console.error(err);
+        } finally {
+            setLoadingImg(false);
         }
     }
 
@@ -78,14 +90,15 @@ const UserPage = () => {
                         <div className='flex flex-col p-4 bg-white'>
                             <div className='flex justify-center'>
                                 <div className='border-4 rounded-full overflow-hidden relative'>
-                                    <img src={profile} width={'150px'} />
+                                    <img src={`${avatar ? avatar : profile}`} width={'150px'} />
                                     <div
-                                        className='overlay flex items-center justify-center w-[100%] h-[100%] absolute top-0 left-0 hover:bg-[rgba(0,0,0,0.6)] transition-all'
+                                        className='overlay w-[100%] h-[100%] absolute top-0 left-0'
                                         onMouseEnter={() => setShowSymbol(true)}
                                         onMouseLeave={() => setShowSymbol(false)}
                                     >
-                                        {showSymbol && <input type="file" className='cursor-pointer absolute top-0 left-0 w-full h-full opacity-0' onChange={handleImgUpload} />}
-                                        {showSymbol && <IoMdCloudUpload className='text-4xl text-white' />}
+                                        <input type="file" name="avatar" accept='image/*' className='cursor-pointer absolute top-0 left-0 w-full h-full opacity-0' onChange={e => handleImgUpload(e)} />
+                                        {showSymbol && !loadingImg && <div className='text-white flex items-center justify-center w-[100%] h-[100%] bg-[rgba(0,0,0,0.6)] transition-all'><IoMdCloudUpload className='text-5xl text-white' /></div>}
+                                        {loadingImg && <div className='text-white flex items-center justify-center w-[100%] h-[100%] bg-[rgba(0,0,0,0.6)] transition-all'><CircularProgress color="inherit" className='text-4xl' /></div>}
                                     </div>
                                 </div>
                             </div>
@@ -140,19 +153,19 @@ const UserPage = () => {
                         {/* personal info section */}
                         <div className={`${sections.section1 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Personal Information</span></div>
-                            <div className='w-[77%]'><UserInfo /></div>
+                            <div className='w-[77%]'><UserInfo data={user} /></div>
                         </div>
 
                         {/* user address section */}
                         <div className={`${sections.section2 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Address</span></div>
-                            <div className='w-[77%]'><AddressInfo /></div>
+                            <div className='w-[77%]'><AddressInfo data={user.address} /></div>
                         </div>
 
                         {/* order section */}
                         <div className={`${sections.section3 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>My Orders</span></div>
-                            <div className='w-full h-[500px] overflow-auto'><OrderInfo /></div>
+                            <div className='w-full h-[500px] overflow-auto'><OrderInfo data={user.order_history} /></div>
                         </div>
 
                         {/* wishlist section */}
@@ -164,7 +177,7 @@ const UserPage = () => {
                                     <div className='list-type text-lg cursor-pointer hover:text-primary' onClick={() => setGridDisplay(false)}><FaList /></div>
                                 </div>
                             </div>
-                            <div className='w-full h-[500px] overflow-scroll'><FavoriteList displayGrid={gridDisplay} /></div>
+                            <div className='w-full h-[500px] overflow-scroll'><FavoriteList data={user.wishlist} displayGrid={gridDisplay} /></div>
                         </div>
                     </div>
                 </div>

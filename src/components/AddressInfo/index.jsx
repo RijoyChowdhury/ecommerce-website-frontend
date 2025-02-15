@@ -1,6 +1,7 @@
 import React from 'react';
 import { CircularProgress, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import countriesJson from '../../assets/countries.json';
+import { useState } from 'react';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -9,20 +10,35 @@ const RadioStyle = {
     },
 };
 
-const AddressInfo = () => {
+const blankForm = {
+    address_line_1: '',
+    address_line_2: '',
+    city: '',
+    state: 'WB',
+    pincode: '',
+    country: 'IND',
+    mobile: '',
+    location_type: 'home',
+    status: 'active',
+};
+
+const AddressInfo = ({ data }) => {
+    const [formFields, setFormFields] = useState({ ...blankForm });
     const loading = false;
-    const isBtnDisabled = () => {
-        // const { firstName, lastName, email, password, userPrefix } = formFields;
-        // return !firstName || !lastName || !email || !password || !userPrefix || !agreeToTerms;
-        return false;
-    }
+
     const handleInput = (event) => {
         const { name, value } = event.target;
-        // setFormFields((state) => ({
-        //     ...state,
-        //     [name]: value,
-        // }));
+        if (name === 'country' && formFields.country !== value) {
+            formFields.state = countriesJson.filter((country) => country.code3 === value)[0].states[0]?.code ?? '';
+        }
+        console.log(formFields.state);
+        setFormFields((state) => ({
+            ...state,
+            [name]: value,
+        }));
     }
+
+    console.log(formFields)
 
     return (
         <div>
@@ -38,7 +54,8 @@ const AddressInfo = () => {
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="userPrefix"
+                                value={formFields.location_type}
+                                name="location_type"
                                 className='flex'
                                 onChange={e => handleInput(e)}
                             >
@@ -60,7 +77,7 @@ const AddressInfo = () => {
                         <div className='w-[18%] text-base flex justify-end'><span>Address<sup className='text-primary text-lg'>*</sup></span></div>
                         <div className='w-[82%]'>
                             <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <TextField id="outlined-basic" placeholder="House No. and Street Name" variant="outlined" size="small" />
+                                <TextField id="outlined-basic" name='address_line_1' value={formFields.address_line_1} placeholder="House No. and Street Name" variant="outlined" size="small" onChange={e => handleInput(e)} />
                             </FormControl>
                         </div>
                     </div>
@@ -68,7 +85,7 @@ const AddressInfo = () => {
                         <div className='w-[18%] text-base flex justify-end'></div>
                         <div className='w-[82%]'>
                             <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <TextField id="outlined-basic" placeholder="Apartment Name, Area (optional)" variant="outlined" size="small" />
+                                <TextField id="outlined-basic" name='address_line_2' value={formFields.address_line_2} placeholder="Apartment Name, Area (optional)" variant="outlined" size="small" onChange={e => handleInput(e)} />
                             </FormControl>
                         </div>
                     </div>
@@ -78,7 +95,7 @@ const AddressInfo = () => {
                     <div className='w-[18%] text-base flex justify-end'><span>Town/City<sup className='text-primary text-lg'>*</sup></span></div>
                     <div className='w-[82%]'>
                         <FormControl sx={{ width: '100%' }} variant="outlined">
-                            <TextField id="outlined-basic" variant="outlined" size="small" />
+                            <TextField id="outlined-basic" name='city' value={formFields.city} variant="outlined" size="small" onChange={e => handleInput(e)} />
                         </FormControl>
                     </div>
                 </div>
@@ -90,8 +107,9 @@ const AddressInfo = () => {
                     <div className='w-[82%] flex justify-between'>
                         <div className='dropdown-select h-[40px]'>
                             <Select
-                                value={'WB'}
-                                onChange={() => { }}
+                                value={formFields.state}
+                                name='state'
+                                onChange={e => handleInput(e)}
                                 MenuProps={{
                                     PaperProps: {
                                         sx: {
@@ -115,7 +133,7 @@ const AddressInfo = () => {
                                 inputProps={{ 'aria-label': 'Without label' }}
                                 className='h-full !text-sm'
                             >
-                                {countriesJson.filter((country) => country.code3 === 'IND')[0].states.map((state) => <MenuItem key={state.code} value={state.code}><span className='text-sm text-stone-600'>{state.name}</span></MenuItem>)}
+                                {countriesJson.filter((country) => country.code3 === formFields.country)[0].states.map((state) => <MenuItem key={state.code} value={state.code}><span className='text-sm text-stone-600'>{state.name}</span></MenuItem>)}
                             </Select>
                         </div>
 
@@ -123,8 +141,9 @@ const AddressInfo = () => {
                             <div className='text-base flex items-center mr-2'>Country<sup className='text-primary text-lg'>*</sup></div>
                             <div className='dropdown-select h-[40px]'>
                                 <Select
-                                    value={'IND'}
-                                    onChange={() => { }}
+                                    value={formFields.country}
+                                    name='country'
+                                    onChange={e => handleInput(e)}
                                     MenuProps={{
                                         PaperProps: {
                                             sx: {
@@ -161,7 +180,7 @@ const AddressInfo = () => {
                     <div className='w-[82%] flex justify-between'>
                         <div className='dropdown-select w-[270px] h-[40px]'>
                             <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <TextField id="outlined-basic" variant="outlined" size="small" />
+                                <TextField id="outlined-basic" name='pincode' value={formFields.pincode} variant="outlined" size="small" onChange={e => handleInput(e)} />
                             </FormControl>
                         </div>
 
@@ -169,7 +188,7 @@ const AddressInfo = () => {
                             <div className='text-base flex items-center mr-2'>Phone Number<sup className='text-primary text-lg'>*</sup></div>
                             <div className='dropdown-select w-[270px] h-[40px]'>
                                 <FormControl sx={{ width: '100%' }} variant="outlined">
-                                    <TextField id="outlined-basic" variant="outlined" size="small" />
+                                    <TextField id="outlined-basic" name='mobile' value={formFields.mobile} variant="outlined" size="small" onChange={e => handleInput(e)} />
                                 </FormControl>
                             </div>
                         </div>
@@ -180,7 +199,7 @@ const AddressInfo = () => {
 
                 {/* submit btn */}
                 <div className='h-[40px] flex justify-center'>
-                    <button className={`btn !w-[20%] ${isBtnDisabled() || loading ? 'btn-disabled' : ''}`} disabled={isBtnDisabled()} onClick={() => { }}>
+                    <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={() => { }}>
                         {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span> : 'Update'}
                     </button>
                 </div>

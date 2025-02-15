@@ -4,7 +4,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const getData = async (url) => {
     try {
-        await delay(5000);
+        // await delay(5000);
         const response = await fetch(apiUrl + url, {
             method: 'GET',
             credentials: 'include',
@@ -26,7 +26,7 @@ const getData = async (url) => {
 
 const postData = async (url, formData) => {
     try {
-        await delay(5000);
+        // await delay(5000);
         const response = await fetch(apiUrl + url, {
             method: 'POST',
             credentials: 'include',
@@ -47,4 +47,26 @@ const postData = async (url, formData) => {
     }
 }
 
-export { getData, postData };
+const postFile = async (url, formData) => {
+    try {
+        // await delay(5000);
+        const response = await fetch(apiUrl + url, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+            body: formData,
+        });
+
+        if (response.ok) {
+            return await response.json();
+        } else {
+            return await response.json();
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export { getData, postData, postFile };
