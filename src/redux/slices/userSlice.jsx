@@ -51,6 +51,8 @@ const logoutUser = createAsyncThunk('user/logoutUser', async () => {
             error: true,
             message: err.message,
         };
+    } finally {
+        localStorage.setItem('isAccessTokenPresent', false);
     }
 });
 
@@ -125,12 +127,10 @@ const userSlice = createSlice({
             state.isLoggingOut = false;
             state.error = null;
             state.user = null;
-            localStorage.setItem('isAccessTokenPresent', false);
         }).addCase(logoutUser.rejected, (state, action) => {
             state.isLoggingOut = false;
             state.error = action.payload;
             state.user = null;
-            localStorage.setItem('isAccessTokenPresent', false);
         })
         // .addCase(refreshUser.pending, (state, action) => {
         //     state.isLoading = true;

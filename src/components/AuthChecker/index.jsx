@@ -1,31 +1,43 @@
-import { useLocation, Navigate, Outlet, useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth.jsx";
-import { useEffect } from "react";
-// import { getData } from "../../api/postData.js";
+import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from '../../redux/slices/userSlice.jsx';
+import toast from "react-hot-toast";
+
+const notifySuccess = (value) => toast.success(value);
+const notifyError = (value) => toast.error(value);
 
 const RequireAuth = () => {
-    const { setOpenModal } = useAuth();
     const location = useLocation();
-    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user, isLoading, error, isUserLoggedIn } = useSelector(state => state.userSlice);
+    const { user } = useSelector(state => state.userSlice);
+    const { fetchUser } = actions;
+    const [isLoading, setIsLoading] = useState(true);
+
+    const isAccessTokenPresent = () => localStorage.getItem('isAccessTokenPresent') === 'true';
+
+    const checkUserPresent = async () => {
+        if (!user && isAccessTokenPresent()) {
+            const response = await dispatch(fetchUser()).unwrap();
+            if (response.success) {
+                notifySuccess('Login successful');
+            }
+        }
+        setIsLoading(false);
+    };
 
     useEffect(() => {
-        (async () => {console.log('isUserLoggedIn', isUserLoggedIn);
-        console.log(location);
-        const isAccessTokenPresent = localStorage.getItem('isAccessTokenPresent');
-        if (!isUserLoggedIn && isAccessTokenPresent !== 'false') {
-            console.log('refresh user started');
-            await dispatch(actions.refreshUser());
-            console.log('refresh user ended');
-            navigate(location.pathname);
-        }})();
-    }, [isUserLoggedIn]);
+        checkUserPresent();
+    }, []);
+
+    console.log('Render page');
 
     return (
-        isUserLoggedIn ? <Outlet /> : <Navigate to="/login" state={{ from: location }} replace />
+        user
+            ? <Outlet />
+            : isLoading
+                ? <span>Fetching user data</span>
+                : <Navigate to="/login" state={{ from: location }} replace />
     );
 }
 
