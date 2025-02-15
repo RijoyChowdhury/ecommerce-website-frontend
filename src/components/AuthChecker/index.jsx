@@ -3,9 +3,23 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { actions } from '../../redux/slices/userSlice.jsx';
 import toast from "react-hot-toast";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
+
+const style = {
+    height: 700,
+    bgcolor: 'background.paper',
+    p: 4,
+    outline: 'none',
+    borderRadius: '5px',
+    display: 'flex',
+    gap: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'var(--primary)',
+};
 
 const RequireAuth = () => {
     const location = useLocation();
@@ -36,7 +50,12 @@ const RequireAuth = () => {
         user
             ? <Outlet />
             : isLoading
-                ? <span>Fetching user data</span>
+                ? <Box sx={style}>
+                    <CircularProgress color="inherit" size="2rem" />
+                    <Typography id="loading-modal" variant="h6" component="h2">
+                        Loading Data
+                    </Typography>
+                </Box>
                 : <Navigate to="/login" state={{ from: location }} replace />
     );
 }
