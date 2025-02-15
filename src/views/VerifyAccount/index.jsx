@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import OtpInputBox from '../../components/OtpInputBox';
 import { FaCheck } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { postData } from '../../api/postData';
+import { postData } from '../../api/dataService';
 
 const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);

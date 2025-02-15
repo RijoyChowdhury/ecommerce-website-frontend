@@ -1,18 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getData, postData, postFile } from "../../api/postData";
-// import axios from "axios";
+import { getData, postData, postFile } from "../../api/dataService";
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const initialState = {
-    isLoading: false,
-    isUserLoggedIn: false,
+    isLoggingIn: false,
     user: null,
     error: null,
-    avatar: null,
-    name: '',
-    wishlist: [],
-    order_history: [],
+    // isUserLoggedIn: false,
+    // avatar: null,
+    // name: '',
+    // wishlist: [],
+    // order_history: [],
 };
 
 const uploadAvatar = createAsyncThunk('user/uploadAvatar', async (formFields) => {
@@ -29,9 +28,13 @@ const loginUser = createAsyncThunk('user/loginUser', async (formFields) => {
     try {
         // await delay(5000);
         const response = await postData('/api/user/login', formFields);
-        return response.data;
+        return response;
     } catch (err) {
-        return err.message;
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
     }
 });
 
@@ -87,64 +90,62 @@ const userSlice = createSlice({
         },
     },
     extraReducers: builder => {
-        builder.addCase(fetchUser.pending, (state, action) => {
-            state.isLoading = true;
-            state.error = null;
-        }).addCase(fetchUser.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.error = null;
-            state.user = action.payload;
-            state.avatar = action.payload.avatar;
-            state.name = action.payload.name;
-        }).addCase(fetchUser.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        }).addCase(loginUser.pending, (state, action) => {
-            state.isLoading = true;
-            state.isUserLoggedIn = false;
+        builder
+        .addCase(loginUser.pending, (state, action) => {
+            state.isLoggingIn = true;
             localStorage.setItem('isAccessTokenPresent', false);
             state.error = null;
         }).addCase(loginUser.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isUserLoggedIn = true;
+            state.isLoggingIn = false;
             localStorage.setItem('isAccessTokenPresent', true);
             state.error = null;
-            state.name = action.payload;
         }).addCase(loginUser.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isUserLoggedIn = false;
+            state.isLoggingIn = false;
             localStorage.setItem('isAccessTokenPresent', false);
             state.error = action.payload;
-        }).addCase(logoutUser.pending, (state, action) => {
-            // state.isLoading = true;
-            state.error = null;
-        }).addCase(logoutUser.fulfilled, (state, action) => {
-            // state.isLoading = false;
-            state.isUserLoggedIn = false;
-            state.user = null;
-            localStorage.setItem('isAccessTokenPresent', false);
-        }).addCase(logoutUser.rejected, (state, action) => {
-            state.isLoading = false;
-            state.error = action.payload;
-        }).addCase(refreshUser.pending, (state, action) => {
-            state.isLoading = true;
-            // state.isUserLoggedIn = false;
-            // localStorage.setItem('isAccessTokenPresent', false);
-            state.error = null;
-        }).addCase(refreshUser.fulfilled, (state, action) => {
-            state.isLoading = false;
-            state.isUserLoggedIn = true;
-            // localStorage.setItem('isAccessTokenPresent', true);
-            state.error = null;
-        }).addCase(refreshUser.rejected, (state, action) => {
-            state.isLoading = false;
-            state.isUserLoggedIn = false;
-            localStorage.setItem('isAccessTokenPresent', false);
-            state.error = action.payload;
-        }).addCase(uploadAvatar.fulfilled, (state, action) => {
-            state.avatar = action.payload[0];
-            state.user.avatar = action.payload[0];
-        });
+        })
+        // .addCase(fetchUser.pending, (state, action) => {
+        //     state.isLoading = true;
+        //     state.error = null;
+        // }).addCase(fetchUser.fulfilled, (state, action) => {
+        //     state.isLoading = false;
+        //     state.error = null;
+        //     state.user = action.payload;
+        //     state.avatar = action.payload.avatar;
+        //     state.name = action.payload.name;
+        // }).addCase(fetchUser.rejected, (state, action) => {
+        //     state.isLoading = false;
+        //     state.error = action.payload;
+        // }).addCase(logoutUser.pending, (state, action) => {
+        //     // state.isLoading = true;
+        //     state.error = null;
+        // }).addCase(logoutUser.fulfilled, (state, action) => {
+        //     // state.isLoading = false;
+        //     state.isUserLoggedIn = false;
+        //     state.user = null;
+        //     localStorage.setItem('isAccessTokenPresent', false);
+        // }).addCase(logoutUser.rejected, (state, action) => {
+        //     state.isLoading = false;
+        //     state.error = action.payload;
+        // }).addCase(refreshUser.pending, (state, action) => {
+        //     state.isLoading = true;
+        //     // state.isUserLoggedIn = false;
+        //     // localStorage.setItem('isAccessTokenPresent', false);
+        //     state.error = null;
+        // }).addCase(refreshUser.fulfilled, (state, action) => {
+        //     state.isLoading = false;
+        //     state.isUserLoggedIn = true;
+        //     // localStorage.setItem('isAccessTokenPresent', true);
+        //     state.error = null;
+        // }).addCase(refreshUser.rejected, (state, action) => {
+        //     state.isLoading = false;
+        //     state.isUserLoggedIn = false;
+        //     localStorage.setItem('isAccessTokenPresent', false);
+        //     state.error = action.payload;
+        // }).addCase(uploadAvatar.fulfilled, (state, action) => {
+        //     state.avatar = action.payload[0];
+        //     state.user.avatar = action.payload[0];
+        // });
     }
 });
 

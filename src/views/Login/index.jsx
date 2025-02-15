@@ -1,12 +1,11 @@
+import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { CircularProgress, FormControl, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import React, { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { actions } from '../../redux/slices/userSlice';
-import LoadingSpinner from '../../components/LoadingSpinner';
 
 const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
@@ -19,10 +18,10 @@ const blankForm = {
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {error, isUserLoggedIn, isLoading} = useSelector(state => state.userSlice);
     const [formFields, setFormFields] = useState({ ...blankForm });
     const [showPassword, setShowPassword] = useState(false);
-    const {loginUser} = actions;
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const { loginUser } = actions;
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -39,23 +38,18 @@ const Login = () => {
     }
 
     const submitForm = async () => {
-        await dispatch(loginUser({...formFields}));
-    }
-
-    useEffect(() => {
-        if (isUserLoggedIn && !isLoading) {
+        setIsLoggingIn(true);
+        const response = await dispatch(loginUser({ ...formFields })).unwrap();
+        setIsLoggingIn(false);
+        if (response.success) {
             flushFormData();
-            notifySuccess('Login successful');
+            notifySuccess(response.message);
             navigate('/');
         }
-        if (error) {
-            notifyError('Incorrect Credentials');
+        if (response.error) {
+            notifyError(response.message);
         }
-    }, [isUserLoggedIn, isLoading, error]);
-
-    // if (isLoading) {
-    //     return <div className='h-[900px]'><LoadingSpinner text={'Logging you in...'} /></div>
-    // }
+    }
 
     return (
         <div className='block'>
@@ -70,7 +64,7 @@ const Login = () => {
                         <div id="login-form" className='w-[50%]'>
                             <div className='flex flex-col gap-6'>
                                 {/* email section */}
-                                <div className="form-group row flex justify-center">                                    
+                                <div className="form-group row flex justify-center">
                                     <FormControl sx={{ width: '100%' }} variant="outlined">
                                         <TextField id="outlined-basic" value={formFields.email} name="email" label="Email" variant="outlined" onChange={e => handleInput(e)} />
                                     </FormControl>
@@ -101,7 +95,7 @@ const Login = () => {
                                                 </InputAdornment>
                                             }
                                             label="Password"
-                                            onChange={e => handleInput(e)} 
+                                            onChange={e => handleInput(e)}
                                         />
                                     </FormControl>
                                 </div>
@@ -116,8 +110,14 @@ const Login = () => {
 
                             {/* sign in button */}
                             <footer className="form-footer text-sm-center clearfix my-4 h-[50px]">
-                                <button id="submit-login" className={`btn ${isLoading ? '!bg-white !text-primary' : ''}`} disabled={isLoading} onClick={submitForm}>
-                                    {isLoading ? <span className='flex justify-center'><CircularProgress sx={{ color: '#ff5252' }} size="20px" className='mr-4' />Signing In..</span> : 'Sign In'}
+                                <button id="submit-login" className={`btn ${isLoggingIn ? '!bg-white !text-primary' : ''}`} disabled={isLoggingIn} onClick={submitForm}>
+                                    {isLoggingIn
+                                        ? <span className='flex justify-center'>
+                                            <CircularProgress sx={{ color: '#ff5252' }} size="20px" className='mr-4' />
+                                            Signing In..
+                                        </span>
+                                        : 'Sign In'
+                                    }
                                 </button>
                             </footer>
                         </div>

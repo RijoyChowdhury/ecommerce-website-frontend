@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { FaCheck, FaChevronLeft } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import OtpInputBox from '../../components/OtpInputBox';
-import { postData } from '../../api/postData';
+import { postData } from '../../api/dataService';
 import toast from 'react-hot-toast';
 
 const notifySuccess = (value) => toast.success(value);
