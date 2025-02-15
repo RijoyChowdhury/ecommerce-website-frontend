@@ -4,9 +4,10 @@ import { getData, postData, postFile } from "../../api/dataService";
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
 const initialState = {
-    isLoggingIn: false,
     user: null,
     error: null,
+    isLoading: false,
+    isLoggingOut: false,
     // isUserLoggedIn: false,
     // avatar: null,
     // name: '',
@@ -14,19 +15,8 @@ const initialState = {
     // order_history: [],
 };
 
-const uploadAvatar = createAsyncThunk('user/uploadAvatar', async (formFields) => {
-    try {
-        // await delay(5000);
-        const response = await postFile('/api/image/upload-avatar', formFields);
-        return response.data;
-    } catch (err) {
-        return err.message;
-    }
-});
-
 const loginUser = createAsyncThunk('user/loginUser', async (formFields) => {
     try {
-        // await delay(5000);
         const response = await postData('/api/user/login', formFields);
         return response;
     } catch (err) {
@@ -40,41 +30,53 @@ const loginUser = createAsyncThunk('user/loginUser', async (formFields) => {
 
 const refreshUser = createAsyncThunk('user/refreshUser', async () => {
     try {
-        // await delay(5000);
         const response = await getData('/api/user/re-login');
-        return response.message;
+        return response;
     } catch (err) {
-        return err.message;
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
     }
 });
 
 const logoutUser = createAsyncThunk('user/logoutUser', async () => {
     try {
-        // await delay(5000);
         const response = await getData('/api/user/logout');
-        return response.message;
+        return response;
     } catch (err) {
-        return err.message;
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
     }
 });
 
 const fetchUser = createAsyncThunk('user/fetchUser', async () => {
     try {
-        // await delay(5000);
         const response = await getData('/api/user/details');
-        return response.data;
+        return response;
     } catch (err) {
-        return err.message;
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
     }
 });
 
-// experimental
-const uploadPhoto = createAsyncThunk('user/uploadAvatar', async (img) => {
+const uploadAvatar = createAsyncThunk('user/uploadAvatar', async (formFields) => {
     try {
-        const response = await getData('/api/user/details');
-        return response.data;
+        const response = await postFile('/api/image/upload-avatar', formFields);
+        return response;
     } catch (err) {
-        return err.message;
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
     }
 });
 
@@ -92,42 +94,45 @@ const userSlice = createSlice({
     extraReducers: builder => {
         builder
         .addCase(loginUser.pending, (state, action) => {
-            state.isLoggingIn = true;
             localStorage.setItem('isAccessTokenPresent', false);
             state.error = null;
+            state.user = null;
         }).addCase(loginUser.fulfilled, (state, action) => {
-            state.isLoggingIn = false;
             localStorage.setItem('isAccessTokenPresent', true);
             state.error = null;
+            state.user = null;
         }).addCase(loginUser.rejected, (state, action) => {
-            state.isLoggingIn = false;
             localStorage.setItem('isAccessTokenPresent', false);
             state.error = action.payload;
+            state.user = null;
+        }).addCase(fetchUser.pending, (state, action) => {
+            state.isLoading = true;
+            state.error = null;
+            state.user = null;
+        }).addCase(fetchUser.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.error = null;
+            state.user = action.payload.data;
+        }).addCase(fetchUser.rejected, (state, action) => {
+            state.isLoading = false;
+            state.error = action.payload;
+            state.user = null;
+        }).addCase(logoutUser.pending, (state, action) => {
+            state.isLoggingOut = true;
+            state.error = null;
+            state.user = null;
+        }).addCase(logoutUser.fulfilled, (state, action) => {
+            state.isLoggingOut = false;
+            state.error = null;
+            state.user = null;
+            localStorage.setItem('isAccessTokenPresent', false);
+        }).addCase(logoutUser.rejected, (state, action) => {
+            state.isLoggingOut = false;
+            state.error = action.payload;
+            state.user = null;
+            localStorage.setItem('isAccessTokenPresent', false);
         })
-        // .addCase(fetchUser.pending, (state, action) => {
-        //     state.isLoading = true;
-        //     state.error = null;
-        // }).addCase(fetchUser.fulfilled, (state, action) => {
-        //     state.isLoading = false;
-        //     state.error = null;
-        //     state.user = action.payload;
-        //     state.avatar = action.payload.avatar;
-        //     state.name = action.payload.name;
-        // }).addCase(fetchUser.rejected, (state, action) => {
-        //     state.isLoading = false;
-        //     state.error = action.payload;
-        // }).addCase(logoutUser.pending, (state, action) => {
-        //     // state.isLoading = true;
-        //     state.error = null;
-        // }).addCase(logoutUser.fulfilled, (state, action) => {
-        //     // state.isLoading = false;
-        //     state.isUserLoggedIn = false;
-        //     state.user = null;
-        //     localStorage.setItem('isAccessTokenPresent', false);
-        // }).addCase(logoutUser.rejected, (state, action) => {
-        //     state.isLoading = false;
-        //     state.error = action.payload;
-        // }).addCase(refreshUser.pending, (state, action) => {
+        // .addCase(refreshUser.pending, (state, action) => {
         //     state.isLoading = true;
         //     // state.isUserLoggedIn = false;
         //     // localStorage.setItem('isAccessTokenPresent', false);
@@ -142,7 +147,8 @@ const userSlice = createSlice({
         //     state.isUserLoggedIn = false;
         //     localStorage.setItem('isAccessTokenPresent', false);
         //     state.error = action.payload;
-        // }).addCase(uploadAvatar.fulfilled, (state, action) => {
+        // })
+        // .addCase(uploadAvatar.fulfilled, (state, action) => {
         //     state.avatar = action.payload[0];
         //     state.user.avatar = action.payload[0];
         // });
@@ -151,4 +157,4 @@ const userSlice = createSlice({
 
 export default userSlice;
 
-export const actions = {...userSlice.actions, fetchUser, logoutUser, loginUser, refreshUser, uploadAvatar, uploadPhoto};
+export const actions = {...userSlice.actions, fetchUser, logoutUser, loginUser, refreshUser, uploadAvatar};

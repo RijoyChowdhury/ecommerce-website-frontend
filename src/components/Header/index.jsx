@@ -25,6 +25,7 @@ import { HiOutlineUserCircle } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import { actions } from '../../redux/slices/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
+import { FcSynchronize } from 'react-icons/fc';
 
 const notifySuccess = (value) => toast.success(value);
 
@@ -43,7 +44,7 @@ const flagMetadata = [
 
 const Header = () => {
     const dispatch = useDispatch();
-    const {user, isLoading, error, isUserLoggedIn, name} = useSelector(state => state.userSlice);
+    const { user, isLoading, isLoggingOut } = useSelector(state => state.userSlice);
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);
@@ -51,7 +52,7 @@ const Header = () => {
     let languageMenuRef = useRef();
     let currencyMenuRef = useRef();
     let userMenuRef = useRef();
-    const {logoutUser} = actions;
+    const { logoutUser } = actions;
 
     const closeMenu = () => {
         setShowLanguageDropdownMenu(false);
@@ -65,7 +66,10 @@ const Header = () => {
 
     const handleLogout = async () => {
         closeMenu();
-        await dispatch(logoutUser());
+        const response = await dispatch(logoutUser()).unwrap();
+        if (response.success) {
+            notifySuccess(response.message);
+        }
     }
 
     useEffect(() => {
@@ -166,14 +170,33 @@ const Header = () => {
 
                     <div className='col3 w-[25%] flex items-center justify-end'>
                         <ul className='flex items-center gap-5'>
-                            {isUserLoggedIn
-                                ? (< li className='list-none relative' ref={userMenuRef}> {/* user account link */}
-                                    
+
+                            {/* Loading user msg */}
+                            {(isLoading || isLoggingOut) && <li className='list-none'>
+                                <Link to={"#"} className='link transition flex items-center justify-between'>
+                                    <div className='w-[120px] flex justify-center' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        {isLoading && 'Loading User...'}
+                                        {isLoggingOut && 'Logging Out...'}
+                                    </div>
+                                    <FcSynchronize className='text-3xl' />
+                                </Link>
+                            </li>}
+
+                            {/* login/register */}
+                            {!isLoading && !isLoggingOut && !user && <li className='list-none'> {/* login & resiter */}
+                                    <Link className='link transition pr-1' to={'/login'}>Login</Link>
+                                    /
+                                    <Link className='link transition pl-1' to={'/register'}>Register</Link>
+                            </li>}
+
+                            {/* when user is logged in */}
+                            {user && < li className='list-none relative' ref={userMenuRef}> {/* user account link */}
+
                                     <Link to={"#"} className='link transition flex items-center justify-between' onClick={() => setShowUserDropdownMenu(true)}>
-                                        <div className='w-[120px] flex justify-center' style={{overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>{name}</div>
+                                        <div className='w-[120px] flex justify-center' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
                                         <HiOutlineUserCircle className='text-3xl' />
                                     </Link>
-                                    
+
                                     {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="user-dropdown">
                                         <li className="link">
                                             <Link to={'/user'} className="dropdown-item" onClick={closeMenu}>
@@ -194,35 +217,28 @@ const Header = () => {
                                             </Link>
                                         </li>
                                     </ul>}
-                                </li>)
-
-                                : (<li className='list-none'> {/* login & resiter */}
-                                    <Link className='link transition pr-1' to={'/login'}>Login</Link>
-                                    /
-                                    <Link className='link transition pl-1' to={'/register'}>Register</Link>
-                                </li>)
-                            }
+                            </li>}
 
                             {/* user utilities */}
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>
                                 <div className='quick-actions'>
                                     <div className='quick-action-btn'>
                                         <Tooltip title="Compare Items" arrow>
-                                            <Badge badgeContent={4} color="error">
+                                            <Badge badgeContent={user ? 4 : 0} color="error">
                                                 <IoIosGitCompare />
                                             </Badge>
                                         </Tooltip>
                                     </div>
                                     <div className='quick-action-btn'>
                                         <Tooltip title="Wish-List" arrow>
-                                            <Badge badgeContent={4} color="error">
+                                            <Badge badgeContent={user ? 4 : 0} color="error">
                                                 <IoIosHeartEmpty />
                                             </Badge>
                                         </Tooltip>
                                     </div>
                                     <div className='quick-action-btn cursor-pointer' onClick={() => handleCartOpen(true)}>
                                         <Tooltip title="My Cart" arrow>
-                                            <Badge badgeContent={4} color="error">
+                                            <Badge badgeContent={user ? 4 : 0} color="error">
                                                 <IoCartOutline />
                                             </Badge>
                                         </Tooltip>

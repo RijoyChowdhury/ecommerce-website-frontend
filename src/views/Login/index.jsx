@@ -21,7 +21,7 @@ const Login = () => {
     const [formFields, setFormFields] = useState({ ...blankForm });
     const [showPassword, setShowPassword] = useState(false);
     const [isLoggingIn, setIsLoggingIn] = useState(false);
-    const { loginUser } = actions;
+    const { loginUser, fetchUser } = actions;
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -44,6 +44,7 @@ const Login = () => {
         if (response.success) {
             flushFormData();
             notifySuccess(response.message);
+            dispatch(fetchUser());
             navigate('/');
         }
         if (response.error) {
