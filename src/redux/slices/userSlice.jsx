@@ -7,7 +7,7 @@ const initialState = {
     user: null,
     error: null,
     isLoading: false,
-    isLoggingOut: false,
+    // isLoggingOut: false,
     // isUserLoggedIn: false,
     // avatar: null,
     // name: '',
@@ -120,15 +120,12 @@ const userSlice = createSlice({
             state.error = action.payload;
             state.user = null;
         }).addCase(logoutUser.pending, (state, action) => {
-            state.isLoggingOut = true;
             state.error = null;
             state.user = null;
         }).addCase(logoutUser.fulfilled, (state, action) => {
-            state.isLoggingOut = false;
             state.error = null;
             state.user = null;
         }).addCase(logoutUser.rejected, (state, action) => {
-            state.isLoggingOut = false;
             state.error = action.payload;
             state.user = null;
         })

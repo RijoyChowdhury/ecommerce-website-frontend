@@ -172,18 +172,17 @@ const Header = () => {
                         <ul className='flex items-center gap-5'>
 
                             {/* Loading user msg */}
-                            {(isLoading || isLoggingOut) && <li className='list-none'>
+                            {isLoading && <li className='list-none'>
                                 <Link to={"#"} className='link transition flex items-center justify-between'>
                                     <div className='w-[120px] flex justify-center' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                                        {isLoading && 'Loading User...'}
-                                        {isLoggingOut && 'Logging Out...'}
+                                        Loading User...
                                     </div>
                                     <FcSynchronize className='text-3xl' />
                                 </Link>
                             </li>}
 
                             {/* login/register */}
-                            {!isLoading && !isLoggingOut && !user && <li className='list-none'> {/* login & resiter */}
+                            {!isLoading && !user && <li className='list-none'> {/* login & resiter */}
                                     <Link className='link transition pr-1' to={'/login'}>Login</Link>
                                     /
                                     <Link className='link transition pl-1' to={'/register'}>Register</Link>
