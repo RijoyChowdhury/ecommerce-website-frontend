@@ -1,6 +1,6 @@
 import Home from './views/Home';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -16,8 +16,39 @@ import VerifyAccount from './views/VerifyAccount';
 import AuthChecker from './components/AuthChecker';
 import UserPage from './views/UserPage';
 import CustomModal from './components/CustomModal';
+import { actions } from './redux/slices/userSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect, useRef } from 'react';
 
 function App() {
+    const dispatch = useDispatch();
+    const location = useLocation();
+    const isMounted = useRef(false)
+    const { user } = useSelector(state => state.userSlice);
+    const { fetchUser } = actions;
+    const isAccessTokenPresent = () => localStorage.getItem('isAccessTokenPresent') === 'true';
+
+    const list = ['/login', '/register', '/verifyaccount', '/forgotpassword'];
+
+    const checkUserPresent = async () => {
+        if (list.includes(location.pathname)) return;
+        if (!user && isAccessTokenPresent()) {
+            console.log('fetch user')
+            const response = await dispatch(fetchUser()).unwrap();
+            if (response.success) {
+                // notifySuccess('Login successful');
+            }
+        }
+    };
+
+    if (!isMounted.current) {
+        checkUserPresent();
+    }
+
+    useEffect(() => {
+        isMounted.current = true
+    }, [])
+
     return (
         <>
             <Header />

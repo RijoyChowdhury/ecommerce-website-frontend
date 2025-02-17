@@ -92,6 +92,12 @@ const userSlice = createSlice({
             console.log('action');
             console.log(action.payload);
         },
+        updateUserAddress: (state, action) => {
+            console.log('state');
+            console.log(state.user);
+            console.log('action');
+            console.log(action.payload);
+        },
     },
     extraReducers: builder => {
         builder

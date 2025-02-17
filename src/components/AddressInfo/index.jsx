@@ -2,6 +2,8 @@ import React from 'react';
 import { CircularProgress, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
 import countriesJson from '../../assets/countries.json';
 import { useState } from 'react';
+import { actions } from '../../redux/slices/userSlice';
+import { useDispatch } from 'react-redux';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -23,6 +25,7 @@ const blankForm = {
 };
 
 const AddressInfo = ({ data }) => {
+    const dispatch = useDispatch();
     const [formFields, setFormFields] = useState({ ...blankForm });
     const loading = false;
 
@@ -31,11 +34,15 @@ const AddressInfo = ({ data }) => {
         if (name === 'country' && formFields.country !== value) {
             formFields.state = countriesJson.filter((country) => country.code3 === value)[0].states[0]?.code ?? '';
         }
-        console.log(formFields.state);
+        // console.log(formFields.state);
         setFormFields((state) => ({
             ...state,
             [name]: value,
         }));
+    }
+
+    const updateUserAddress = () => {
+        dispatch(actions.updateUserAddress(formFields));
     }
 
     console.log(formFields)
@@ -199,7 +206,7 @@ const AddressInfo = ({ data }) => {
 
                 {/* submit btn */}
                 <div className='h-[40px] flex justify-center'>
-                    <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={() => { }}>
+                    <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={updateUserAddress}>
                         {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span> : 'Update'}
                     </button>
                 </div>

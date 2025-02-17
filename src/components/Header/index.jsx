@@ -44,7 +44,7 @@ const flagMetadata = [
 
 const Header = () => {
     const dispatch = useDispatch();
-    const { user, isLoading, isLoggingOut } = useSelector(state => state.userSlice);
+    const { user, isLoading } = useSelector(state => state.userSlice);
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);

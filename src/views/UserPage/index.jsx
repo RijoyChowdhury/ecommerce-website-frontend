@@ -12,8 +12,6 @@ import toast from 'react-hot-toast';
 import { FaList } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions } from '../../redux/slices/userSlice.jsx';
-import LoadingSpinner from '../../components/LoadingSpinner';
-import { useNavigate } from 'react-router-dom';
 import { CircularProgress } from '@mui/material';
 
 const bankState = {
@@ -27,13 +25,11 @@ const notifySuccess = (value) => toast.success(value);
 
 const UserPage = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const { user, error, avatar } = useSelector(state => state.userSlice);
-    const [isLoading, setIsLoading] = useState(true);
+    const { user, avatar } = useSelector(state => state.userSlice);
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
     const [sections, setSectionState] = useState({ ...bankState, section1: true });
-    const { fetchUser, uploadAvatar, logoutUser } = actions;
+    const { uploadAvatar, logoutUser } = actions;
     const formData = new FormData();
     const [loadingImg, setLoadingImg] = useState(false);
 
@@ -42,7 +38,10 @@ const UserPage = () => {
     }
 
     const handleLogout = async () => {
-        await dispatch(logoutUser());
+        const response = await dispatch(logoutUser()).unwrap();
+        if (response.success) {
+            notifySuccess(response.message);
+        }
     }
 
     const handleImgUpload = async (event) => {
@@ -60,24 +59,6 @@ const UserPage = () => {
         } finally {
             setLoadingImg(false);
         }
-    }
-
-    useEffect(() => {
-        setIsLoading(true);
-        (async () => {
-            if (!user) {
-                await dispatch(fetchUser());
-            }
-            setIsLoading(false);
-        })()
-    }, []);
-
-    if (isLoading) {
-        return <div className='h-[900px]'><LoadingSpinner text={'Getting Data...'} /></div>
-    }
-
-    if (error || !user) {
-        return <div>Error</div>
     }
 
     return (
