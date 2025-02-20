@@ -11,30 +11,129 @@ import useAuth from '../../hooks/useAuth';
 import toast from 'react-hot-toast';
 import { FaList } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
-import { actions } from '../../redux/slices/userSlice.jsx';
+import { actions, blankStates } from '../../redux/slices/userSlice.jsx';
 import { CircularProgress } from '@mui/material';
+import countriesJson from '../../assets/countries.json';
+import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
 
-const bankState = {
+const blankSelectionState = {
     section1: false,
     section2: false,
     section3: false,
     section4: false,
     section5: false,
 };
+
 const notifySuccess = (value) => toast.success(value);
+const notifyError = (value) => toast.error(value);
 
 const UserPage = () => {
     const dispatch = useDispatch();
-    const { user, avatar } = useSelector(state => state.userSlice);
+    const { user, avatar, active_address } = useSelector(state => state.userSlice);
+
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
-    const [sections, setSectionState] = useState({ ...bankState, section1: true });
-    const { uploadAvatar, logoutUser } = actions;
+
+    const [sections, setSectionState] = useState({ ...blankSelectionState, section1: true });
+    const [userDetails, setUserDetails] = useState({ ...user });
+    const [userAddress, setUserAddress] = useState(active_address ?? { ...blankStates.blankUserAddress });
+
+    const {
+        uploadAvatar,
+        logoutUser,
+        updateUserAddress,
+        updateUserState,
+        updateUserDetails,
+        fetchUserAddresses,
+        updateUserAddresses,
+        createUserAddresses,
+    } = actions;
+
     const formData = new FormData();
     const [loadingImg, setLoadingImg] = useState(false);
+    const [loadingAddress, setLoadingAddress] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleSelect = (event) => {
-        setSectionState((state) => ({ ...bankState, [event.target.id]: true }));
+    const handleSelect = async (event) => {
+        if (event.target.id === 'section2' && !active_address) {
+            fetchUserAddressDetails();
+        }
+        setSectionState((state) => ({ ...blankSelectionState, [event.target.id]: true }));
+    }
+
+    const fetchUserAddressDetails = async () => {
+        setLoadingAddress(true);
+        const response = await dispatch(fetchUserAddresses()).unwrap();
+        if (response.success) {
+            setUserAddress(response.data[0] ?? { ...blankStates.blankUserAddress });
+        }
+        if (response.error) {
+            notifyError(response.message);
+        }
+        setLoadingAddress(false);
+    }
+
+    const flushFormData = () => {
+        setFormFields((state) => ({ ...blankForm }));
+    }
+
+    const handleAddressInput = (event) => {
+        const { name, value } = event.target;
+        if (name === 'country' && userAddress.country !== value) {
+            userAddress.state = countriesJson.filter((country) => country.code3 === value)[0].states[0]?.code ?? '';
+        }
+        setUserAddress((state) => ({
+            ...state,
+            [name]: value,
+        }));
+    }
+
+    const handleDetailsInput = (event) => {
+        const { name, value } = event.target;
+        setUserDetails((state) => ({
+            ...state,
+            [name]: value,
+        }));
+    }
+
+    const handleUserAddressUpdate = async () => {
+        try {
+            setLoading(true);
+            dispatch(updateUserAddress(userAddress));
+            let response;
+            if (userAddress._id) {
+                response = await dispatch(updateUserAddresses(userAddress)).unwrap();
+            } else {
+                response = await dispatch(createUserAddresses(userAddress)).unwrap();
+            }
+            if (response.success) {
+                notifySuccess(response.message);
+                fetchUserAddressDetails();
+            }
+            if (response.error) {
+                notifyError(response.message);
+            }
+            setLoading(false)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
+    const handleUserDataUpdate = async () => {
+        try {
+            setLoading(true);
+            dispatch(updateUserState(userDetails));
+            const response = await dispatch(updateUserDetails(userDetails)).unwrap();
+            if (response.success) {
+                notifySuccess(response.message);
+            }
+            if (response.error) {
+                notifyError(response.message);
+            }
+            setLoading(false);
+        } catch (err) {
+            console.error(err);
+        }
     }
 
     const handleLogout = async () => {
@@ -49,7 +148,7 @@ const UserPage = () => {
             setLoadingImg(true);
             const files = event.target.files;
             console.log(files)
-            for (let i = 0; i < files.length; i++){
+            for (let i = 0; i < files.length; i++) {
                 const file = files[i];
                 formData.append('avatar', file);
             }
@@ -134,13 +233,36 @@ const UserPage = () => {
                         {/* personal info section */}
                         <div className={`${sections.section1 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Personal Information</span></div>
-                            <div className='w-[77%]'><UserInfo data={user} /></div>
+                            <div className='w-[77%]'>
+                                <UserInfo data={userDetails} handleInput={handleDetailsInput}>
+                                    <div className='h-[40px] flex justify-center'>
+                                        <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={handleUserDataUpdate}>
+                                            {loading
+                                                ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span>
+                                                : 'Update'
+                                            }
+                                        </button>
+                                    </div>
+                                </UserInfo>
+                            </div>
                         </div>
 
                         {/* user address section */}
                         <div className={`${sections.section2 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Address</span></div>
-                            <div className='w-[77%]'><AddressInfo data={user.address} /></div>
+                            {loadingAddress && <LoadingSpinner />}
+                            {!loadingAddress && <div className='w-[77%]'>
+                                <AddressInfo data={userAddress} handleInput={handleAddressInput}>
+                                    <div className='h-[40px] flex justify-center'>
+                                        <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={handleUserAddressUpdate}>
+                                            {loading
+                                                ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span>
+                                                : 'Update'
+                                            }
+                                        </button>
+                                    </div>
+                                </AddressInfo>
+                            </div>}
                         </div>
 
                         {/* order section */}

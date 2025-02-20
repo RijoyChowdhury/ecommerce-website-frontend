@@ -1,12 +1,37 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getData, postData, postFile } from "../../api/dataService";
+import countriesJson from '../../assets/countries.json';
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
+
+const blankUserAddress = {
+    address_line_1: '',
+    address_line_2: '',
+    city: '',
+    state: countriesJson[0].states[0].code,
+    country: countriesJson[0].code3,
+    pincode: '',
+    mobile: '',
+    location_type: '',
+    status: '',
+};
+
+const blankUserInfo = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    dateOfBirth: '',
+    userPrefix: '',
+};
 
 const initialState = {
     user: null,
     error: null,
     isLoading: false,
+    active_address: null,
+    addressList: null,
     // isLoggingOut: false,
     // isUserLoggedIn: false,
     // avatar: null,
@@ -18,19 +43,6 @@ const initialState = {
 const loginUser = createAsyncThunk('user/loginUser', async (formFields) => {
     try {
         const response = await postData('/api/user/login', formFields);
-        return response;
-    } catch (err) {
-        return {
-            success: false,
-            error: true,
-            message: err.message,
-        };
-    }
-});
-
-const refreshUser = createAsyncThunk('user/refreshUser', async () => {
-    try {
-        const response = await getData('/api/user/re-login');
         return response;
     } catch (err) {
         return {
@@ -69,6 +81,70 @@ const fetchUser = createAsyncThunk('user/fetchUser', async () => {
     }
 });
 
+const fetchUserAddresses = createAsyncThunk('user/fetchAddress',  async () => {
+    try {
+        const response = await getData('/api/address/');
+        console.log('response')
+        console.log(response)
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
+const updateUserAddresses = createAsyncThunk('user/updateAddress',  async (formFields) => {
+    try {
+        const id = formFields._id;
+        console.log('id', id);
+        const response = await postData(`/api/address/update/${id}`, formFields);
+        console.log('response')
+        console.log(response)
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
+const updateUserDetails = createAsyncThunk('user/updateUser',  async (formFields) => {
+    try {
+        console.log('formFields');
+        console.log(formFields);
+        const response = await postData('/api/user/update', formFields);
+        console.log('response')
+        console.log(response)
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
+const createUserAddresses = createAsyncThunk('user/updateAddress',  async (formFields) => {
+    try {
+        const response = await postData('/api/address/add/', formFields);
+        console.log('response')
+        console.log(response)
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
 const uploadAvatar = createAsyncThunk('user/uploadAvatar', async (formFields) => {
     try {
         const response = await postFile('/api/image/upload-avatar', formFields);
@@ -86,17 +162,19 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
-        updateUserDetails: (state, action) => {
+        updateUserState: (state, action) => {
             console.log('state');
             console.log(state.user);
             console.log('action');
             console.log(action.payload);
+            state.user = action.payload;
         },
         updateUserAddress: (state, action) => {
             console.log('state');
             console.log(state.user);
             console.log('action');
             console.log(action.payload);
+            state.active_address = action.payload;
         },
     },
     extraReducers: builder => {
@@ -128,29 +206,22 @@ const userSlice = createSlice({
         }).addCase(logoutUser.pending, (state, action) => {
             state.error = null;
             state.user = null;
+            state.addressList = null;
+            state.active_address = null;
         }).addCase(logoutUser.fulfilled, (state, action) => {
             state.error = null;
             state.user = null;
+            state.addressList = null;
+            state.active_address = null;
         }).addCase(logoutUser.rejected, (state, action) => {
             state.error = action.payload;
             state.user = null;
+            state.addressList = null;
+            state.active_address = null;
+        }).addCase(fetchUserAddresses.fulfilled, (state, action) => {
+            state.addressList = action.payload.data.length ? action.payload.data : [{...blankUserAddress}];
+            state.active_address = state.addressList[0];
         })
-        // .addCase(refreshUser.pending, (state, action) => {
-        //     state.isLoading = true;
-        //     // state.isUserLoggedIn = false;
-        //     // localStorage.setItem('isAccessTokenPresent', false);
-        //     state.error = null;
-        // }).addCase(refreshUser.fulfilled, (state, action) => {
-        //     state.isLoading = false;
-        //     state.isUserLoggedIn = true;
-        //     // localStorage.setItem('isAccessTokenPresent', true);
-        //     state.error = null;
-        // }).addCase(refreshUser.rejected, (state, action) => {
-        //     state.isLoading = false;
-        //     state.isUserLoggedIn = false;
-        //     localStorage.setItem('isAccessTokenPresent', false);
-        //     state.error = action.payload;
-        // })
         // .addCase(uploadAvatar.fulfilled, (state, action) => {
         //     state.avatar = action.payload[0];
         //     state.user.avatar = action.payload[0];
@@ -160,4 +231,19 @@ const userSlice = createSlice({
 
 export default userSlice;
 
-export const actions = {...userSlice.actions, fetchUser, logoutUser, loginUser, refreshUser, uploadAvatar};
+export const blankStates = {
+    blankUserAddress,
+    blankUserInfo,
+};
+
+export const actions = {
+    ...userSlice.actions, 
+    fetchUser, 
+    logoutUser, 
+    loginUser, 
+    updateUserDetails,
+    fetchUserAddresses,
+    updateUserAddresses,
+    createUserAddresses,
+    uploadAvatar,
+};
