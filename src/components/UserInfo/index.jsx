@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { CircularProgress, FormControl, FormControlLabel, InputAdornment, InputLabel, OutlinedInput, Radio, RadioGroup, TextField } from '@mui/material';
+import { 
+    FormControl, 
+    FormControlLabel, 
+    InputAdornment, 
+    InputLabel, 
+    OutlinedInput, 
+    Radio, 
+    RadioGroup, 
+    TextField,
+} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { MdAccountCircle, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import Checkbox from '../../components/Checkbox';
-import { actions } from '../../redux/slices/userSlice.jsx';
-import { useDispatch } from 'react-redux';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -15,23 +21,8 @@ const RadioStyle = {
     },
 };
 
-const notifySuccess = (value) => toast.success(value);
-const notifyError = (value) => toast.error(value);
-
-const blankForm = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    dateOfBirth: '',
-    userPrefix: '',
-};
-
-const UserInfo = ({data}) => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [formFields, setFormFields] = useState(data ?? { ...blankForm });
+const UserInfo = ({data, handleInput, children}) => {
+    const formFields = { ...data };
 
     const [partnerOffers, setPartnerOffers] = useState(false);
     const [newsletterSubscription, setNewsletterSubscription] = useState(false);
@@ -40,52 +31,11 @@ const UserInfo = ({data}) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    
     const [loading, setLoading] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
-
-    const handleInput = (event) => {
-        const { name, value } = event.target;
-        setFormFields((state) => ({
-            ...state,
-            [name]: value,
-        }));
-    }
-
-    const isBtnDisabled = () => {
-        const { firstName, lastName, email, password, userPrefix } = formFields;
-        return !firstName || !lastName || !email || !password || !userPrefix || !agreeToTerms;
-    }
-
-    const flushFormData = () => {
-        setFormFields((state) => ({ ...blankForm }));
-    }
-
-    const submitForm = async () => {
-        try {
-            dispatch(actions.updateUserDetails(formFields));
-        //     setLoading(true);
-        //     const { firstName, lastName } = formFields;
-        //     const response = await postData('/api/user/register', {
-        //         name: `${firstName} ${lastName}`,
-        //         ...formFields,
-        //     });
-        //     console.log(response);
-        //     setLoading(false);
-        //     if (response.success) {
-        //         notifySuccess('User registered.');
-        //     }
-        //     if (response.error) {
-        //         notifyError('User already registered with this email.');
-        //     }
-        //     localStorage.setItem('userEmail', formFields.email);
-        //     flushFormData();
-        //     navigate('/verifyaccount');
-        } catch (err) {
-            console.log(err);
-        }
-    }
 
     return (
         <div>
@@ -292,11 +242,7 @@ const UserInfo = ({data}) => {
                 </div>
 
                 {/* submit btn */}
-                <div className='h-[40px] flex justify-center'>
-                    <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} disabled={isBtnDisabled()} onClick={submitForm}>
-                        {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span> : 'Update'}
-                    </button>
-                </div>
+                {children}
 
             </div>
         </div>

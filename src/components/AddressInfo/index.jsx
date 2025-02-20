@@ -1,9 +1,15 @@
 import React from 'react';
-import { CircularProgress, FormControl, FormControlLabel, MenuItem, Radio, RadioGroup, Select, TextField } from '@mui/material';
+import {
+    FormControl,
+    FormControlLabel,
+    MenuItem,
+    Radio,
+    RadioGroup,
+    Select,
+    TextField,
+} from '@mui/material';
 import countriesJson from '../../assets/countries.json';
 import { useState } from 'react';
-import { actions } from '../../redux/slices/userSlice';
-import { useDispatch } from 'react-redux';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -12,40 +18,8 @@ const RadioStyle = {
     },
 };
 
-const blankForm = {
-    address_line_1: '',
-    address_line_2: '',
-    city: '',
-    state: 'WB',
-    pincode: '',
-    country: 'IND',
-    mobile: '',
-    location_type: 'home',
-    status: 'active',
-};
-
-const AddressInfo = ({ data }) => {
-    const dispatch = useDispatch();
-    const [formFields, setFormFields] = useState({ ...blankForm });
-    const loading = false;
-
-    const handleInput = (event) => {
-        const { name, value } = event.target;
-        if (name === 'country' && formFields.country !== value) {
-            formFields.state = countriesJson.filter((country) => country.code3 === value)[0].states[0]?.code ?? '';
-        }
-        // console.log(formFields.state);
-        setFormFields((state) => ({
-            ...state,
-            [name]: value,
-        }));
-    }
-
-    const updateUserAddress = () => {
-        dispatch(actions.updateUserAddress(formFields));
-    }
-
-    console.log(formFields)
+const AddressInfo = ({ data, handleInput, children }) => {
+    const formFields = { ...data };
 
     return (
         <div>
@@ -140,7 +114,10 @@ const AddressInfo = ({ data }) => {
                                 inputProps={{ 'aria-label': 'Without label' }}
                                 className='h-full !text-sm'
                             >
-                                {countriesJson.filter((country) => country.code3 === formFields.country)[0].states.map((state) => <MenuItem key={state.code} value={state.code}><span className='text-sm text-stone-600'>{state.name}</span></MenuItem>)}
+                                {countriesJson
+                                    .filter((country) => country.code3 === formFields.country)[0]
+                                    .states.map((state) => <MenuItem key={state.code} value={state.code}><span className='text-sm text-stone-600'>{state.name}</span></MenuItem>)
+                                }
                             </Select>
                         </div>
 
@@ -205,11 +182,7 @@ const AddressInfo = ({ data }) => {
 
 
                 {/* submit btn */}
-                <div className='h-[40px] flex justify-center'>
-                    <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={updateUserAddress}>
-                        {loading ? <span className='flex justify-center'><CircularProgress sx={{ color: 'white' }} size="20px" /></span> : 'Update'}
-                    </button>
-                </div>
+                {children}
             </div>
         </div>
     )

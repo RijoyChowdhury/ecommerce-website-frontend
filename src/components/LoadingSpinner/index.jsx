@@ -1,16 +1,27 @@
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import React from 'react';
 
-const LoadingSpinner = ({text}) => {
+const style = {
+    height: '100%',
+    bgcolor: 'background.paper',
+    p: 4,
+    outline: 'none',
+    borderRadius: '5px',
+    display: 'flex',
+    gap: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: 'var(--primary)',
+};
+
+const LoadingSpinner = ({ text }) => {
     return (
-        <div className='block h-full'>
-            <div className='container h-full'>
-                <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', color: 'var(--primary)' }} className='h-full flex flex-col gap-4'>
-                    <CircularProgress color="inherit" size="4rem" />
-                    {text && <span className='text-lg'>{text}</span>}
-                </Box>
-            </div>
-        </div>
+        <Box sx={style}>
+            <CircularProgress color="inherit" size="2rem" />
+            {text && <Typography id="loading-modal" variant="h6" component="h2">
+                {text}
+            </Typography>}
+        </Box>
     )
 };
 
