@@ -269,7 +269,7 @@ const ProductDetails = () => {
                     <div className='pb-8'><ProductSlider /></div>
 
                     {/* reviews section */}
-                    <div className='review-section-wrapper'>
+                    <div className='review-section-wrapper pb-8'>
                         <div className=''>
                             <div className='review-section-header text-2xl text-black'>Reviews</div>
                             <div className='review-section-content'>
@@ -297,6 +297,26 @@ const ProductDetails = () => {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* add review section */}
+                    <div className='add-review-section-wrapper flex flex-col gap-3'>
+                        <div className='add-review-header text-2xl text-black'>Add Review</div>
+                        <div className='add-review-section flex justify-between gap-2 h-[150px]'>
+                            {/* add review textbox - user should be logged in */}
+                            <div className='review-textbox border-2 w-[80%]'>
+                                <textarea className='w-[100%] h-[100%]' style={{resize: 'none', padding: '2px 7px'}}></textarea>
+                            </div>
+                            {/* <div className='review-textbox border-2 w-[80%] flex justify-center items-center'>
+                                <div className='italic'><span className='link underline'>Login</span> to add review.</div>
+                            </div> */}
+                            
+                            {/* add review btn */}
+                            <div className='review-btn-grp flex flex-col w-[20%] gap-2'>
+                                <button className='btn'>Submit</button>
+                                <button className='btn !bg-white !text-primary'>Cancel</button>
                             </div>
                         </div>
                     </div>
