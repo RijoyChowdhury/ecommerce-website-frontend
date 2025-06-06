@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AppLogo from '../../assets/images/AppLogo.jpg';
 import SearchBar from '../SearchBar';
 import { Badge, Tooltip } from '@mui/material';
@@ -44,15 +44,24 @@ const flagMetadata = [
 
 const Header = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { user, isLoading } = useSelector(state => state.userSlice);
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);
     const [open, setOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     let languageMenuRef = useRef();
     let currencyMenuRef = useRef();
     let userMenuRef = useRef();
     const { logoutUser } = actions;
+
+    const onSearch = () => {
+        if (searchTerm) {
+            setSearchTerm('');
+            navigate('/products');
+        }
+    }
 
     const closeMenu = () => {
         setShowLanguageDropdownMenu(false);
@@ -165,7 +174,7 @@ const Header = () => {
 
                     {/* search bar */}
                     <div className='col2 w-[55%]'>
-                        <SearchBar />
+                        <SearchBar submitSearch={onSearch} setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
                     </div>
 
                     <div className='col3 w-[25%] flex items-center justify-end'>
