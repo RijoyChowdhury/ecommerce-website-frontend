@@ -39,6 +39,7 @@ const Home = () => {
                             <div className='container'>
                                 <div className='flex flex-col'>
                                     <div className='flex justify-between'>
+
                                         {/* Slider Banne 1 */}
                                         <div className='jumbo-banner w-[73%]'>
                                             <Swiper
@@ -117,6 +118,7 @@ const Home = () => {
                         </div>
                     </div>
 
+                    {/* offer-section-1 */}
                     <div className='block offer-section-1 py-7'>
                         <div className='container'>
                             <div className='offer-details'>
@@ -136,6 +138,7 @@ const Home = () => {
                         </div>
                     </div>
 
+                    {/* banner-section-2 */}
                     <div className='block banner-section-2 pb-7'>
                         <div className='container'>
                             <div className='banner-content flex justify-between'>
@@ -185,12 +188,14 @@ const Home = () => {
                         </div>
                     </div>
 
+                    {/* banner-section-3 */}
                     <div className='block banner-section-3'>
                         <div className='container'>
                             <ProductSlider />
                         </div>
                     </div>
 
+                    {/* banner-section-4 */}
                     <div className='block banner-section-4 banner-custom-ad-block py-14'>
                         <div className='container relative'>
                             <Link to={'/products'} className="banner-anchor">
@@ -208,12 +213,14 @@ const Home = () => {
                         </div>
                     </div>
 
+                    {/* banner-section-5 */}
                     <div className='block banner-section-5 pb-7'>
                         <div className='container'>
                             <ProductSlider />
                         </div>
                     </div>
 
+                    {/* banner-section-6 */}
                     <div className='block banner-section-6 pb-7'>
                         <div className='container'>
                             <div className="banner-content flex justify-between gap-7">
@@ -249,18 +256,21 @@ const Home = () => {
                         </div>
                     </div>
 
+                    {/* banner-section-7 */}
                     <div className='block banner-section-7 pb-7'>
                         <div className='container'>
                             <ProductSlider />
                         </div>
                     </div>
 
+                    {/* banner-section-8 */}
                     <div className='block banner-section-8 pb-7'>
                         <div className='container'>
                             <ProductSlider />
                         </div>
                     </div>
 
+                    {/* banner-section-9 */}
                     <div className='block banner-section-9 pb-7'>
                         <div className='container'>
                             <div className="banner-content flex justify-between gap-7">
@@ -296,6 +306,7 @@ const Home = () => {
                         </div>
                     </div>
 
+                    {/* service-section */}
                     <div className='block service-section py-16'>
                         <div className='container'>
                             <div className='footer flex'>
