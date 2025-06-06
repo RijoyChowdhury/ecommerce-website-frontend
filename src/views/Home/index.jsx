@@ -242,8 +242,19 @@ const Home = () => {
                     </div>
 
                     <div className='block banner-section-4 banner-custom-ad-block py-14'>
-                        <div className='container'>
-                            <img src={offer_banner_1} />
+                        <div className='container relative'>
+                            <a href="#" className="banner-anchor">
+                                <img src={offer_banner_1} />
+                                <div className='absolute top-0 flex justify-center w-[100%] h-[100%]'>
+                                    <div className='flex gap-5 text-white'>
+                                        <div className='text-5xl font-bold flex items-center'>WATCH</div>
+                                        <div className='flex flex-col justify-center font-thin'>
+                                            <div className='text-lg'>M6 Smart Band 2.3 – Fitness Band</div>
+                                            <div className='text-lg'>Men’s and Women’s Health Tracking, Red Strap</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
                     </div>
 
