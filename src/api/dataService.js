@@ -1,4 +1,3 @@
-import axios from 'axios';
 const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
 const delay = ms => new Promise(res => setTimeout(res, ms));
 

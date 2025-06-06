@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getData, postData, postFile } from "../../api/dataService";
 import countriesJson from '../../assets/countries.json';
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
-
 const blankUserAddress = {
     address_line_1: '',
     address_line_2: '',
