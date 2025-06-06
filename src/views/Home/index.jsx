@@ -9,14 +9,6 @@ import main_banner_1 from '../../assets/images/main-banner-1.jpg'
 import main_banner_2 from '../../assets/images/main-banner-2.jpg'
 import sub_banner_1 from '../../assets/images/sub-banner-1.jpg'
 import sub_banner_2 from '../../assets/images/sub-banner-2.jpg'
-import category_img_1 from '../../assets/images/categories/category-image-list-1.jpg'
-import category_img_2 from '../../assets/images/categories/category-image-list-2.jpg'
-import category_img_3 from '../../assets/images/categories/category-image-list-3.jpg'
-import category_img_4 from '../../assets/images/categories/category-image-list-4.jpg'
-import category_img_5 from '../../assets/images/categories/category-image-list-5.jpg'
-import category_img_6 from '../../assets/images/categories/category-image-list-6.jpg'
-import category_img_7 from '../../assets/images/categories/category-image-list-7.jpg'
-import category_img_8 from '../../assets/images/categories/category-image-list-8.jpg'
 import cms_banner_1 from '../../assets/images/cms-banner-1.jpg'
 import cms_banner_2 from '../../assets/images/cms-banner-2.jpg'
 import cms_banner_3 from '../../assets/images/cms-banner-3.jpg'
@@ -32,7 +24,9 @@ import service_gift from '../../assets/images/service-logo/gift.svg'
 import service_payment from '../../assets/images/service-logo/payment.svg'
 import service_support from '../../assets/images/service-logo/support.svg'
 import ProductSlider from '../../components/ProductSlider';
+import SliderBanner from '../../components/SliderBanner';
 import './style.css';
+import { Link } from 'react-router-dom';
 
 
 const Home = () => {
@@ -60,30 +54,28 @@ const Home = () => {
                                                 onSlideChange={() => {}}
                                                 className='mySwiper'
                                             >
-                                                <SwiperSlide className='relative'>
-                                                    <img src={main_banner_1} />
+                                                <SwiperSlide className='relative overflow-hidden rounded-md group'>
+                                                    <img src={main_banner_1} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                                     <div className='main-banner-text relative'>
                                                         <div className="headings text-black">
                                                             <div className="heading-text">Big Saving Days Sale</div>
                                                             <div className="sub-heading">Buy Modern Chair In <span>Black Color</span></div>
                                                             <div className="offer-text">Starting At Only<span>$99.00</span></div>
                                                             <div className="button-shopnow w-[25%] mt-5">
-                                                                {/* <a href="#" className="btn btn-primary">Shop Now</a> */}
-                                                                <button className='btn transition'><span className='text-sm'>Shop Now</span></button>
+                                                                <button className='btn transition'><Link className='text-sm' to='/products'>Shop Now</Link></button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </SwiperSlide>
-                                                <SwiperSlide>
-                                                    <img src={main_banner_2} />
+                                                <SwiperSlide className='relative overflow-hidden rounded-md group'>
+                                                    <img src={main_banner_2} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                                     <div className='main-banner-text relative'>
                                                         <div className="headings text-black">
                                                             <div className="heading-text">Big Saving Days Sale</div>
                                                             <div className="sub-heading">Women Solid Round <span>Green T-Shirt</span></div>
                                                             <div className="offer-text">Starting At Only<span>$59.00</span></div>
                                                             <div className="button-shopnow w-[25%] mt-5">
-                                                                {/* <a href="#" className="btn btn-primary">Shop Now</a> */}
-                                                                <button className='btn transition'><span className='text-sm'>Shop Now</span></button>
+                                                                <button className='btn transition'><Link className='text-sm' to='/products'>Shop Now</Link></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -93,23 +85,23 @@ const Home = () => {
 
                                         {/* Banner Seg 2 */}
                                         <div className='sub-banner-section flex flex-col gap-7'>
-                                            <div className='sub-banner-section-item relative'>
-                                                <img src={sub_banner_1} />
+                                            <div className='sub-banner-section-item relative overflow-hidden rounded-md group'>
+                                                <img src={sub_banner_1} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                                 <div className="sub-banner-text flex items-center ml-8">
                                                     <div>
                                                         <div className="main-title text-2xl text-black font-medium">Samsung Gear <span>VR Camera</span></div>
                                                         <div className="offer-title text-xl font-bold text-primary my-3">$129.00</div>
-                                                        <div className="shopnow"><a className="btn btn-primary" href="#">Shop Now</a></div>
+                                                        <div className="shopnow"><Link className="btn btn-primary" to='/products'>Shop Now</Link></div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='sub-banner-section-item relative'>
-                                                <img src={sub_banner_2} />
+                                            <div className='sub-banner-section-item relative overflow-hidden rounded-md group'>
+                                                <img src={sub_banner_2} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                                 <div className="sub-banner-text flex items-center">
                                                     <div>
                                                         <div className="main-title text-2xl text-black font-medium">Marcel Dining <span>Room Chair</span></div>
                                                         <div className="offer-title text-xl font-bold text-primary my-3">$129.00</div>
-                                                        <div className="shopnow"><a className="btn btn-primary" href="#">Shop Now</a></div>
+                                                        <div className="shopnow"><Link className="btn btn-primary" to='/products'>Shop Now</Link></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -118,49 +110,7 @@ const Home = () => {
 
                                     {/* Slider Banner 2 */}
                                     <div className='lower-banner mt-7'>
-                                        <Swiper
-                                            modules={[Navigation, Pagination]}
-                                            navigation={true}
-                                            slidesPerView={7}
-                                            spaceBetween={30}
-                                            loop={true}
-                                            onSwiper={(swiper) => {}}
-                                            onSlideChange={() => {}}
-                                            className='mySwiper'
-                                        >
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_1} />
-                                                <span className='absolute bottom-3'>Smart Tablets</span>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_2} />
-                                                <span className='absolute bottom-3'>T-shirts</span>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_3} />
-                                                <span className='absolute bottom-3'>Leather Watches</span>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_4} />
-                                                <span className='absolute bottom-3'>Diamond Rings</span>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_5} />
-                                                <span className='absolute bottom-3'>Wooden Chairs</span>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_6} />
-                                                <span className='absolute bottom-3'>Shoes</span>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_7} />
-                                                <span className='absolute bottom-3'>Bags & Purse</span>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='lower-banner-slide'>
-                                                <img src={category_img_8} />
-                                                <span className='absolute bottom-3'>Game Consoles</span>
-                                            </SwiperSlide>
-                                        </Swiper>
+                                        <SliderBanner />
                                     </div>
                                 </div>
                             </div>
@@ -190,45 +140,45 @@ const Home = () => {
                         <div className='container'>
                             <div className='banner-content flex justify-between'>
                                 <div className='banner-content-section'>
-                                    <div className="cmsbanner cmsbanner3">
-                                        <a href="#" className="banner-anchor">
-                                            <img src={cms_banner_1} />
-                                        </a>
-                                        <div className="banner-text flex items-center">
-                                            <div>
-                                                <div className="main-title text-2xl text-black font-medium">S22 Samsung <span>Smartphone</span></div>
-                                                <div className="offer-title text-xl font-bold text-primary my-3">$250.00</div>
-                                                <div className="view_more"><a className="btn btn-primary" href="#">Shop Now</a></div>
+                                    <div className="cmsbanner cmsbanner3 overflow-hidden rounded-md group">
+                                        <Link to={'/products'} className="banner-anchor">
+                                            <img src={cms_banner_1} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
+                                            <div className="banner-text flex items-center">
+                                                <div>
+                                                    <div className="main-title text-2xl text-black font-medium">S22 Samsung <span>Smartphone</span></div>
+                                                    <div className="offer-title text-xl font-bold text-primary my-3">$250.00</div>
+                                                    <div className="view_more"><Link className="btn btn-primary" to='/products'>Shop Now</Link></div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className='banner-content-section'>
-                                    <div className="cmsbanner cmsbanner3">
-                                        <a href="#" className="banner-anchor">
-                                            <img src={cms_banner_2} />
-                                        </a>
-                                        <div className="banner-text flex items-center">
-                                            <div>
-                                                <div className="main-title text-2xl text-black font-medium">Armchair Made <span>By shopstic</span></div>
-                                                <div className="offer-title text-xl font-bold text-primary my-3">$190.00</div>
-                                                <div className="view_more"><a className="btn btn-primary" href="#">Shop Now</a></div>
+                                    <div className="cmsbanner cmsbanner3 overflow-hidden rounded-md group">
+                                        <Link to={'/products'} className="banner-anchor">
+                                            <img src={cms_banner_2} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
+                                            <div className="banner-text flex items-center">
+                                                <div>
+                                                    <div className="main-title text-2xl text-black font-medium">Armchair Made <span>By shopstic</span></div>
+                                                    <div className="offer-title text-xl font-bold text-primary my-3">$190.00</div>
+                                                    <div className="view_more"><Link className="btn btn-primary" to='/products'>Shop Now</Link></div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </div>
                                 </div>
                                 <div className='banner-content-section'>
-                                    <div className="cmsbanner cmsbanner3">
-                                        <a href="#" className="banner-anchor">
-                                            <img src={cms_banner_3} />
-                                        </a>
-                                        <div className="banner-text flex items-center">
-                                            <div>
-                                                <div className="main-title text-2xl text-black font-medium">Noise Wireless <span>Headphones</span></div>
-                                                <div className="offer-title text-xl font-bold text-primary my-3">$129.00</div>
-                                                <div className="view_more"><a className="btn btn-primary" href="#">Shop Now</a></div>
+                                    <div className="cmsbanner cmsbanner3 overflow-hidden rounded-md group">
+                                        <Link to={'/products'} className="banner-anchor">
+                                            <img src={cms_banner_3} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />                                        
+                                            <div className="banner-text flex items-center">
+                                                <div>
+                                                    <div className="main-title text-2xl text-black font-medium">Noise Wireless <span>Headphones</span></div>
+                                                    <div className="offer-title text-xl font-bold text-primary my-3">$129.00</div>
+                                                    <div className="view_more"><Link className="btn btn-primary" to='/products'>Shop Now</Link></div>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
@@ -243,7 +193,7 @@ const Home = () => {
 
                     <div className='block banner-section-4 banner-custom-ad-block py-14'>
                         <div className='container relative'>
-                            <a href="#" className="banner-anchor">
+                            <Link to={'/products'} className="banner-anchor">
                                 <img src={offer_banner_1} />
                                 <div className='absolute top-0 flex justify-center w-[100%] h-[100%]'>
                                     <div className='flex gap-5 text-white'>
@@ -254,7 +204,7 @@ const Home = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
@@ -268,25 +218,29 @@ const Home = () => {
                         <div className='container'>
                             <div className="banner-content flex justify-between gap-7">
                                 <div className="banner-content-section">
-                                    <div className="cmsbanner cmsbanner1">
-                                        <a href="#" className="banner-anchor"><img src={cms_banner_4} /></a>
+                                    <div className="cmsbanner cmsbanner1 overflow-hidden rounded-md group">
+                                        <Link to='/products' className="banner-anchor">
+                                            <img src={cms_banner_4} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
+                                        </Link>
                                         <div className="banner-text flex items-center">
                                             <div>
                                                 <div className="offer-title text-lg">Save Up To 20% Off</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Santa Lucia Three <span>Seater Sofa</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to='/products'>Shop Now</Link></button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="banner-content-section">
-                                    <div className="cmsbanner cmsbanner2">
-                                        <a href="#" className="banner-anchor"><img src={cms_banner_5} /></a>
+                                    <div className="cmsbanner cmsbanner2 overflow-hidden rounded-md group">
+                                        <Link to='/products' className="banner-anchor">
+                                            <img src={cms_banner_5} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
+                                        </Link>
                                         <div className="banner-text flex items-center">
                                             <div>
                                                 <div className="offer-title text-lg">Best Online Discount</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Woman In Red Crew <span>Neck T-shirt</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to='/products'>Shop Now</Link></button>
                                             </div>
                                         </div>
                                     </div>
@@ -312,24 +266,28 @@ const Home = () => {
                             <div className="banner-content flex justify-between gap-7">
                                 <div className="banner-content-section">
                                     <div className="cmsbanner cmsbanner1 overflow-hidden rounded-md group">
-                                        <a href="#" className="banner-anchor"><img src={cms_banner_6} className='transition-all ease-in-out duration-1000 group-hover:scale-110' /></a>
+                                        <Link to='/products' className="banner-anchor">
+                                            <img src={cms_banner_6} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
+                                        </Link>
                                         <div className="banner-text flex items-center">
                                             <div>
                                                 <div className="offer-title text-lg">20 Days Return Policy</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Mobile Shope-Smart <span>Watch T-55</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to='/products'>Shop Now</Link></button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="banner-content-section">
-                                    <div className="cmsbanner cmsbanner2">
-                                        <a href="#" className="banner-anchor"><img src={cms_banner_7} /></a>
+                                    <div className="cmsbanner cmsbanner2 overflow-hidden rounded-md group">
+                                        <Link to='/products' className="banner-anchor">
+                                            <img src={cms_banner_7} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
+                                        </Link>
                                         <div className="banner-text flex items-center">
                                             <div>
                                                 <div className="offer-title text-lg">Save Up To 30% Off</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Decoration Design <span>Lamp Light</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><a href="#">Shop Now</a></button>
+                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to='/products'>Shop Now</Link></button>
                                             </div>
                                         </div>
                                     </div>
