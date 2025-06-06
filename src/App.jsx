@@ -16,6 +16,7 @@ import VerifyAccount from './views/VerifyAccount';
 import AuthChecker from './components/AuthChecker';
 import UserPage from './views/UserPage';
 import CustomModal from './components/CustomModal';
+import BackToTop from './components/BackToTop';
 import { actions } from './redux/slices/userSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
@@ -71,6 +72,7 @@ function App() {
             <Footer />
             <Toaster />
             <CustomModal />
+            <BackToTop />
         </>
     )
 }
