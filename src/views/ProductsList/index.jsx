@@ -5,6 +5,7 @@ import ColorCheckbox from '../../components/ColorCheckbox';
 import ValueSlider from '../../components/ValueSlider';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
 import FashionSplashImg from '../../assets/images/fashion.jpg'
+import FashionSplashImg2 from '../../assets/images/large-banner.jpg'
 import product_img_1 from '../../assets/images/products-slider-images/blue-laptop-bag.jpg'
 import { MenuItem, Pagination, Select } from '@mui/material';
 import { IoGridOutline } from 'react-icons/io5';
@@ -53,11 +54,11 @@ const ProductsList = () => {
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Size</p>
                                         <ul>
-                                            <li className='flex justify-between'><Checkbox>Small</Checkbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><Checkbox>Medium</Checkbox><span>(5)</span></li>
-                                            <li className='flex justify-between'><Checkbox>Large</Checkbox><span>(7)</span></li>
-                                            <li className='flex justify-between'><Checkbox>XL</Checkbox><span>(1)</span></li>
-                                            <li className='flex justify-between'><Checkbox>XXL</Checkbox><span>(3)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Small</span></Checkbox><span>(6)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Medium</span></Checkbox><span>(5)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Large</span></Checkbox><span>(7)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>XL</span></Checkbox><span>(1)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>XXL</span></Checkbox><span>(3)</span></li>
                                         </ul>
                                     </section>
 
@@ -85,20 +86,20 @@ const ProductsList = () => {
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Brand</p>
                                         <ul>
-                                            <li className='flex justify-between'><Checkbox>Small</Checkbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><Checkbox>Medium</Checkbox><span>(5)</span></li>
-                                            <li className='flex justify-between'><Checkbox>Large</Checkbox><span>(7)</span></li>
-                                            <li className='flex justify-between'><Checkbox>XL</Checkbox><span>(1)</span></li>
-                                            <li className='flex justify-between'><Checkbox>XXL</Checkbox><span>(3)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Small</span></Checkbox><span>(6)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Medium</span></Checkbox><span>(5)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Large</span></Checkbox><span>(7)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>XL</span></Checkbox><span>(1)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>XXL</span></Checkbox><span>(3)</span></li>
                                         </ul>
                                     </section>
 
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Condition</p>
                                         <ul>
-                                            <li className='flex justify-between'><Checkbox>New</Checkbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><Checkbox>Refurbished</Checkbox><span>(5)</span></li>
-                                            <li className='flex justify-between'><Checkbox>Used</Checkbox><span>(7)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>New</span></Checkbox><span>(6)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Refurbished</span></Checkbox><span>(5)</span></li>
+                                            <li className='flex justify-between'><Checkbox><span className='ml-1'>Used</span></Checkbox><span>(7)</span></li>
                                         </ul>
                                     </section>
                                 </div>
@@ -112,7 +113,7 @@ const ProductsList = () => {
                         <div className='main-content'>
                             <div className='main-category-header border-b-[2px]'>
                                 <div className='category-splash-cover'>
-                                    <img src={FashionSplashImg} className='rounded-md' />
+                                    <img src={FashionSplashImg2} className='rounded-md' />
                                 </div>
                                 <div className='category-title'>Fashion</div>
                                 <div className='category-description'>
