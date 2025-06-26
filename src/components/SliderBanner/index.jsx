@@ -20,34 +20,42 @@ const index = () => {
         {
             img: category_img_1,
             value: 'Smart Tablets',
+            category: 'electronics',
         },
         {
             img: category_img_2,
             value: 'T-shirts',
+            category: 'fashion',
         },
         {
             img: category_img_3,
             value: 'Leather Watches',
+            category: 'fashion',
         },
         {
             img: category_img_4,
             value: 'Diamond Rings',
+            category: 'fashion',
         },
         {
             img: category_img_5,
             value: 'Wooden Chairs',
+            category: 'furniture',
         },
         {
             img: category_img_6,
             value: 'Shoes',
+            category: 'fashion',
         },
         {
             img: category_img_7,
             value: 'Bags & Purse',
+            category: 'fashion',
         },
         {
             img: category_img_8,
             value: 'Game Consoles',
+            category: 'electronics',
         },
     ];
 
@@ -63,7 +71,10 @@ const index = () => {
             className='mySwiper'
         >
             {bannerItems.map((item) => <SwiperSlide className='lower-banner-slide'>
-                <Link to='/products'>
+                <Link to={{
+                    pathname: "/products",
+                    search: `?category=${item.category}`,
+                }}>
                     <div className='flex justify-center'>
                         <img src={item.img} />
                         <span className='absolute bottom-3'>{item.value}</span>

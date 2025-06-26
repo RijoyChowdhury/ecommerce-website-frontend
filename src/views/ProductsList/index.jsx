@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './style.css';
 import Checkbox from '../../components/Checkbox';
 import ColorCheckbox from '../../components/ColorCheckbox';
@@ -18,6 +19,9 @@ const ProductsList = () => {
     const [age, setAge] = useState(0);
     const [displayType, setDisplayType] = useState(0);
     const breadcrumbList = ['Home', 'Fashion'];
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const category = searchParams.get('category') ?? 'All Products';
 
     const handleChange = (event) => {
         setAge(event.target.value);
@@ -115,7 +119,9 @@ const ProductsList = () => {
                                 <div className='category-splash-cover'>
                                     <img src={FashionSplashImg2} className='rounded-md' />
                                 </div>
-                                <div className='category-title'>Fashion</div>
+                                <div className='category-title'>
+                                    <span className='text-2xl font-semibold text-primary'>{category}</span>
+                                </div>
                                 <div className='category-description'>
                                     Fashion has been creating well-designed collections since 2010. The brand offers feminine designs delivering stylish separates and statement dresses which has since evolved.
                                 </div>
@@ -151,9 +157,13 @@ const ProductsList = () => {
                                 <div className='product-list-toolbar py-4'>
                                     <div className='flex justify-between'>
                                         <div className='product-list-type flex items-center gap-2'>
-                                            <div className='grid-type text-lg cursor-pointer' onClick={() => setDisplayType(1)}><IoGridOutline /></div>
-                                            <div className='list-type text-lg cursor-pointer' onClick={() => setDisplayType(0)}><FaList /></div>
-                                            <span>There are 18 products.</span>
+                                            <span>Display Type:</span>
+                                            <div className={`grid-type text-xl cursor-pointer ${displayType === 1 && 'text-primary'}`} onClick={() => setDisplayType(1)}>
+                                                <IoGridOutline />
+                                            </div>
+                                            <div className={`list-type text-xl cursor-pointer ${displayType === 0 && 'text-primary'}`} onClick={() => setDisplayType(0)}>
+                                                <FaList />
+                                            </div>
                                         </div>
 
                                         <div className='product-sort-type flex items-center gap-2'>
