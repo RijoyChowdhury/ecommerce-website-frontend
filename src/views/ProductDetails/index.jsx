@@ -28,6 +28,7 @@ const ProductDetails = () => {
     const breadcrumbList = ['Home', 'Fashion', 'Cropped Satin Bomber Jacket'];
     const [swiper, setSwiper] = useState(null);
     const [review, setReview] = useState('');
+    const [productCount, setProductCount] = useState(1);
     const [productDetails, setProductDetails] = useState(null);
     const [reviewList, setReviewList] = useState([]);
     const [reviewListCount, setReviewListCount] = useState(5);
@@ -85,7 +86,11 @@ const ProductDetails = () => {
         }
     };
 
-    const addItemToCart = () => { };
+    const addItemToCart = () => {
+        console.log('Product Id:', productDetails._id);
+        console.log('Count:', productCount);
+        console.log('User Id:', user._id,);
+    };
 
     useEffect(() => {
         fetchProductDetails(id);
@@ -226,7 +231,7 @@ const ProductDetails = () => {
                                     <div className='product-add-to-cart mb-4'>
                                         <div className='flex h-[45px] gap-2'>
                                             <div className='product_quantity w-[100px]'>
-                                                <Counter start={1} limit={10} step={1} />
+                                                <Counter start={1} limit={10} onValueChange={value => setProductCount(value)} />
                                             </div>
                                             <div className='product_add w-[250px]'>
                                                 <button className='btn' onClick={addItemToCart}>Add to Cart</button>
