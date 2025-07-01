@@ -34,7 +34,6 @@ function App() {
     const checkUserPresent = async () => {
         if (list.includes(location.pathname)) return;
         if (!user && isAccessTokenPresent()) {
-            console.log('fetch user')
             const response = await dispatch(fetchUser()).unwrap();
             if (response.success) {
                 // notifySuccess('Login successful');
