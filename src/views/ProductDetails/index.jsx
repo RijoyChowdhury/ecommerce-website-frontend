@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumb';
 import './style.css';
 import ProductSlider from '../../components/ProductSlider';
@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { IoChevronBackOutline, IoChevronForwardOutline } from 'react-icons/io5';
-import { FaRegThumbsUp } from 'react-icons/fa';
+import { FaRegThumbsDown, FaRegThumbsUp } from 'react-icons/fa';
 import ProgressBar from '../../components/ProgressBar';
 import ColorCheckbox from '../../components/ColorCheckbox';
 import Counter from '../../components/Counter';
@@ -19,11 +19,91 @@ import { HiOutlineSquare2Stack } from 'react-icons/hi2';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import StarRating from '../../components/StarRating';
 import DeliveryPolicies from '../../components/Policies';
+import { Link, useParams } from 'react-router-dom';
+import { actions } from '../../redux/slices/productSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
 
 const ProductDetails = () => {
     const breadcrumbList = ['Home', 'Fashion', 'Cropped Satin Bomber Jacket'];
     const [swiper, setSwiper] = useState(null);
+    const [review, setReview] = useState('');
+    const [productDetails, setProductDetails] = useState(null);
+    const [reviewList, setReviewList] = useState([]);
+    const [reviewListCount, setReviewListCount] = useState(5);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
     const [sectionId, setSectionId] = useState(0);
+    const dispatch = useDispatch();
+    const id = '685ea8837503570f85234e52';
+    // const { id } = useParams();
+    const { getProductDetails, submitProductReview } = actions;
+    const { user } = useSelector(state => state.userSlice);
+
+    const fetchProductDetails = async (id) => {
+        setLoading(true);
+        const response = await dispatch(getProductDetails(id)).unwrap();
+        if (response.success) {
+            const sortedArray = response.data.review.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()); // Ascending
+            response.data.review = sortedArray;
+            setProductDetails(response.data);
+            setReviewList(response.data.review);
+        }
+        if (response.error) {
+            setError(response.error);
+        }
+        setLoading(false);
+    };
+
+    const submitReview = async () => {
+        const reviewPayload = {
+            productId: id,
+            userId: user._id,
+            comment: review,
+        };
+        console.log(productDetails.review);
+        const response = await dispatch(submitProductReview(reviewPayload)).unwrap();
+        if (response.success) {
+            // add review to the revies list on top
+            setReview('');
+            setReviewList(state => {
+                return [
+                    {
+                        comment: review,
+                        like: 0,
+                        dislike: 0,
+                        user: { _id: user._id, name: user.name },
+                        createdAt: new Date(),
+                        updatedAt: new Date(),
+                    },
+                    ...state,
+                ]
+            });
+        }
+        if (response.error) {
+            // notify failure
+        }
+    };
+
+    const addItemToCart = () => { };
+
+    useEffect(() => {
+        fetchProductDetails(id);
+        console.log('user');
+        console.log(user);
+    }, []);
+
+    if (loading) {
+        return (<div className='h-[600px]'>
+            <LoadingSpinner />;
+        </div>);
+    }
+
+    if (error || !productDetails) {
+        return (<div className='h-[600px]'>
+            <span className='text-2xl text-primary'>Error</span>
+        </div>)
+    }
 
     return (
         <>
@@ -39,7 +119,7 @@ const ProductDetails = () => {
                         <div className='product-img-sticky-wrapper w-[40%]'>
                             <div className='product-img-wrapper sticky top-20'>
                                 <div className='img-display-wrapper'>
-                                    <div className='border-2 mb-6'><img src={product_big_1} /></div>
+                                    <div className='border-2 mb-6'><img src={productDetails.images[0]} /></div>
                                 </div>
 
                                 {/* product img section wrapper */}
@@ -58,21 +138,13 @@ const ProductDetails = () => {
                                             onSwiper={(swiper) => setSwiper(swiper)}
                                             className="mySwiper2"
                                         >
-                                            <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
-                                                <div>
-                                                    <img src={product_thumbnail_1} />
-                                                </div>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
-                                                <div>
-                                                    <img src={product_thumbnail_1} />
-                                                </div>
-                                            </SwiperSlide>
-                                            <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
-                                                <div>
-                                                    <img src={product_thumbnail_1} />
-                                                </div>
-                                            </SwiperSlide>
+                                            {productDetails.images.map(img => (
+                                                <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
+                                                    <div>
+                                                        <img src={img} />
+                                                    </div>
+                                                </SwiperSlide>
+                                            ))}
                                         </Swiper>
                                     </div>
 
@@ -89,28 +161,28 @@ const ProductDetails = () => {
 
                         {/* product quick info wrapper */}
                         <div className='product-info-wrapper w-[60%] border-2 p-4'>
-                            <div className='ratings-wrapper flex items-baseline gap-2'>
+                            <div className='ratings-wrapper flex items-center gap-2'>
                                 <div className='ratings flex gap-0.5 items-center'>
                                     <StarRating />
+                                    <div>({productDetails.rating})</div>
                                 </div>
-                                <span>0 Reviews</span>
+                                <span>{productDetails.review.length} Review(s)</span>
                             </div>
 
-                            <div className='product-name text-2xl text-black py-2'>Cropped Satin Bomber Jacket</div>
+                            <div className='product-name text-2xl text-black py-2'>{productDetails.name}</div>
                             <div className='product-description pb-2'>
-                                Established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-                                The point of using Lorem Ipsum is that it has a more-or-less.
+                                {productDetails.description}
                             </div>
 
                             <div className='product-data flex border-t-[1px] py-2'>
                                 <div className='w-[75%] flex flex-col'>
                                     <div className='product-info-wrapper'>
-                                        <div className='mb-2'><span className='text-black font-medium'>Brand:</span> Pro Tech GearPro Tech Gear</div>
+                                        <div className='mb-2'><span className='text-black font-medium'>Brand:</span> {productDetails.brand}</div>
                                         <div className='mb-2'><span className='text-black font-medium'>Condition:</span> Refurbished</div>
                                         <div className='mb-2'><span className='text-black font-medium'>Reference:</span> Product5</div>
-                                        <div className='mb-2'><span className='text-black font-medium'>Available In Stock: <span className='text-green-500'>142 Items</span></span></div>
+                                        <div className='mb-2'><span className='text-black font-medium'>Available In Stock: <span className='text-green-500'>{productDetails.stockCount} Items</span></span></div>
                                         <div className='mb-6'>
-                                            <span className='text-black font-medium'>Hurry up! only <span className='text-red-500'>142</span> items left in stock!</span>
+                                            <span className='text-black font-medium'>Hurry up! only <span className='text-red-500'>{productDetails.stockCount}</span> items left in stock!</span>
                                             <div className="progress-wrapper w-[75%] pt-2">
                                                 <ProgressBar value={35} maxValue={100} height={7} />
                                             </div>
@@ -119,10 +191,9 @@ const ProductDetails = () => {
                                             <span className=''>Size: Small</span>
                                             <div className='mt-2'>
                                                 <ul className='flex gap-2'>
-                                                    <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>Small</button></li>
-                                                    <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>Large</button></li>
-                                                    <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>XL</button></li>
-                                                    <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>XXL</button></li>
+                                                    {productDetails.size.map(size => (
+                                                        <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>{size}</button></li>
+                                                    ))}
                                                 </ul>
                                             </div>
                                         </div>
@@ -143,7 +214,7 @@ const ProductDetails = () => {
                                         <div className="product-price h5 ">
                                             <div className="current-price">
                                                 <span className="current-price-value text-2xl font-semibold text-primary" content="94">
-                                                    $94.00
+                                                    ₹{productDetails.price}
                                                 </span>
                                             </div>
                                         </div>
@@ -158,7 +229,7 @@ const ProductDetails = () => {
                                                 <Counter start={1} limit={10} step={1} />
                                             </div>
                                             <div className='product_add w-[250px]'>
-                                                <button className='btn'>Add to Cart</button>
+                                                <button className='btn' onClick={addItemToCart}>Add to Cart</button>
                                             </div>
                                         </div>
                                         <div className='product_wish_compare flex gap-3 py-3'>
@@ -172,12 +243,12 @@ const ProductDetails = () => {
                                             </span>
                                         </div>
                                         <div className="product-availability flex">
-                                            <div className="product-available border-[1px] px-2 bg-green-200">
+                                            {productDetails.stockCount > 0 && <div className="product-available border-[1px] px-2 bg-green-200">
                                                 In Stock
-                                            </div>
-                                            <div className="product-unavailable border-[1px] px-2 bg-red-200">
+                                            </div>}
+                                            {productDetails.stockCount === 0 && <div className="product-unavailable border-[1px] px-2 bg-red-200">
                                                 Out of Stock
-                                            </div>
+                                            </div>}
                                         </div>
                                     </div>
 
@@ -272,8 +343,10 @@ const ProductDetails = () => {
                     <div className='review-section-wrapper pb-8'>
                         <div className=''>
                             <div className='review-section-header text-2xl text-black'>Reviews</div>
-                            <div className='review-section-content'>
-                                <div className='review-wrapper flex'>
+                            <div className='review-section-content border-2 rounded-md'>
+
+                                {/* render the individual reviews */}
+                                {reviewList.slice(0, reviewListCount).map(item => <div className='review-wrapper flex'>
                                     <div className='review-owner w-[20%] p-4'>
                                         <div className='rating-section flex mb-2'>
                                             <span className='w-[50%]'>Rating</span>
@@ -282,21 +355,32 @@ const ProductDetails = () => {
                                             </div>
                                         </div>
                                         <div className='user-section flex flex-col bg-custom-light-gray'>
-                                            <span className='flex justify-center text-black'>Marco</span>
-                                            <em className='flex justify-center'>03/05/2024</em>
+                                            <span className='flex justify-center text-black'>{item.user.name}</span>
+                                            <em className='flex justify-center'>{new Date(item.updatedAt).toLocaleDateString('en-US', {
+                                                year: 'numeric',
+                                                month: 'long',
+                                                day: '2-digit'
+                                            })}</em>
                                         </div>
                                     </div>
                                     <div className='review-content w-[80%] border-l-2 p-4'>
-                                        <div>
-                                            <span className='block'>Perfect product!</span>
-                                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.
+                                        <div className='border-2 h-[100px]'>
+                                            <p className='px-1 text-wrap scroll-auto overflow-hidden'>
+                                                {item.comment}
+                                            </p>
                                         </div>
-                                        <div className='flex items-center gap-2'>
-                                            <FaRegThumbsUp />
-                                            <span>2 people found this review useful.</span>
+                                        <div className='flex items-center justify-end gap-2'>
+                                            <FaRegThumbsUp className='cursor-pointer' />
+                                            <span>11</span>
+                                            <FaRegThumbsDown className='cursor-pointer' />
+                                            <span>2</span>
                                         </div>
                                     </div>
-                                </div>
+                                </div>)}
+
+                            </div>
+                            <div className='mt-4 text-lg flex justify-end'>
+                                <button className='btn-primary' onClick={() => setReviewListCount(state => state + 5)}>Load More</button>
                             </div>
                         </div>
                     </div>
@@ -306,17 +390,23 @@ const ProductDetails = () => {
                         <div className='add-review-header text-2xl text-black'>Add Review</div>
                         <div className='add-review-section flex justify-between gap-2 h-[150px]'>
                             {/* add review textbox - user should be logged in */}
-                            <div className='review-textbox border-2 w-[80%]'>
-                                <textarea className='w-[100%] h-[100%]' style={{resize: 'none', padding: '2px 7px'}}></textarea>
+                            {user ? <div className='review-textbox border-2 w-[80%]'>
+                                <textarea
+                                    className='w-[100%] h-[100%]'
+                                    placeholder='Write a review...'
+                                    style={{ resize: 'none', padding: '2px 7px' }}
+                                    value={review}
+                                    onChange={e => setReview(e.target.value.length <= 350 ? e.target.value : review)}
+                                ></textarea>
                             </div>
-                            {/* <div className='review-textbox border-2 w-[80%] flex justify-center items-center'>
-                                <div className='italic'><span className='link underline'>Login</span> to add review.</div>
-                            </div> */}
-                            
+                                : <div className='review-textbox border-2 w-[80%] flex justify-center items-center'>
+                                    <div className='italic'><Link to={'/login'} className='link underline'>Login</Link> to add review.</div>
+                                </div>}
+
                             {/* add review btn */}
                             <div className='review-btn-grp flex flex-col w-[20%] gap-2'>
-                                <button className='btn'>Submit</button>
-                                <button className='btn !bg-white !text-primary'>Cancel</button>
+                                <button className='btn' onClick={submitReview}>Submit</button>
+                                <button className='btn !bg-white !text-primary' onClick={() => setReview('')}>Cancel</button>
                             </div>
                         </div>
                     </div>
