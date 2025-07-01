@@ -22,6 +22,7 @@ const ProductsList = () => {
 
     const [searchParams, setSearchParams] = useSearchParams();
     const category = searchParams.get('category') ?? 'All Products';
+    const searchTerm = searchParams.get('search') ?? '';
 
     const handleChange = (event) => {
         setAge(event.target.value);

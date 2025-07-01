@@ -58,8 +58,11 @@ const Header = () => {
 
     const onSearch = () => {
         if (searchTerm) {
+            navigate({
+                pathname: "/products",
+                search: `?search=${searchTerm}`,
+            });
             setSearchTerm('');
-            navigate('/products');
         }
     }
 
