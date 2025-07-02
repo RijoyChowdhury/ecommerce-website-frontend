@@ -94,8 +94,6 @@ const ProductDetails = () => {
 
     useEffect(() => {
         fetchProductDetails(id);
-        console.log('user');
-        console.log(user);
     }, []);
 
     if (loading) {
