@@ -17,7 +17,8 @@ import AuthChecker from './components/AuthChecker';
 import UserPage from './views/UserPage';
 import CustomModal from './components/CustomModal';
 import BackToTop from './components/BackToTop';
-import { actions } from './redux/slices/userSlice';
+import { actions as userActions } from './redux/slices/userSlice';
+import { actions as cartActions } from './redux/slices/cartSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useRef } from 'react';
 
@@ -26,7 +27,8 @@ function App() {
     const location = useLocation();
     const isMounted = useRef(false)
     const { user } = useSelector(state => state.userSlice);
-    const { fetchUser } = actions;
+    const { fetchUser } = userActions;
+    const { getCartDetails, updateCartState } = cartActions;
     const isAccessTokenPresent = () => localStorage.getItem('isAccessTokenPresent') === 'true';
 
     const list = ['/login', '/register', '/verifyaccount', '/forgotpassword'];
@@ -36,7 +38,7 @@ function App() {
         if (!user && isAccessTokenPresent()) {
             const response = await dispatch(fetchUser()).unwrap();
             if (response.success) {
-                // notifySuccess('Login successful');
+                dispatch(getCartDetails());
             }
         }
     };

@@ -15,13 +15,10 @@ import LoadingSpinner from '../LoadingSpinner';
 const CartDrawer = (props) => {
     const navigate = useNavigate();
     const { open, toggleDrawer } = props;
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const dispatch = useDispatch();
     const { getCartDetails, updateCartState, removeCartItem } = actions;
-    const { cart } = useSelector(state => state.cartSlice);
-    const { user } = useSelector(state => state.userSlice);
+    const { cart, isLoading, error } = useSelector(state => state.cartSlice);
 
     const goToCartPage = () => {
         toggleDrawer(false);
@@ -106,8 +103,8 @@ const CartDrawer = (props) => {
     return (
         <>
             <Drawer open={open} anchor='right' onClose={() => toggleDrawer(false)}>
-                {loading && <div className='w-[420px] h-full border-2'><LoadingSpinner /></div>}
-                {!loading && DrawerList}
+                {isLoading && <div className='w-[420px] h-full border-2'><LoadingSpinner /></div>}
+                {!isLoading && DrawerList}
             </Drawer>
         </>
     )

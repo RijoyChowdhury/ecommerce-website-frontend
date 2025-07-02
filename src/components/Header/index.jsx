@@ -46,6 +46,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user, isLoading } = useSelector(state => state.userSlice);
+    const { cart } = useSelector(state => state.cartSlice);
     const [showLanguageDropdownMenu, setShowLanguageDropdownMenu] = useState(false);
     const [showCurrencyDropdownMenu, setShowCurrencyDropdownMenu] = useState(false);
     const [showUserDropdownMenu, setShowUserDropdownMenu] = useState(false);
@@ -249,7 +250,7 @@ const Header = () => {
                                     </div>
                                     <div className='quick-action-btn cursor-pointer' onClick={() => handleCartOpen(true)}>
                                         <Tooltip title="My Cart" arrow>
-                                            <Badge badgeContent={user ? 4 : 0} color="error">
+                                            <Badge badgeContent={cart ? cart.length : 0} color="error">
                                                 <IoCartOutline />
                                             </Badge>
                                         </Tooltip>

@@ -3,6 +3,8 @@ import { getData, postData, postFile } from "../../api/dataService";
 
 const initialState = {
     cart: null,
+    isLoading: false,
+    error: false,
 };
 
 const getCartDetails = createAsyncThunk('cart/getDetails', async () => {
@@ -53,7 +55,22 @@ const cartSlice = createSlice({
             state.cart = [...state.cart];
         }
     },
-    extraReducers: builder => {},
+    extraReducers: builder => {
+        builder
+        .addCase(getCartDetails.pending, (state, action) => {
+            state.error = null;
+            state.cart = null;
+            state.isLoading = true;
+        }).addCase(getCartDetails.fulfilled, (state, action) => {
+            state.error = false;
+            state.cart = action.payload.data;
+            state.isLoading = false;
+        }).addCase(getCartDetails.rejected, (state, action) => {
+            state.error = true;
+            state.cart = null;
+            state.isLoading = false;
+        })
+    },
 });
 
 export default cartSlice;

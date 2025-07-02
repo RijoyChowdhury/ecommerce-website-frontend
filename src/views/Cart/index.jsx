@@ -20,11 +20,10 @@ const notify = (value) => toast.success(`Product ${value} removed from cart.`);
 const CartPage = () => {
     const navigate = useNavigate();
     const [showPromoSegment, setShowPromoSegment] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [cartItems, setCartItems] = useState([]);
     const dispatch = useDispatch();
-    const { getCartDetails, updateCartState, removeCartItem, updateProductQuantity } = actions;
-    const { cart } = useSelector(state => state.cartSlice);
+    const { getCartDetails, removeCartItem, updateProductQuantity } = actions;
+    const { cart, isLoading, error } = useSelector(state => state.cartSlice);
     const { user } = useSelector(state => state.userSlice);
 
     const togglePromoSegment = () => {
@@ -39,16 +38,7 @@ const CartPage = () => {
         if (cart) {
             setCartItems(cart);
         } else {
-            setLoading(true);
-            const response = await dispatch(getCartDetails()).unwrap();
-            if (response.success) {
-                setCartItems(response.data);
-                dispatch(updateCartState(response.data));
-            }
-            if (response.error) {
-
-            }
-            setLoading(false);
+            dispatch(getCartDetails());
         }
     }
 
@@ -81,7 +71,7 @@ const CartPage = () => {
                             <div className='cart-content'>
 
                                 {/* cart item list */}
-                                {!loading && cartItems.length > 0 && cartItems.map((item, index) => <div key={index} className='cart-item flex p-4 gap-2'>
+                                {!isLoading && cartItems.length > 0 && cartItems.map((item, index) => <div key={index} className='cart-item flex p-4 gap-2'>
                                     <div className='product-thumbnail w-[10%] flex justify-start'>
                                         <div className=''>
                                             <img src={item.product.images.length > 0 ? item.product.images[0] : noImgAvailable} className='border-2 rounded-md overflow-hidden' />
@@ -113,10 +103,10 @@ const CartPage = () => {
                                 </div>)}
                                 
                                 {/* loading spinner */}
-                                {loading && <div className='w-full h-[480px]'><LoadingSpinner /></div>}
+                                {isLoading && <div className='w-full h-[480px]'><LoadingSpinner /></div>}
 
                                 {/* empty cart */}
-                                {!loading && cartItems.length === 0 && <div className='h-[480px] flex items-center justify-center'><img src={cartEmpty} width="450" /></div>}
+                                {!isLoading && cartItems.length === 0 && <div className='h-[480px] flex items-center justify-center'><img src={cartEmpty} width="450" /></div>}
 
                             </div>
                         </div>
