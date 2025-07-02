@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Divider } from '@mui/material';
 import { CiDeliveryTruck, CiLock } from 'react-icons/ci';
 import { FaChevronLeft, FaRegTrashAlt } from 'react-icons/fa';
@@ -9,18 +9,66 @@ import Counter from '../../components/Counter';
 import toast from 'react-hot-toast';
 import './style.css';
 import DeliveryPolicies from '../../components/Policies';
+import { actions } from '../../redux/slices/cartSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import noImgAvailable from '../../assets/images/no-img-available.png';
+import cartEmpty from '../../assets/images/cart-empty.avif';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const notify = (value) => toast.success(`Product ${value} removed from cart.`);
 
 const CartPage = () => {
     const navigate = useNavigate();
     const [showPromoSegment, setShowPromoSegment] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [cartItems, setCartItems] = useState([]);
+    const dispatch = useDispatch();
+    const { getCartDetails, updateCartState, removeCartItem, updateProductQuantity } = actions;
+    const { cart } = useSelector(state => state.cartSlice);
+    const { user } = useSelector(state => state.userSlice);
+
     const togglePromoSegment = () => {
         setShowPromoSegment(state => !state);
     }
+
     const goToCheckout = () => {
         navigate('/checkout');
     }
+
+    const fetchCartDetails = async () => {
+        if (cart) {
+            setCartItems(cart);
+        } else {
+            setLoading(true);
+            const response = await dispatch(getCartDetails()).unwrap();
+            if (response.success) {
+                setCartItems(response.data);
+                dispatch(updateCartState(response.data));
+            }
+            if (response.error) {
+
+            }
+            setLoading(false);
+        }
+    }
+
+    const getTotalCartAmt = () => {
+        if (cartItems.length === 0) return 0;
+        return cartItems.reduce((acc, item) => acc + (item.quantity * item.product.price), 0);
+    }
+
+    const changeProductQty = (productId, quantity) => {
+        dispatch(updateProductQuantity({productId, quantity}));
+    }
+
+    const removeItem = (productId) => {
+        dispatch(removeCartItem(productId));
+    }
+
+    useEffect(() => {
+        fetchCartDetails();
+    }, [cart]);
+
     return (
         <div className='block cart-page'>
             <div className='container py-8'>
@@ -29,17 +77,18 @@ const CartPage = () => {
                         <div className='cart-content-wrapper border-2 rounded-md'>
                             <div className='cart-header text-xl text-black border-b-2 p-4'>Shopping Cart</div>
 
-                            {/* cart items */}
+                            {/* cart items wrapper */}
                             <div className='cart-content'>
 
-                                {new Array(5).fill(0).map((val, index) => <div key={index} className='cart-item flex p-4 gap-2'>
+                                {/* cart item list */}
+                                {!loading && cartItems.length > 0 && cartItems.map((item, index) => <div key={index} className='cart-item flex p-4 gap-2'>
                                     <div className='product-thumbnail w-[10%] flex justify-start'>
                                         <div className=''>
-                                            <img src={cart_thumbnail_product} className='border-2 rounded-md overflow-hidden' />
+                                            <img src={item.product.images.length > 0 ? item.product.images[0] : noImgAvailable} className='border-2 rounded-md overflow-hidden' />
                                         </div>
                                     </div>
                                     <div className='w-[50%] flex flex-col ml-6'>
-                                        <span className='text-black font-semibold'>Apple AirPods Max Over-Ear Wireless Headphone</span>
+                                        <span className='text-black font-semibold'>{item.product.name}</span>
                                         <span className='flex gap-2 items-center'>
                                             <span className='line-through'>$47.00</span>
                                             <span className='text-sm text-red-500'>-$5.00</span>
@@ -47,33 +96,39 @@ const CartPage = () => {
                                         </span>
                                         <span className='flex gap-2 items-center'>
                                             <span className='text-black font-semibold'>Color:</span>
-                                            <span> Grey</span>
+                                            <span> {item.color}</span>
                                         </span>
                                         <span className='flex gap-2 items-center'>
-                                            <span className='text-black font-semibold'>Dimension:</span>
-                                            <span> 60x90cm</span>
+                                            <span className='text-black font-semibold'>Size:</span>
+                                            <span> {item.size}</span>
                                         </span>
                                     </div>
-                                    <div className='w-[15%] p-7'><Counter /></div>
+                                    <div className='w-[15%] p-7'><Counter start={item.quantity} onValueChange={(val) => changeProductQty(item._id, val)} /></div>
                                     <div className='w-[15%] flex justify-center items-center'>
-                                        <span className='text-primary text-lg'>$51.04</span>
+                                        <span className='text-primary text-lg'>${item.quantity * item.product.price}</span>
                                     </div>
                                     <div className='w-[10%] text-2xl flex justify-center items-center'>
-                                        <FaRegTrashAlt className='cursor-pointer hover:text-red-500' onClick={() => notify(index)} />
+                                        <FaRegTrashAlt className='cursor-pointer hover:text-red-500' onClick={() => removeItem(item._id)} />
                                     </div>
                                 </div>)}
+                                
+                                {/* loading spinner */}
+                                {loading && <div className='w-full h-[480px]'><LoadingSpinner /></div>}
+
+                                {/* empty cart */}
+                                {!loading && cartItems.length === 0 && <div className='h-[480px] flex items-center justify-center'><img src={cartEmpty} width="450" /></div>}
 
                             </div>
                         </div>
 
-                        <Link to="/products" className='flex gap-2 items-center link pt-8'><FaChevronLeft /> Continue Shopping</Link>
+                        <Link to="/products" className='flex gap-2 items-center link pt-4'><FaChevronLeft /> Continue Shopping</Link>
                     </div>
 
                     <div className='w-[30%]'>
                         {/* cart total */}
                         <div className='checkout-amt border-2 rounded-md p-4'>
                             <div className='item-count p-2'>
-                                <li className='flex justify-between font-semibold'><span>1 item</span><span className='text-primary'>$42.00</span></li>
+                                <li className='flex justify-between font-semibold'><span>{cartItems.length} item(s)</span><span className='text-primary'>${getTotalCartAmt()}</span></li>
                                 <li className='flex justify-between font-semibold'><span>Shipping</span><span className='text-primary'>$7.00</span></li>
                             </div>
                             <Divider />
