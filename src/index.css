@@ -33,6 +33,10 @@ body {
   letter-spacing: .5px;
 }
 
+.page404 {
+  background: var(--black);
+}
+
 .container {
   /* width: 70%; */
   min-width: 1400px;

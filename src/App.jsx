@@ -21,6 +21,7 @@ import { actions as userActions } from './redux/slices/userSlice';
 import { actions as cartActions } from './redux/slices/cartSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
+import PageNotFound from './views/PageNotFound';
 
 function App() {
     const dispatch = useDispatch();
@@ -88,7 +89,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/verifyaccount" element={<VerifyAccount />} />
-                {/* <Route path="*" element={<PageNotFound />} /> */}
+                <Route path="/*" element={<PageNotFound />} />
             </Routes>
             <Footer />
             <Toaster />
