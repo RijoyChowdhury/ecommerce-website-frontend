@@ -5,7 +5,8 @@ import IconButton from '@mui/material/IconButton';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { actions } from '../../redux/slices/userSlice';
+import { actions as userActions } from '../../redux/slices/userSlice';
+import { actions as cartActions } from '../../redux/slices/cartSlice';
 
 const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
@@ -21,7 +22,8 @@ const Login = () => {
     const [formFields, setFormFields] = useState({ ...blankForm });
     const [showPassword, setShowPassword] = useState(false);
     const [isLoggingIn, setIsLoggingIn] = useState(false);
-    const { loginUser, fetchUser } = actions;
+    const { loginUser, fetchUser } = userActions;
+    const { getCartDetails, updateCartState } = cartActions;
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -45,6 +47,7 @@ const Login = () => {
             flushFormData();
             notifySuccess(response.message);
             dispatch(fetchUser());
+            dispatch(getCartDetails());
             navigate('/');
         }
         if (response.error) {
