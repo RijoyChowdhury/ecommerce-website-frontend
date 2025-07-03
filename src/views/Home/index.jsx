@@ -63,12 +63,12 @@ const Home = () => {
                                                             <div className="sub-heading">Buy Modern Chair In <span>Black Color</span></div>
                                                             <div className="offer-text">Starting At Only<span>$99.00</span></div>
                                                             <div className="button-shopnow w-[25%] mt-5">
-                                                                <button className='btn transition'>
-                                                                    <Link className='text-sm' to={{
-                                                                        pathname: "/products",
-                                                                        search: "?category=furniture",
-                                                                    }}>Shop Now</Link>
-                                                                </button>
+                                                                <Link className='text-sm' to={{
+                                                                    pathname: "/products",
+                                                                    search: "?category=furniture",
+                                                                }}>
+                                                                    <button className='btn !w-[125px] !h-[40px] transition'>Shop Now</button>
+                                                                </Link>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -81,12 +81,12 @@ const Home = () => {
                                                             <div className="sub-heading">Women Solid Round <span>Green T-Shirt</span></div>
                                                             <div className="offer-text">Starting At Only<span>$59.00</span></div>
                                                             <div className="button-shopnow w-[25%] mt-5">
-                                                                <button className='btn transition'>
-                                                                    <Link className='text-sm' to={{
-                                                                        pathname: "/products",
-                                                                        search: "?category=fashion",
-                                                                    }}>Shop Now</Link>
-                                                                </button>
+                                                                <Link className='text-sm' to={{
+                                                                    pathname: "/products",
+                                                                    search: "?category=fashion",
+                                                                }}>
+                                                                    <button className='btn !w-[125px] !h-[40px] transition'>Shop Now</button>
+                                                                </Link>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -277,10 +277,12 @@ const Home = () => {
                                             <div>
                                                 <div className="offer-title text-lg">Save Up To 20% Off</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Santa Lucia Three <span>Seater Sofa</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to={{
+                                                <Link to={{
                                                     pathname: "/products",
                                                     search: "?category=furniture",
-                                                }}>Shop Now</Link></button>
+                                                }}>
+                                                    <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -297,10 +299,12 @@ const Home = () => {
                                             <div>
                                                 <div className="offer-title text-lg">Best Online Discount</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Woman In Red Crew <span>Neck T-shirt</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to={{
+                                                <Link to={{
                                                     pathname: "/products",
                                                     search: "?category=fashion",
-                                                }}>Shop Now</Link></button>
+                                                }}>
+                                                    <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -339,10 +343,12 @@ const Home = () => {
                                             <div>
                                                 <div className="offer-title text-lg">20 Days Return Policy</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Mobile Shope-Smart <span>Watch T-55</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to={{
+                                                <Link to={{
                                                     pathname: "/products",
                                                     search: "?category=electronics",
-                                                }}>Shop Now</Link></button>
+                                                }}>
+                                                    <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
@@ -359,10 +365,12 @@ const Home = () => {
                                             <div>
                                                 <div className="offer-title text-lg">Save Up To 30% Off</div>
                                                 <div className="main-title text-3xl text-black font-base my-3">Decoration Design <span>Lamp Light</span></div>
-                                                <button className="view_more btn !w-[125px] !h-[40px]"><Link to={{
+                                                <Link to={{
                                                     pathname: "/products",
                                                     search: "?category=electronics",
-                                                }}>Shop Now</Link></button>
+                                                }}>
+                                                    <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
+                                                </Link>
                                             </div>
                                         </div>
                                     </div>
