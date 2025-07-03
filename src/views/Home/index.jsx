@@ -235,14 +235,14 @@ const Home = () => {
 
                     {/* banner-section-4 */}
                     <div className='block banner-section-4 banner-custom-ad-block py-14'>
-                        <div className='container relative'>
+                        <div className='container relative overflow-hidden group'>
                             <Link to={{
                                 pathname: "/products",
                                 search: "?category=electronics",
                             }} className="banner-anchor">
-                                <img src={offer_banner_1} />
+                                <img src={offer_banner_1} className='transition-all ease-in-out duration-1000 group-hover:scale-105' />
                                 <div className='absolute top-0 flex justify-center w-[100%] h-[100%]'>
-                                    <div className='flex gap-5 text-white'>
+                                    <div className='flex gap-7 text-white'>
                                         <div className='text-5xl font-bold flex items-center'>WATCH</div>
                                         <div className='flex flex-col justify-center font-thin'>
                                             <div className='text-lg'>M6 Smart Band 2.3 – Fitness Band</div>
