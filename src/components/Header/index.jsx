@@ -235,21 +235,21 @@ const Header = () => {
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>
                                 <div className='quick-actions'>
                                     <div className='quick-action-btn'>
-                                        <Tooltip title="Compare Items" arrow>
+                                        <Tooltip title="Compare Items" placement="top" arrow>
                                             <Badge badgeContent={user ? 4 : 0} color="error">
                                                 <IoIosGitCompare />
                                             </Badge>
                                         </Tooltip>
                                     </div>
                                     <div className='quick-action-btn'>
-                                        <Tooltip title="Wish-List" arrow>
+                                        <Tooltip title="Wish-List" placement="top" arrow>
                                             <Badge badgeContent={user ? 4 : 0} color="error">
                                                 <IoIosHeartEmpty />
                                             </Badge>
                                         </Tooltip>
                                     </div>
                                     <div className='quick-action-btn cursor-pointer' onClick={() => handleCartOpen(true)}>
-                                        <Tooltip title="My Cart" arrow>
+                                        <Tooltip title="My Cart" placement="top" arrow>
                                             <Badge badgeContent={cart ? cart.length : 0} color="error">
                                                 <IoCartOutline />
                                             </Badge>
