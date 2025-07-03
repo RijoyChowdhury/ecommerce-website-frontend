@@ -15,6 +15,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import StarRating from '../StarRating';
 import ProductDetailsModal from '../ProductDetailsModal';
+import { Link } from 'react-router-dom';
 
 const style = {
     position: 'absolute',
@@ -47,7 +48,7 @@ const ProductMiniature = (props) => {
 
                     ? <div className='product-miniature'>
                         <div className='thumbnail-container relative'>
-                            <div><img src={product_img_1} /></div>
+                            <div><Link to={`/products/ytur56`}><img src={product_img_1} /></Link></div>
 
                             <div className='product-colors absolute bottom-1'>
                                 <ul className='text-xl flex'>
@@ -106,7 +107,7 @@ const ProductMiniature = (props) => {
 
                     : <div className='product-expanded flex'>
                         <div className='thumbnail-container relative w-[20%]'>
-                            <div className=''><img src={product_img_1} /></div>
+                            <div className=''><Link to={`/products/ytur56`}><img src={product_img_1} /></Link></div>
 
                             <div className='product-status absolute top-0'>
                                 <ul className='flex flex-col gap-1 text-sm'>
@@ -169,7 +170,7 @@ const ProductMiniature = (props) => {
                                         </ul>
                                     </div>
                                     <div className='w-[150px] h-[40px]'>
-                                        <button className='btn'>Options</button>
+                                        <Link to={`/products/ytur56`}><button className='btn'>Options</button></Link>
                                     </div>
                                 </div>
                             </div>
