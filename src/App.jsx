@@ -20,7 +20,7 @@ import BackToTop from './components/BackToTop';
 import { actions as userActions } from './redux/slices/userSlice';
 import { actions as cartActions } from './redux/slices/cartSlice';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function App() {
     const dispatch = useDispatch();
@@ -43,6 +43,15 @@ function App() {
         }
     };
 
+    const handleBeforeUnload = (event) => {
+        // Perform actions here before the tab/browser closes
+        // updateUserDetails(true);
+
+        // To prompt a confirmation dialog (modern browsers may restrict this):
+        event.preventDefault();
+        event.returnValue = ''; // Required for some browsers to show the dialog
+    };
+
     if (!isMounted.current) {
         checkUserPresent();
     }
@@ -50,6 +59,17 @@ function App() {
     useEffect(() => {
         isMounted.current = true
     }, [])
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     return (
         <>
