@@ -268,7 +268,7 @@ const UserPage = () => {
                         {/* order section */}
                         <div className={`${sections.section3 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>My Orders</span></div>
-                            <div className='w-full h-[500px] overflow-auto'><OrderInfo data={user.order_history} /></div>
+                            <div className='w-full h-[500px] overflow-auto no-scrollbar'><OrderInfo data={user.order_history} /></div>
                         </div>
 
                         {/* wishlist section */}

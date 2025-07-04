@@ -10,22 +10,17 @@ import { Box, Collapse, styled } from '@mui/material';
 import { PiMagnifyingGlassMinusBold, PiMagnifyingGlassPlusBold } from 'react-icons/pi';
 import { useState } from 'react';
 
-function createData(name, calories, fat, carbs, protein, fibres) {
-    return { name, calories, fat, carbs, protein, fibres };
+function createData(id, name, calories, fat, carbs, protein, fibres) {
+    return { id, name, calories, fat, carbs, protein, fibres };
 }
 
 const rows = [
-    createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 510, '12/04/2025'),
-    createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 249, '12/04/2025'),
-    createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 1700, '12/04/2025'),
-    createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 950, '12/04/2025'),
-    createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 430, '12/04/2025'),
-
-    // createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 510, '12/04/2025'),
-    // createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 249, '12/04/2025'),
-    // createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 1700, '12/04/2025'),
-    // createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 950, '12/04/2025'),
-    // createData('546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 430, '12/04/2025'),
+    createData('1', '546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 510, '12/04/2025'),
+    createData('2', '546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 249, '12/04/2025'),
+    createData('3', '546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 1700, '12/04/2025'),
+    createData('4', '546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 950, '12/04/2025'),
+    createData('5', '546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 430, '12/04/2025'),
+    createData('6', '546615454656421f43rf', '546615454656421f43rf', 'test3@test.com', 'Delivered', 510, '12/04/2025'),
 ];
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -49,7 +44,19 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const OrderInfo = () => {
-    const [open, setOpen] = useState(false);
+    const [openedOrder, setOpenedOrder] = useState({
+        1: false,
+        2: false,
+        3: false,
+        4: false,
+        5: false,
+        6: false,
+    });
+
+    const toggleOrder = (orderId) => {
+        setOpenedOrder(state => ({ ...state, [orderId]: !state[orderId] }));
+    }
+
     return (
         <div className=''>
             <Table stickyHeader sx={{ height: '100%' }} aria-label="order_table">
@@ -72,7 +79,7 @@ const OrderInfo = () => {
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                             >
                                 <TableCell component="th" scope="row">
-                                    {row.name}
+                                    {row.id}
                                 </TableCell>
                                 <TableCell align="">{row.calories}</TableCell>
                                 <TableCell align="center">{row.fat}</TableCell>
@@ -81,14 +88,14 @@ const OrderInfo = () => {
                                 <TableCell align="center">{row.fibres}</TableCell>
                                 <TableCell align="center">
                                     <div className='flex justify-center text-xl'>
-                                        {!open && <PiMagnifyingGlassPlusBold className='cursor-pointer hover:text-primary' onClick={() => setOpen(!open)} />}
-                                        {open && <PiMagnifyingGlassMinusBold className='cursor-pointer hover:text-primary' onClick={() => setOpen(!open)} />}
+                                        {!openedOrder[row.id] && <PiMagnifyingGlassPlusBold className='cursor-pointer hover:text-primary' onClick={() => toggleOrder(row.id)} />}
+                                        {openedOrder[row.id] && <PiMagnifyingGlassMinusBold className='cursor-pointer hover:text-primary' onClick={() => toggleOrder(row.id)} />}
                                     </div>
                                 </TableCell>
                             </StyledTableRow>
                             <StyledTableRow>
                                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
-                                    <Collapse in={open} timeout="auto" unmountOnExit>
+                                    <Collapse in={openedOrder[row.id]} timeout="auto" unmountOnExit>
                                         <Box sx={{ margin: 1 }}>
                                             Rijoy eurdfhkdsnewo wefewnf ewfjno ewhfewjf ejh ewh n enfoefoenf ewhue nvjefef kefh vovhjnijvds
                                         </Box>
