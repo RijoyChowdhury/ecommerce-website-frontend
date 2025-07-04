@@ -19,6 +19,7 @@ import CustomModal from './components/CustomModal';
 import BackToTop from './components/BackToTop';
 import { actions as userActions } from './redux/slices/userSlice';
 import { actions as cartActions } from './redux/slices/cartSlice';
+import { actions as productActions } from './redux/slices/productSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
 import PageNotFound from './views/PageNotFound';
@@ -29,6 +30,7 @@ function App() {
     const isMounted = useRef(false)
     const { user } = useSelector(state => state.userSlice);
     const { fetchUser } = userActions;
+    const { getAllCategories } = productActions;
     const { getCartDetails, updateCartState } = cartActions;
     const isAccessTokenPresent = () => localStorage.getItem('isAccessTokenPresent') === 'true';
 
@@ -49,7 +51,7 @@ function App() {
         // updateUserDetails(true);
 
         // To prompt a confirmation dialog (modern browsers may restrict this):
-        event.preventDefault();
+        // event.preventDefault();
         event.returnValue = ''; // Required for some browsers to show the dialog
     };
 
@@ -58,7 +60,8 @@ function App() {
     }
 
     useEffect(() => {
-        isMounted.current = true
+        isMounted.current = true;
+        dispatch(getAllCategories());
     }, [])
 
     useEffect(() => {
