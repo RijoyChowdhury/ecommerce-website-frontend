@@ -52,9 +52,9 @@ const ProductMiniature = (props) => {
 
                             <div className='product-colors absolute bottom-1'>
                                 <ul className='text-xl flex'>
-                                    <li><ColorCheckbox val={'#AAB2BD'} /></li>
-                                    <li><ColorCheckbox val={'#5D9CEC'} /></li>
-                                    <li><ColorCheckbox val={'#A0D468'} /></li>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#AAB2BD'} /></li>
+                                    <li><ColorCheckbox checked={true} onChange={(value) => {}} val={'#5D9CEC'} /></li>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
                                 </ul>
                             </div>
 
@@ -164,9 +164,9 @@ const ProductMiniature = (props) => {
                                 <div className='flex gap-4 mt-2 items-center'>
                                     <div className='product-colors'>
                                         <ul className='text-3xl flex'>
-                                            <li><ColorCheckbox val={'#AAB2BD'} /></li>
-                                            <li><ColorCheckbox val={'#5D9CEC'} /></li>
-                                            <li><ColorCheckbox val={'#A0D468'} /></li>
+                                            <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#AAB2BD'} /></li>
+                                            <li><ColorCheckbox checked={true} onChange={(value) => {}} val={'#5D9CEC'} /></li>
+                                            <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
                                         </ul>
                                     </div>
                                     <div className='w-[150px] h-[40px]'>

@@ -204,9 +204,9 @@ const ProductDetails = () => {
                                             <span className='text-black font-medium'>Color: Black</span>
                                             <div>
                                                 <ul className='flex'>
-                                                    <li className='text-4xl'><ColorCheckbox val={'#AAB2BD'} /></li>
-                                                    <li className='text-4xl'><ColorCheckbox val={'#A0D468'} /></li>
-                                                    <li className='text-4xl'><ColorCheckbox val={'#F1C40F'} /></li>
+                                                    <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => {}} val={'#AAB2BD'} /></li>
+                                                    <li className='text-4xl'><ColorCheckbox checked={false} onChange={() => {}} val={'#A0D468'} /></li>
+                                                    <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => {}} val={'#F1C40F'} /></li>
                                                 </ul>
                                             </div>
                                         </div>
