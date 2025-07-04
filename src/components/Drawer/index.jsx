@@ -40,7 +40,7 @@ const DrawerComponent = (props) => {
                     <Link to={{
                         pathname: "/products",
                         search: `?category=${category._id}`,
-                    }} className='link'>
+                    }} className='link' onClick={toggleDrawer(false)}>
                         {category.name}
                     </Link>
                     {category.hasSubcategory &&
