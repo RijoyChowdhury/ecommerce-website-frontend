@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import './style.css';
 import Checkbox from '../../components/Checkbox';
@@ -10,23 +10,62 @@ import FashionSplashImg2 from '../../assets/images/large-banner.jpg'
 import product_img_1 from '../../assets/images/products-slider-images/blue-laptop-bag.jpg'
 import { MenuItem, Pagination, Select } from '@mui/material';
 import { IoGridOutline } from 'react-icons/io5';
-import { FaList } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaList } from 'react-icons/fa';
 import img_not_found from '../../assets/images/default-no-img.jpg'
 import Breadcrumb from '../../components/Breadcrumb';
 import ProductMiniature from '../../components/ProductMiniature';
+import { useSelector } from 'react-redux';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const ProductsList = () => {
-    const [age, setAge] = useState(0);
+    const deafultBreadcrumbList = ['Home', 'Products'];
+    const [listingOrder, setListingOrder] = useState(0);
     const [displayType, setDisplayType] = useState(0);
-    const breadcrumbList = ['Home', 'Fashion'];
+    const [breadcrumbList, setBreadcrumbList] = useState(deafultBreadcrumbList);
+    const [category, setCategory] = useState({
+        name: 'All Products',
+        description: 'Discover an extraordinary world of possibilities with our diverse collection of quality items for every need, desire, and occasion. From everyday essentials to unexpected treasures, our carefully curated selection promises to enhance your life\'s experiences while reflecting your unique style and values.',
+        hasSubcategory: true,
+        subcategories: [],
+    });
+    const ref = useRef(null);
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const category = searchParams.get('category') ?? 'All Products';
+    const categoryId = searchParams.get('category') ?? 'All Products';
     const searchTerm = searchParams.get('search') ?? '';
 
+    const { allCategories, categoriesList, loadingCategories } = useSelector(state => state.productSlice);
+
     const handleChange = (event) => {
-        setAge(event.target.value);
+        setListingOrder(event.target.value);
     };
+
+    const scroll = (scrollOffset) => {
+        ref.current.scrollLeft += scrollOffset;
+    };
+
+    const createAncestorList = (selectedCategory) => {
+        if (!selectedCategory) return [];
+        let ancestorList = [];
+        const parentId = selectedCategory.parentCategory;
+        if (parentId) {
+            const parentCategory = allCategories.find(category => category._id === parentId);
+            ancestorList = [...ancestorList, parentCategory.name, ...createAncestorList(parentCategory)];
+        }
+        return ancestorList;
+    }
+
+    useEffect(() => {
+        if (allCategories) {
+            setCategory(state => ({ ...state, subcategories: categoriesList }));
+            const selectedCategory = allCategories.find(category => category._id === categoryId);
+            if (selectedCategory) {
+                setCategory(selectedCategory);
+                const ancestors = createAncestorList(selectedCategory).reverse();
+                setBreadcrumbList(state => [...deafultBreadcrumbList, ...ancestors, selectedCategory.name])
+            }
+        }
+    }, [categoryId, allCategories])
 
     return (
         <>
@@ -36,6 +75,8 @@ const ProductsList = () => {
 
             <div className='block py-10'>
                 <div className='container flex gap-6'>
+
+                    {/* Left Filter Panel */}
                     <div className='sidePanel w-[19%]'>
                         <div className='border-[1px] rounded-md'>
                             <div id='search_filters' className=''>
@@ -114,6 +155,7 @@ const ProductsList = () => {
                         {/* <div className='h-[500px] border-2 rounded-md'></div> */}
                     </div>
 
+                    {/* Right Main panel */}
                     <div className='mainPanel w-[80%]'>
                         <div className='main-content'>
                             <div className='main-category-header border-b-[2px]'>
@@ -121,40 +163,52 @@ const ProductsList = () => {
                                     <img src={FashionSplashImg2} className='rounded-md' />
                                 </div>
                                 <div className='category-title'>
-                                    <span className='text-2xl font-semibold text-primary'>{category}</span>
+                                    <span className='text-2xl font-semibold text-primary'>
+                                        {loadingCategories ? 'Loading Category...' : category.name}
+                                    </span>
                                 </div>
                                 <div className='category-description'>
-                                    Fashion has been creating well-designed collections since 2010. The brand offers feminine designs delivering stylish separates and statement dresses which has since evolved.
+                                    {loadingCategories ? <div className='h-[52px]'>Loading Description...</div> : category.description}
                                 </div>
                             </div>
 
-                            <div className='subcategory-section'>
-                                <div className='subcategory-header py-4'>Subcategories</div>
-                                <div className='subcategory-list'>
-                                    <ul className='flex gap-2'>
-                                        <li>
+                            {/* Subcategories section */}
+                            <div className='subcategory-section relative'>
+                                <div className='subcategory-header py-4 text-primary font-bold text-lg'>Subcategories</div>
+                                
+                                {/* horizontal scroll buttons */}
+                                {!loadingCategories && category.hasSubcategory && category.subcategories.length > 6 &&
+                                    <div className='flex absolute right-0 top-4 w-[100px] gap-8 justify-center'>
+                                        <div className='cursor-pointer text-lg hover:text-primary' onClick={() => scroll(-400)}><FaChevronLeft /></div>
+                                        <div className='cursor-pointer text-lg hover:text-primary' onClick={() => scroll(400)}><FaChevronRight /></div>
+                                    </div>
+                                }
+                                
+                                <div ref={ref} className='subcategory-list overflow-x-auto no-scrollbar'>
+                                    <ul className='flex gap-4 scroll-auto'>
+                                        {!loadingCategories && category.hasSubcategory &&
+                                            category.subcategories.map(category => <li>
+                                                <div className='subcategory-img w-[150px] border-2 flex justify-center'>
+                                                    <img src={img_not_found} />
+                                                </div>
+                                                <span className='flex justify-center truncate'>{category.name}</span>
+                                            </li>)
+                                        }
+
+                                        {(loadingCategories || !category.hasSubcategory) && <li>
                                             <div className='subcategory-img w-[150px] border-2 flex justify-center'>
                                                 <img src={img_not_found} />
                                             </div>
-                                            <span className='flex justify-center'>Apparel</span>
-                                        </li>
-                                        <li>
-                                            <div className='subcategory-img w-[150px] border-2 flex justify-center'>
-                                                <img src={img_not_found} />
-                                            </div>
-                                            <span className='flex justify-center'>Outerwear</span>
-                                        </li>
-                                        <li>
-                                            <div className='subcategory-img w-[150px] border-2 flex justify-center'>
-                                                <img src={img_not_found} />
-                                            </div>
-                                            <span className='flex justify-center'>Footwear</span>
-                                        </li>
+                                            <span className='flex justify-center'>{loadingCategories ? 'Loading Subcategories' : 'No Subcategories'}</span>
+                                        </li>}
                                     </ul>
                                 </div>
                             </div>
 
+                            {/* Product List */}
                             <div className='product-list'>
+
+                                {/* Listing Toolbar */}
                                 <div className='product-list-toolbar py-4'>
                                     <div className='flex justify-between'>
                                         <div className='product-list-type flex items-center gap-2'>
@@ -171,7 +225,7 @@ const ProductsList = () => {
                                             <span>Sort By:</span>
                                             <div className='dropdown-select w-[250px] h-[40px]'>
                                                 <Select
-                                                    value={age}
+                                                    value={listingOrder}
                                                     onChange={handleChange}
                                                     sx={{
                                                         "& fieldset": {
@@ -184,7 +238,7 @@ const ProductsList = () => {
                                                     className='w-[100%] h-[100%] !text-sm'
                                                 >
                                                     <MenuItem value={0}><span className='text-sm text-stone-600'>Relevance</span></MenuItem>
-                                                    <MenuItem value={1}><span className='text-sm text-stone-600'>Sales, Highest to Lowest</span></MenuItem>
+                                                    <MenuItem value={1}><span className='text-sm text-stone-600'>Rating, Highest to Lowest</span></MenuItem>
                                                     <MenuItem value={2}><span className='text-sm text-stone-600'>Name, A to Z</span></MenuItem>
                                                     <MenuItem value={3}><span className='text-sm text-stone-600'>Name, Z to A</span></MenuItem>
                                                     <MenuItem value={4}><span className='text-sm text-stone-600'>Price, High to Low</span></MenuItem>
@@ -199,11 +253,13 @@ const ProductsList = () => {
                                 {displayType === 0 && <div className='product-list-table'>
                                     <div className='grid grid-cols-1 border-2 rounded-md overflow-hidden'>
                                         <ul className='divide-y-2'>
-                                            {new Array(8).fill(0).map((val, index) =>
+                                            {!loadingCategories && new Array(10).fill(0).map((val, index) =>
                                                 <li className=''>
                                                     <ProductMiniature layout='expanded' />
                                                 </li>
                                             )}
+
+                                            {loadingCategories && <div className='h-[2528px] w-[1110px]'><LoadingSpinner /></div>}
                                         </ul>
                                     </div>
                                 </div>}
@@ -211,16 +267,18 @@ const ProductsList = () => {
                                 {/* grid listing */}
                                 {displayType === 1 && <div className='product-list-grid'>
                                     <div className='grid grid-cols-5 border-2 rounded-md bg-slate-200 gap-0.5 overflow-hidden'>
-                                        {new Array(18).fill(0).map((val, index) =>
+                                        {!loadingCategories && new Array(10).fill(0).map((val, index) =>
                                             <ProductMiniature />
                                         )}
+
+                                        {loadingCategories && <div className='h-[700px] w-[1110px]'><LoadingSpinner /></div>}
                                     </div>
                                 </div>}
 
                                 {/* pagination */}
                                 <div className='product-list-footer flex justify-between m-4'>
                                     <div className='poducts-list-count'>
-                                        Showing 1-18 of 18 item(s)
+                                        Showing 1-10 of 18 item(s)
                                     </div>
                                     <div className='poducts-list-pagination'>
                                         <Pagination count={10} />
