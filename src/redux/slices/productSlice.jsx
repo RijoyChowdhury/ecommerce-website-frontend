@@ -5,13 +5,39 @@ const initialState = {
     productDetails: null,
     categoriesList: null,
     allCategories: null,
+    subCategoriesMapping: null,
     loadingCategories: false,
     loadingCategoriesError: false,
+    loadingProductList: false,
+    productList: [],
 };
+
+const createSubCategoriesMapping = (category) => {
+    let subCategories = [category._id];
+    if (!category.hasSubcategory) return subCategories;
+    category.subcategories.forEach(categoryItem => {
+        subCategories.push(...createSubCategoriesMapping(categoryItem));
+    });
+    return subCategories;
+}
 
 const getAllCategories = createAsyncThunk('product/getCategories', async () => {
     try {
         const response = await getData(`/api/category/`);
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
+const getAllProducts = createAsyncThunk('product/getProducts', async (data) => {
+    try {
+        const response = await getData(`/api/product/getAllProducts`);
+        console.log(response);
         return response;
     } catch (err) {
         return {
@@ -62,17 +88,31 @@ const productSlice = createSlice({
             state.loadingCategories = true;
             state.categoriesList = null;
             state.allCategories = null;
+            state.subCategoriesMapping = null;
             state.loadingCategoriesError = false;
         }).addCase(getAllCategories.fulfilled, (state, action) => {
             state.loadingCategories = false;
             state.categoriesList = action.payload.data.filter(category => category.isTopLevel === true);
             state.allCategories = action.payload.data;
+            state.subCategoriesMapping = {};
+            state.categoriesList.forEach(category => {
+                state.subCategoriesMapping[category._id] = createSubCategoriesMapping(category);
+            });
+            console.log(state.subCategoriesMapping);
             state.loadingCategoriesError = false;
         }).addCase(getAllCategories.rejected, (state, action) => {
             state.loadingCategories = false;
             state.categoriesList = null;
             state.allCategories = null;
+            state.subCategoriesMapping = null;
             state.loadingCategoriesError = true;
+        }).addCase(getAllProducts.pending, (state, action) => {
+            state.loadingProductList = true;
+        }).addCase(getAllProducts.fulfilled, (state, action) => {
+            state.loadingProductList = false;
+            state.productList = action.payload.data;
+        }).addCase(getAllProducts.rejected, (state, action) => {
+            state.loadingProductList = false;
         })
     },
 });
@@ -84,4 +124,5 @@ export const actions = {
     getProductDetails,
     submitProductReview,
     getAllCategories,
+    getAllProducts,
 };
