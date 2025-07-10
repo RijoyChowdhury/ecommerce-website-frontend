@@ -18,8 +18,9 @@ import product_big_1 from '../../assets/images/product_big_1.jpg';
 import product_thumbnail_1 from '../../assets/images/product_thumbnail_1.jpg';
 import minim_brand_1 from '../../assets/images/minim_brand_1.jpg';
 import './style.css';
+import img_not_found from '../../assets/images/no-img-available.png'
 
-const ProductDetailsModal = () => {
+const ProductDetailsModal = ({ data }) => {
     const [swiper, setSwiper] = useState(null);
 
     return (
@@ -30,7 +31,7 @@ const ProductDetailsModal = () => {
                 <div className='product-img-sticky-wrapper w-[40%]'>
                     <div className='product-img-wrapper sticky top-20'>
                         <div className='img-display-wrapper'>
-                            <div className='border-2 mb-6'><img src={product_big_1} /></div>
+                            <div className='border-2 mb-6 w-[642px] h-[663px] overflow-hidden'><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[642px] h-[663px] object-fill' /></div>
                         </div>
 
                         {/* product img section wrapper */}
@@ -49,21 +50,17 @@ const ProductDetailsModal = () => {
                                     onSwiper={(swiper) => setSwiper(swiper)}
                                     className="mySwiper2"
                                 >
-                                    <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
-                                        <div>
-                                            <img src={product_thumbnail_1} />
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
-                                        <div>
-                                            <img src={product_thumbnail_1} />
-                                        </div>
-                                    </SwiperSlide>
-                                    <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
-                                        <div>
-                                            <img src={product_thumbnail_1} />
-                                        </div>
-                                    </SwiperSlide>
+                                    {data.images.length > 0
+                                        ? data.images.map((img => <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
+                                            <div className='w-[101px] h-[101px]'>
+                                                <img src={img} className='w-[101px] h-[101px]' />
+                                            </div>
+                                        </SwiperSlide>))
+                                        : <SwiperSlide className='border-2 rounded-lg overflow-hidden'>
+                                            <div className='w-[101px] h-[101px]'>
+                                                <img src={img_not_found} className='w-[101px] h-[101px]' />
+                                            </div>
+                                        </SwiperSlide>}
                                 </Swiper>
                             </div>
 
@@ -82,48 +79,57 @@ const ProductDetailsModal = () => {
                 <div className='product-info-wrapper w-[60%] border-2 p-4'>
                     <div className='ratings-wrapper flex items-baseline gap-2'>
                         <div className='ratings flex gap-0.5 items-center'>
-                            <StarRating />
+                            <StarRating value={data.rating} />
                         </div>
-                        <span>0 Reviews</span>
+                        <span>{data.review.length} Review(s)</span>
                     </div>
 
-                    <div className='product-name text-2xl text-black py-2'>Cropped Satin Bomber Jacket</div>
-                    <div className='product-description pb-2'>
-                        Established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-                        The point of using Lorem Ipsum is that it has a more-or-less.
+                    <div className='product-name text-2xl text-black py-2'>{data.name}</div>
+                    <div className='product-description pb-2 line-clamp-2 h-[58px] overflow-hidden'>
+                        {data.description}
                     </div>
 
                     <div className='product-data flex border-t-[1px] py-2'>
                         <div className='w-[75%] flex flex-col'>
                             <div className='product-info-wrapper'>
-                                <div className='mb-2'><span className='text-black font-medium'>Brand:</span> Pro Tech GearPro Tech Gear</div>
-                                <div className='mb-2'><span className='text-black font-medium'>Condition:</span> Refurbished</div>
-                                <div className='mb-2'><span className='text-black font-medium'>Reference:</span> Product5</div>
-                                <div className='mb-2'><span className='text-black font-medium'>Available In Stock: <span className='text-green-500'>142 Items</span></span></div>
+                                <div className='mb-2'><span className='text-black font-medium'>Brand:</span> MINIM</div>
+                                <div className='mb-2'><span className='text-black font-medium'>Condition:</span> New</div>
+                                <div className='mb-2'><span className='text-black font-medium'>Reference:</span> {data.name}</div>
+                                <div className='mb-2'><span className='text-black font-medium'>Available In Stock: <span className='text-green-500'>{data.stockCount} Items</span></span></div>
                                 <div className='mb-6'>
-                                    <span className='text-black font-medium'>Hurry up! only <span className='text-red-500'>142</span> items left in stock!</span>
+                                    <span className='text-black font-medium'>Hurry up! only <span className='text-red-500'>{data.stockCount}</span> items left in stock!</span>
                                     <div className="progress-wrapper w-[75%] pt-2">
                                         <ProgressBar value={35} maxValue={100} height={7} />
                                     </div>
                                 </div>
-                                <div className='mb-2 text-black font-medium'>
-                                    <span className=''>Size: Small</span>
-                                    <div className='mt-2'>
-                                        <ul className='flex gap-2'>
-                                            <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>Small</button></li>
-                                            <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>Large</button></li>
-                                            <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>XL</button></li>
-                                            <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>XXL</button></li>
-                                        </ul>
+                                
+                                {/* size variations */}
+                                {data.size.length > 0
+                                    ? <div className='mb-2 text-black font-medium'>
+                                        <span className=''>Size: {data.size[0]}</span>
+                                        <div className='mt-2'>
+                                            <ul className='flex gap-2'>
+                                                {data.size.map(sizeData => <li><button className='border-[1px] px-4 h-[30px] hover:bg-primary hover:text-white'>{sizeData}</button></li>)}
+                                            </ul>
+                                        </div>
                                     </div>
-                                </div>
+                                    : <div className='mb-2 text-black font-medium'>
+                                        <span className=''>Size: <span className='text-red-400'>NA</span></span>
+                                        <div className='mt-2'>
+                                            <ul className='flex gap-2'>
+                                                <li><button className='border-[1px] px-4 h-[30px] hover:bg-primary hover:text-white'>No Size Variations Available</button></li>
+                                            </ul>
+                                        </div>
+                                    </div>}
+                                
+                                {/* color variations */}
                                 <div className='mb-2'>
                                     <span className='text-black font-medium'>Color: Black</span>
                                     <div>
                                         <ul className='flex'>
-                                            <li className='text-4xl'><ColorCheckbox checked={true} onChange={(value) => {}} val={'#AAB2BD'} /></li>
-                                            <li className='text-4xl'><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
-                                            <li className='text-4xl'><ColorCheckbox checked={true} onChange={(value) => {}} val={'#F1C40F'} /></li>
+                                            <li className='text-4xl'><ColorCheckbox checked={true} onChange={(value) => { }} val={'#AAB2BD'} /></li>
+                                            <li className='text-4xl'><ColorCheckbox checked={false} onChange={(value) => { }} val={'#A0D468'} /></li>
+                                            <li className='text-4xl'><ColorCheckbox checked={true} onChange={(value) => { }} val={'#F1C40F'} /></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -131,12 +137,17 @@ const ProductDetailsModal = () => {
 
 
                             <div className="product-prices my-4">
-                                <div className="product-price h5 ">
+                                <div className="product-price h5 flex gap-4 items-center">
                                     <div className="current-price">
-                                        <span className="current-price-value text-2xl font-semibold text-primary" content="94">
-                                            $94.00
+                                        <span className="current-price-value text-2xl font-semibold text-primary">
+                                            ${data.price}.00
                                         </span>
                                     </div>
+                                    {data.discount > 0 && <div className="current-price">
+                                        <span className="current-price-value text-lg font-semibold text-green-500">
+                                            (-{data.discount}%)
+                                        </span>
+                                    </div>}
                                 </div>
                                 <div className="tax-shipping-delivery-label">
                                     <span className="delivery-information text-sm font-light">Free Shipping (Est. Delivery Time 2-3 Days)</span>
@@ -163,12 +174,13 @@ const ProductDetailsModal = () => {
                                     </span>
                                 </div>
                                 <div className="product-availability flex">
-                                    <div className="product-available border-[1px] px-2 bg-green-200">
-                                        In Stock
-                                    </div>
-                                    <div className="product-unavailable border-[1px] px-2 bg-red-200">
-                                        Out of Stock
-                                    </div>
+                                    {data.stockCount > 0
+                                        ? <div className="product-available border-[1px] px-2 bg-green-200">
+                                            In Stock
+                                        </div>
+                                        : <div className="product-unavailable border-[1px] px-2 bg-red-200">
+                                            Out of Stock
+                                        </div>}
                                 </div>
                             </div>
 

@@ -30,7 +30,7 @@ function App() {
     const isMounted = useRef(false)
     const { user } = useSelector(state => state.userSlice);
     const { fetchUser } = userActions;
-    const { getAllCategories } = productActions;
+    const { getAllCategories, getFeaturedProducts } = productActions;
     const { getCartDetails, updateCartState } = cartActions;
     const isAccessTokenPresent = () => localStorage.getItem('isAccessTokenPresent') === 'true';
 
@@ -62,6 +62,7 @@ function App() {
     useEffect(() => {
         isMounted.current = true;
         dispatch(getAllCategories());
+        dispatch(getFeaturedProducts())
     }, [])
 
     useEffect(() => {

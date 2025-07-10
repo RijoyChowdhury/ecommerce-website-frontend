@@ -10,6 +10,7 @@ import product_img_8 from '../../assets/images/products-slider-images/wireless-m
 import ColorCheckbox from '../ColorCheckbox';
 import { LiaExpandArrowsAltSolid, LiaHeart } from 'react-icons/lia';
 import { IoIosCloseCircleOutline } from 'react-icons/io';
+import img_not_found from '../../assets/images/no-img-available.png'
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -35,10 +36,15 @@ const style = {
 };
 
 const ProductMiniature = (props) => {
-    const { layout = 'compact' } = props;
+    const { layout = 'compact', data } = props;
     const [open, setOpen] = React.useState(false);
+    const [shouldShowUtilities, setShouldShowUtilities] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const showUtilities = (showUtilitiesFlag) => {
+        setShouldShowUtilities(showUtilitiesFlag)
+    }
 
     return (
         <>
@@ -46,126 +52,117 @@ const ProductMiniature = (props) => {
 
                 {layout === 'compact'
 
-                    ? <div className='product-miniature'>
-                        <div className='thumbnail-container relative'>
-                            <div><Link to={`/products/ytur56`}><img src={product_img_1} /></Link></div>
-
-                            <div className='product-colors absolute bottom-1'>
-                                <ul className='text-xl flex'>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#AAB2BD'} /></li>
-                                    <li><ColorCheckbox checked={true} onChange={(value) => {}} val={'#5D9CEC'} /></li>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
-                                </ul>
+                    ? <div className='product-miniature' onMouseEnter={() => showUtilities(true)} onMouseLeave={() => showUtilities(false)}>
+                        <div className='thumbnail-container relative flex justify-center items-center'>
+                            <div className='w-[188px] h-[194px] flex justify-center items-center'>
+                                <Link to={`/products/ytur56`}><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[188px] h-[194px] border-2' /></Link>
                             </div>
 
-                            <div className='product-status absolute top-0'>
+                            <div className='product-status absolute top-0 left-0'>
                                 <ul className='flex flex-col gap-1 text-sm'>
-                                    <li className='flex'>
+                                    {data.stockCount > 0 ? <li className='flex'>
                                         <div className="border-[1px] rounded-sm px-2 bg-green-200">
-                                            New
+                                            In Stock
                                         </div>
                                     </li>
-                                    <li className='flex'>
+                                    : <li className='flex'>
                                         <div className="border-[1px] rounded-sm px-2 bg-red-200">
                                             Sold Out
                                         </div>
-                                    </li>
-                                    <li className='flex'>
+                                    </li>}
+                                    {data.discount > 0 && <li className='flex'>
                                         <div className="border-[1px] rounded-sm px-2 bg-green-200">
-                                            -12%
+                                            -{data.discount}%
                                         </div>
-                                    </li>
+                                    </li>}
                                 </ul>
                             </div>
 
-                            <div className='product-utils absolute top-0 right-0'>
+                            {shouldShowUtilities && <div className='product-utils absolute top-0 right-0'>
                                 <ul className='text-xl flex flex-col gap-1'>
-                                    <li className='border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
-                                    <li className='border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
                                 </ul>
-                            </div>
+                            </div>}
                         </div>
 
-                        <div className="product-description flex flex-col gap-2">
+                        <div className="product-description relative flex flex-col gap-2 mt-1">
                             <div className="brand-title text-xs" itemprop="name">
                                 <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                             </div>
-                            <h3 className="h3 product-title text-black text-sm">Cropped Satin Bomber Jacket</h3>
+                            <h3 className="h3 product-title text-black text-sm h-[40px]">{data.name}</h3>
                             <div className="comments_note flex justify-between">
                                 <div className="star_content clearfix flex gap-0.5">
-                                    <StarRating />
+                                    <StarRating value={data.rating} />
                                 </div>
-                                <span className="text-xs total-rating">0 Review(s)</span>
+                                <span className="text-xs total-rating">{data.review.length} Review(s)</span>
                             </div>
                             <div className="product-price-and-shipping">
                                 <span className="price text-base text-primary font-bold" aria-label="Price">
-                                    $94.00
+                                    ${data.price}
                                 </span>
+                            </div>
+
+                            <div className='product-colors absolute -right-1 bottom-1'>
+                                <ul className='text-xl flex'>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#AAB2BD'} /></li>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#5D9CEC'} /></li>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
+                                </ul>
                             </div>
                         </div>
                     </div>
 
-                    : <div className='product-expanded flex'>
-                        <div className='thumbnail-container relative w-[20%]'>
-                            <div className=''><Link to={`/products/ytur56`}><img src={product_img_1} /></Link></div>
-
-                            <div className='product-status absolute top-0'>
-                                <ul className='flex flex-col gap-1 text-sm'>
-                                    <li className='flex'>
-                                        <div className="border-[1px] rounded-sm px-2 bg-green-200">
-                                            New
-                                        </div>
-                                    </li>
-                                    <li className='flex'>
-                                        <div className="border-[1px] rounded-sm px-2 bg-green-200">
-                                            -12%
-                                        </div>
-                                    </li>
-                                </ul>
+                    : <div className='product-expanded flex' onMouseEnter={() => showUtilities(true)} onMouseLeave={() => showUtilities(false)}>
+                        <div className='thumbnail-container relative w-[20%] flex justify-center items-center'>
+                            <div className='w-[188px] h-[194px] flex justify-center items-center'>
+                                <Link to={`/products/ytur56`}><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[188px] h-[194px] border-2' /></Link>
                             </div>
 
-                            <div className='product-utils absolute top-0 right-0'>
-                                <ul className='text-xl flex flex-col gap-1'>
-                                    <li className='border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
-                                    <li className='border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
+                            <div className='product-status absolute top-0 left-0'>
+                                <ul className='flex flex-col gap-1 text-sm'>
+                                    {data.discount > 0 && <li className='flex'>
+                                        <div className="border-[1px] rounded-sm px-2 bg-green-200">
+                                            -{data.discount}%
+                                        </div>
+                                    </li>}
                                 </ul>
                             </div>
                         </div>
 
-                        <div className='description-container w-[80%] px-4 ml-4'>
+                        <div className='description-container relative w-[80%] px-4 ml-4'>
                             <div className="product-description flex flex-col gap-2">
                                 <div className="brand-title text-xs" itemprop="name">
                                     <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                                 </div>
-                                <h3 className="product-title text-black text-sm">Cropped Satin Bomber Jacket</h3>
+                                <h3 className="product-title text-black text-sm">{data.name}</h3>
                                 <div className="comments_note flex gap-4">
                                     <div className="star_content clearfix flex gap-0.5">
-                                        <StarRating />
+                                        <StarRating value={data.rating} />
                                     </div>
-                                    <span className="text-xs total-rating">0 Review(s)</span>
+                                    <span className="text-xs total-rating">{data.review.length} Review(s)</span>
                                 </div>
                                 <div className="product-price-and-shipping flex items-center gap-4">
                                     <span className="price text-base text-primary font-bold" aria-label="Price">
-                                        $94.00
+                                        ${data.price}
                                     </span>
-                                    <div className="border-[1px] rounded-sm px-2 bg-green-200">
+                                    {data.stockCount > 0 ? <div className="border-[1px] rounded-sm px-2 bg-green-200">
                                         In Stock
                                     </div>
-                                    <div className="border-[1px] rounded-sm px-2 bg-red-200">
+                                    : <div className="border-[1px] rounded-sm px-2 bg-red-200">
                                         Out of Stock
-                                    </div>
+                                    </div>}
                                 </div>
                                 <div>
-                                    <p className='text-sm leading-tight'>
-                                        We denounce with righteous indignation and dislike men who are so beguiled and demoralized
-                                        by the charms of pleasure of the moment, so blinded by desire that they cannot.
+                                    <p className='text-sm leading-tight line-clamp-2'>
+                                        {data.description}
                                     </p>
                                 </div>
                                 <div className='flex gap-4 mt-2 items-center'>
                                     <div className='product-colors'>
                                         <ul className='text-3xl flex'>
                                             <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#AAB2BD'} /></li>
-                                            <li><ColorCheckbox checked={true} onChange={(value) => {}} val={'#5D9CEC'} /></li>
+                                            <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#5D9CEC'} /></li>
                                             <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
                                         </ul>
                                     </div>
@@ -174,6 +171,13 @@ const ProductMiniature = (props) => {
                                     </div>
                                 </div>
                             </div>
+
+                            {shouldShowUtilities && <div className='product-utils absolute top-0 right-0'>
+                                <ul className='text-xl flex flex-col gap-1'>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
+                                </ul>
+                            </div>}
                         </div>
                     </div>}
             </div>
@@ -186,7 +190,7 @@ const ProductMiniature = (props) => {
             >
                 <Box sx={style}>
                     <IoIosCloseCircleOutline className='text-4xl rounded-full absolute top-4 right-4 cursor-pointer bg-stone-200' style={{zIndex: '1000'}} onClick={handleClose} />
-                    <ProductDetailsModal />
+                    <ProductDetailsModal data={data} />
                 </Box>
             </Modal>
         </>

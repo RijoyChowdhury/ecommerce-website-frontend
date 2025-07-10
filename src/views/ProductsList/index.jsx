@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import './style.css';
 import Checkbox from '../../components/Checkbox';
 import ColorCheckbox from '../../components/ColorCheckbox';
@@ -8,15 +8,17 @@ import { IoIosCloseCircleOutline } from 'react-icons/io';
 import FashionSplashImg from '../../assets/images/fashion.jpg'
 import FashionSplashImg2 from '../../assets/images/large-banner.jpg'
 import product_img_1 from '../../assets/images/products-slider-images/blue-laptop-bag.jpg'
-import { MenuItem, Pagination, Select } from '@mui/material';
+// import categoryImg from '../../assets/images/electronics-category-img.jpeg'
+import { Divider, MenuItem, Pagination, Select } from '@mui/material';
 import { IoGridOutline } from 'react-icons/io5';
 import { FaChevronLeft, FaChevronRight, FaList } from 'react-icons/fa';
 import img_not_found from '../../assets/images/no-img-available.png'
 import Breadcrumb from '../../components/Breadcrumb';
 import ProductMiniature from '../../components/ProductMiniature';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { cloneDeep } from 'lodash-es';
+import { actions } from '../../redux/slices/productSlice';
 
 const defaultFilterConfiguration = {
     availability: {
@@ -54,9 +56,22 @@ const defaultFilterConfiguration = {
     },
 };
 
+const createAncestorList = (selectedCategory, allCategories) => {
+    if (!selectedCategory) return [];
+    let ancestorList = [];
+    const parentId = selectedCategory.parentCategory;
+    if (parentId) {
+        const parentCategory = allCategories.find(category => category._id === parentId);
+        ancestorList = [...ancestorList, parentCategory.name, ...createAncestorList(parentCategory, allCategories)];
+    }
+    return ancestorList;
+}
+
 const ProductsList = () => {
     const deafultBreadcrumbList = ['Home', 'Products'];
-    const [filters,  setFilters] = useState(cloneDeep(defaultFilterConfiguration));
+    // const [productList, setProductList] = useState(null);
+    // const [loadingProductList, setLoadingProductList] = useState(true);
+    const [filters, setFilters] = useState(cloneDeep(defaultFilterConfiguration));
     const [listingOrder, setListingOrder] = useState(0);
     const [displayType, setDisplayType] = useState(0);
     const [breadcrumbList, setBreadcrumbList] = useState(deafultBreadcrumbList);
@@ -72,7 +87,9 @@ const ProductsList = () => {
     const categoryId = searchParams.get('category') ?? 'All Products';
     const searchTerm = searchParams.get('search') ?? '';
 
-    const { allCategories, categoriesList, loadingCategories } = useSelector(state => state.productSlice);
+    const dispatch = useDispatch();
+    const { allCategories, categoriesList, loadingCategories, loadingProductList, productList } = useSelector(state => state.productSlice);
+    const { getAllProducts } = actions;
 
     const handleChange = (event) => {
         setListingOrder(event.target.value);
@@ -84,19 +101,21 @@ const ProductsList = () => {
 
     const updateFilters = (section, property, value) => {
         filters[section][property] = value;
-        setFilters(state => ({...filters}));
+        setFilters(state => ({ ...filters }));
     }
 
-    const createAncestorList = (selectedCategory) => {
-        if (!selectedCategory) return [];
-        let ancestorList = [];
-        const parentId = selectedCategory.parentCategory;
-        if (parentId) {
-            const parentCategory = allCategories.find(category => category._id === parentId);
-            ancestorList = [...ancestorList, parentCategory.name, ...createAncestorList(parentCategory)];
-        }
-        return ancestorList;
+    const fetchAllProducts = async (categoryId) => {
+        console.log('Fetching all products');
+        const response = await dispatch(getAllProducts(categoryId)).unwrap();
+        // if (response.success) {
+        //     setProductList(response.data);
+        // }
+        // setLoadingProductList(false);
     }
+
+    useEffect(() => {
+        fetchAllProducts(categoryId);
+    }, [categoryId])
 
     useEffect(() => {
         if (allCategories) {
@@ -104,7 +123,7 @@ const ProductsList = () => {
             const selectedCategory = allCategories.find(category => category._id === categoryId);
             if (selectedCategory) {
                 setCategory(selectedCategory);
-                const ancestors = createAncestorList(selectedCategory).reverse();
+                const ancestors = createAncestorList(selectedCategory, allCategories).reverse();
                 setBreadcrumbList(state => [...deafultBreadcrumbList, ...ancestors, selectedCategory.name])
             }
         }
@@ -168,7 +187,7 @@ const ProductsList = () => {
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Price</p>
                                         <div className=''>
-                                            <ValueSlider min={10} max={100} low={filters.price.range[0]} high={filters.price.range[1]} onChange={(range) => updateFilters('price', 'range', range)}/>
+                                            <ValueSlider min={10} max={100} low={filters.price.range[0]} high={filters.price.range[1]} onChange={(range) => updateFilters('price', 'range', range)} />
                                         </div>
                                     </section>
 
@@ -201,11 +220,12 @@ const ProductsList = () => {
                     {/* Right Main panel */}
                     <div className='mainPanel w-[80%]'>
                         <div className='main-content'>
-                            <div className='main-category-header border-b-[2px]'>
+                            <div className='main-category-header'>
                                 <div className='category-splash-cover'>
                                     <img src={FashionSplashImg2} className='rounded-md' />
                                 </div>
-                                <div className='category-title'>
+                                <Divider />
+                                <div className='category-title mt-4'>
                                     <span className='text-2xl font-semibold text-primary'>
                                         {loadingCategories ? 'Loading Category...' : category.name}
                                     </span>
@@ -216,26 +236,33 @@ const ProductsList = () => {
                             </div>
 
                             {/* Subcategories section */}
-                            <div className='subcategory-section relative'>
+                            <div className='subcategory-section relative pb-4'>
                                 <div className='subcategory-header py-4 text-primary font-bold text-lg'>Subcategories</div>
-                                
+
                                 {/* horizontal scroll buttons */}
                                 {!loadingCategories && category.hasSubcategory && category.subcategories.length > 6 &&
-                                    <div className='flex absolute right-0 top-4 w-[100px] gap-8 justify-center'>
-                                        <div className='cursor-pointer text-lg hover:text-primary' onClick={() => scroll(-400)}><FaChevronLeft /></div>
-                                        <div className='cursor-pointer text-lg hover:text-primary' onClick={() => scroll(400)}><FaChevronRight /></div>
+                                    <div className='flex absolute right-0 top-4 gap-2 w-[100px] justify-center'>
+                                        <div className='cursor-pointer text-lg hover:text-primary hover:border-primary border-2 p-1' onClick={() => scroll(-400)}><FaChevronLeft /></div>
+                                        <div className='cursor-pointer text-lg hover:text-primary hover:border-primary border-2 p-1' onClick={() => scroll(400)}><FaChevronRight /></div>
                                     </div>
                                 }
-                                
+
                                 <div ref={ref} className='subcategory-list overflow-x-auto no-scrollbar'>
                                     <ul className='flex gap-4 scroll-auto'>
                                         {!loadingCategories && category.hasSubcategory &&
-                                            category.subcategories.map(category => <li>
-                                                <div className='subcategory-img w-[150px] border-2 flex justify-center'>
-                                                    <img src={img_not_found} />
-                                                </div>
-                                                <span className='flex justify-center truncate'>{category.name}</span>
-                                            </li>)
+                                            category.subcategories.map(category =>
+                                                <Link to={{
+                                                    pathname: "/products",
+                                                    search: `?category=${category._id}`,
+                                                }}>
+                                                    <li className='cursor-pointer hover:text-primary'>
+                                                        <div className='subcategory-img w-[150px] h-[150px] border-2 hover:border-primary flex justify-center'>
+                                                            {category.images.length ? <img src={category.images[0]} /> : <img src={img_not_found} />}
+                                                            {/* <img src={categoryImg} /> */}
+                                                        </div>
+                                                        <span className='flex justify-center truncate'>{category.name}</span>
+                                                    </li>
+                                                </Link>)
                                         }
 
                                         {(loadingCategories || !category.hasSubcategory) && <li>
@@ -255,17 +282,17 @@ const ProductsList = () => {
                                 <div className='product-list-toolbar py-4'>
                                     <div className='flex justify-between'>
                                         <div className='product-list-type flex items-center gap-2'>
-                                            <span>Display Type:</span>
-                                            <div className={`grid-type text-xl cursor-pointer ${displayType === 1 && 'text-primary'}`} onClick={() => setDisplayType(1)}>
+                                            <span className='text-base text-primary'>Display Type:</span>
+                                            <div className={`grid-type text-xl cursor-pointer border-2 p-2 ${displayType === 1 ? 'border-primary' : 'border-transparent'}`} onClick={() => setDisplayType(1)}>
                                                 <IoGridOutline />
                                             </div>
-                                            <div className={`list-type text-xl cursor-pointer ${displayType === 0 && 'text-primary'}`} onClick={() => setDisplayType(0)}>
+                                            <div className={`list-type text-xl cursor-pointer border-2 p-2 ${displayType === 0 ? 'border-primary' : 'border-transparent'}`} onClick={() => setDisplayType(0)}>
                                                 <FaList />
                                             </div>
                                         </div>
 
                                         <div className='product-sort-type flex items-center gap-2'>
-                                            <span>Sort By:</span>
+                                            <span className='text-base text-primary'>Sort By:</span>
                                             <div className='dropdown-select w-[250px] h-[40px]'>
                                                 <Select
                                                     value={listingOrder}
@@ -296,13 +323,13 @@ const ProductsList = () => {
                                 {displayType === 0 && <div className='product-list-table'>
                                     <div className='grid grid-cols-1 border-2 rounded-md overflow-hidden'>
                                         <ul className='divide-y-2'>
-                                            {!loadingCategories && new Array(10).fill(0).map((val, index) =>
+                                            {!loadingProductList && productList.map((productData, index) =>
                                                 <li className=''>
-                                                    <ProductMiniature layout='expanded' />
+                                                    <ProductMiniature key={index} layout='expanded' data={productData} />
                                                 </li>
                                             )}
 
-                                            {loadingCategories && <div className='h-[2528px] w-[1110px]'><LoadingSpinner /></div>}
+                                            {loadingProductList && <div className='h-[2528px] w-[1110px]'><LoadingSpinner /></div>}
                                         </ul>
                                     </div>
                                 </div>}
@@ -310,8 +337,8 @@ const ProductsList = () => {
                                 {/* grid listing */}
                                 {displayType === 1 && <div className='product-list-grid'>
                                     <div className='grid grid-cols-5 border-2 rounded-md bg-slate-200 gap-0.5 overflow-hidden'>
-                                        {!loadingCategories && new Array(10).fill(0).map((val, index) =>
-                                            <ProductMiniature />
+                                        {!loadingCategories && productList.map((productData, index) =>
+                                            <ProductMiniature key={index} data={productData} />
                                         )}
 
                                         {loadingCategories && <div className='h-[700px] w-[1110px]'><LoadingSpinner /></div>}

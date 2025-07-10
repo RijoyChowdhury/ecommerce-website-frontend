@@ -10,6 +10,8 @@ const initialState = {
     loadingCategoriesError: false,
     loadingProductList: false,
     productList: [],
+    loadingFeaturedProducts: true,
+    featureProducts: [],
 };
 
 const createSubCategoriesMapping = (category) => {
@@ -37,7 +39,19 @@ const getAllCategories = createAsyncThunk('product/getCategories', async () => {
 const getAllProducts = createAsyncThunk('product/getProducts', async (data) => {
     try {
         const response = await getData(`/api/product/getAllProducts`);
-        console.log(response);
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
+const getFeaturedProducts = createAsyncThunk('product/getFeaturedProducts', async () => {
+    try {
+        const response = await getData(`/api/product/getFeaturedProducts`);
         return response;
     } catch (err) {
         return {
@@ -113,6 +127,12 @@ const productSlice = createSlice({
             state.productList = action.payload.data;
         }).addCase(getAllProducts.rejected, (state, action) => {
             state.loadingProductList = false;
+        }).addCase(getFeaturedProducts.pending, (state, action) => {
+            state.loadingFeaturedProducts = true;
+            state.featureProducts = [];
+        }).addCase(getFeaturedProducts.fulfilled, (state, action) => {
+            state.loadingFeaturedProducts = false;
+            state.featureProducts = action.payload.data;
         })
     },
 });
@@ -125,4 +145,5 @@ export const actions = {
     submitProductReview,
     getAllCategories,
     getAllProducts,
+    getFeaturedProducts,
 };

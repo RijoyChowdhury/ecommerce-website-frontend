@@ -276,11 +276,11 @@ const UserPage = () => {
                             <div className='w-full border-b-2 p-4 text-xl flex justify-between items-center'>
                                 <span>My Wishlist</span>
                                 <div className='flex gap-4'>
-                                    <div className='grid-type text-lg cursor-pointer hover:text-primary' onClick={() => setGridDisplay(true)}><IoGridOutline /></div>
-                                    <div className='list-type text-lg cursor-pointer hover:text-primary' onClick={() => setGridDisplay(false)}><FaList /></div>
+                                    <div className={`grid-type text-lg cursor-pointer hover:text-primary border-2 p-2 ${gridDisplay ? 'border-primary' : 'border-transparent'}`} onClick={() => setGridDisplay(true)}><IoGridOutline /></div>
+                                    <div className={`list-type text-lg cursor-pointer hover:text-primary border-2 p-2 ${!gridDisplay ? 'border-primary' : 'border-transparent'}`} onClick={() => setGridDisplay(false)}><FaList /></div>
                                 </div>
                             </div>
-                            <div className='w-full h-[500px] overflow-scroll'><FavoriteList data={user.wishlist} displayGrid={gridDisplay} /></div>
+                            <div className='w-full h-[500px] overflow-scroll no-scrollbar'><FavoriteList data={user.wishlist} displayGrid={gridDisplay} /></div>
                         </div>
                     </div>
                 </div>

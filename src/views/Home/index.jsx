@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, EffectFade } from 'swiper/modules';
 import 'swiper/css';
@@ -27,9 +27,13 @@ import ProductSlider from '../../components/ProductSlider';
 import SliderBanner from '../../components/SliderBanner';
 import './style.css';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { sampleSize } from 'lodash-es';
 
 
 const Home = () => {
+    const { loadingFeaturedProducts, featureProducts } = useSelector(state => state.productSlice);
+
     return (
         <>
             <div className='home'>
@@ -229,7 +233,7 @@ const Home = () => {
                     {/* banner-section-3 */}
                     <div className='block banner-section-3'>
                         <div className='container'>
-                            <ProductSlider />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
                         </div>
                     </div>
 
@@ -257,7 +261,7 @@ const Home = () => {
                     {/* banner-section-5 */}
                     <div className='block banner-section-5 pb-7'>
                         <div className='container'>
-                            <ProductSlider />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
                         </div>
                     </div>
 
@@ -316,14 +320,14 @@ const Home = () => {
                     {/* banner-section-7 */}
                     <div className='block banner-section-7 pb-7'>
                         <div className='container'>
-                            <ProductSlider />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
                         </div>
                     </div>
 
                     {/* banner-section-8 */}
                     <div className='block banner-section-8 pb-7'>
                         <div className='container'>
-                            <ProductSlider />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
                         </div>
                     </div>
 

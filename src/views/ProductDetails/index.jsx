@@ -23,6 +23,7 @@ import { Link, useParams } from 'react-router-dom';
 import { actions } from '../../redux/slices/productSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
+import { sampleSize } from 'lodash-es';
 
 const ProductDetails = () => {
     const breadcrumbList = ['Home', 'Fashion', 'Cropped Satin Bomber Jacket'];
@@ -40,6 +41,7 @@ const ProductDetails = () => {
     // const { id } = useParams();
     const { getProductDetails, submitProductReview } = actions;
     const { user } = useSelector(state => state.userSlice);
+    const { loadingFeaturedProducts, featureProducts } = useSelector(state => state.productSlice);
 
     const fetchProductDetails = async (id) => {
         setLoading(true);
@@ -337,10 +339,14 @@ const ProductDetails = () => {
                     </div>
 
                     {/* product slider section */}
-                    <div className='pb-8'><ProductSlider /></div>
+                    <div className='pb-8'>
+                        <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                    </div>
 
                     {/* product slider section */}
-                    <div className='pb-8'><ProductSlider /></div>
+                    <div className='pb-8'>
+                        <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                    </div>
 
                     {/* reviews section */}
                     <div className='review-section-wrapper pb-8'>
