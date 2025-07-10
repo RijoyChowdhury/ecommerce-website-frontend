@@ -4,6 +4,7 @@ import './style.css';
 import ProductSlider from '../../components/ProductSlider';
 import product_big_1 from '../../assets/images/product_big_1.jpg';
 import product_thumbnail_1 from '../../assets/images/product_thumbnail_1.jpg';
+import no_reviews_img from '../../assets/images/no_reviews.png';
 import minim_brand_1 from '../../assets/images/minim_brand_1.jpg';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -24,6 +25,7 @@ import { actions } from '../../redux/slices/productSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
 import { sampleSize } from 'lodash-es';
+import img_not_found from '../../assets/images/no-img-available.png'
 
 const ProductDetails = () => {
     const breadcrumbList = ['Home', 'Fashion', 'Cropped Satin Bomber Jacket'];
@@ -33,12 +35,11 @@ const ProductDetails = () => {
     const [productDetails, setProductDetails] = useState(null);
     const [reviewList, setReviewList] = useState([]);
     const [reviewListCount, setReviewListCount] = useState(5);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [sectionId, setSectionId] = useState(0);
     const dispatch = useDispatch();
-    const id = '685ea8837503570f85234e52';
-    // const { id } = useParams();
+    const { id } = useParams();
     const { getProductDetails, submitProductReview } = actions;
     const { user } = useSelector(state => state.userSlice);
     const { loadingFeaturedProducts, featureProducts } = useSelector(state => state.productSlice);
@@ -98,13 +99,7 @@ const ProductDetails = () => {
         fetchProductDetails(id);
     }, []);
 
-    if (loading) {
-        return (<div className='h-[600px]'>
-            <LoadingSpinner />;
-        </div>);
-    }
-
-    if (error || !productDetails) {
+    if (error) {
         return (<div className='h-[600px]'>
             <span className='text-2xl text-primary'>Error</span>
         </div>)
@@ -124,7 +119,10 @@ const ProductDetails = () => {
                         <div className='product-img-sticky-wrapper w-[40%]'>
                             <div className='product-img-wrapper sticky top-20'>
                                 <div className='img-display-wrapper'>
-                                    <div className='border-2 mb-6'><img src={productDetails.images[0]} /></div>
+                                    {!loading
+                                        ? <div className='border-2 mb-6'><img src={productDetails.images[0]} /></div>
+                                        : <div className='border-2 mb-6 w-[548px] h-[548px]'><LoadingSpinner /></div>
+                                    }
                                 </div>
 
                                 {/* product img section wrapper */}
@@ -143,13 +141,20 @@ const ProductDetails = () => {
                                             onSwiper={(swiper) => setSwiper(swiper)}
                                             className="mySwiper2"
                                         >
-                                            {productDetails.images.map(img => (
-                                                <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
-                                                    <div>
-                                                        <img src={img} />
+                                            {!loading
+                                                ? productDetails.images.map((img, index) => (
+                                                    <SwiperSlide key={index} className='border-2 rounded-lg overflow-hidden hover:border-primary'>
+                                                        <div>
+                                                            <img src={img} />
+                                                        </div>
+                                                    </SwiperSlide>
+                                                ))
+                                                : <SwiperSlide className='border-2 rounded-lg overflow-hidden hover:border-primary'>
+                                                    <div className='w-[85px] h-[85px]'>
+                                                        <img src={img_not_found} className='w-[85px] h-[85px]' />
                                                     </div>
                                                 </SwiperSlide>
-                                            ))}
+                                            }
                                         </Swiper>
                                     </div>
 
@@ -165,112 +170,115 @@ const ProductDetails = () => {
                         </div>
 
                         {/* product quick info wrapper */}
-                        <div className='product-info-wrapper w-[60%] border-2 p-4'>
-                            <div className='ratings-wrapper flex items-center gap-2'>
-                                <div className='ratings flex gap-0.5 items-center'>
-                                    <StarRating />
-                                    <div>({productDetails.rating})</div>
-                                </div>
-                                <span>{productDetails.review.length} Review(s)</span>
-                            </div>
-
-                            <div className='product-name text-2xl text-black py-2'>{productDetails.name}</div>
-                            <div className='product-description pb-2'>
-                                {productDetails.description}
-                            </div>
-
-                            <div className='product-data flex border-t-[1px] py-2'>
-                                <div className='w-[75%] flex flex-col'>
-                                    <div className='product-info-wrapper'>
-                                        <div className='mb-2'><span className='text-black font-medium'>Brand:</span> {productDetails.brand}</div>
-                                        <div className='mb-2'><span className='text-black font-medium'>Condition:</span> Refurbished</div>
-                                        <div className='mb-2'><span className='text-black font-medium'>Reference:</span> Product5</div>
-                                        <div className='mb-2'><span className='text-black font-medium'>Available In Stock: <span className='text-green-500'>{productDetails.stockCount} Items</span></span></div>
-                                        <div className='mb-6'>
-                                            <span className='text-black font-medium'>Hurry up! only <span className='text-red-500'>{productDetails.stockCount}</span> items left in stock!</span>
-                                            <div className="progress-wrapper w-[75%] pt-2">
-                                                <ProgressBar value={35} maxValue={100} height={7} />
-                                            </div>
-                                        </div>
-                                        <div className='mb-2 text-black font-medium'>
-                                            <span className=''>Size: Small</span>
-                                            <div className='mt-2'>
-                                                <ul className='flex gap-2'>
-                                                    {productDetails.size.map(size => (
-                                                        <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>{size}</button></li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div className='mb-2'>
-                                            <span className='text-black font-medium'>Color: Black</span>
-                                            <div>
-                                                <ul className='flex'>
-                                                    <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => {}} val={'#AAB2BD'} /></li>
-                                                    <li className='text-4xl'><ColorCheckbox checked={false} onChange={() => {}} val={'#A0D468'} /></li>
-                                                    <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => {}} val={'#F1C40F'} /></li>
-                                                </ul>
-                                            </div>
-                                        </div>
+                        {!loading
+                            ? <div className='product-info-wrapper w-[60%] border-2 p-4'>
+                                <div className='ratings-wrapper flex items-center gap-2'>
+                                    <div className='ratings flex gap-0.5 items-center'>
+                                        <StarRating value={productDetails.rating} />
+                                        <div>({productDetails.rating})</div>
                                     </div>
+                                    <span>{productDetails.review.length} Review(s)</span>
+                                </div>
+
+                                <div className='product-name text-2xl text-black py-2'>{productDetails.name}</div>
+                                <div className='product-description pb-2'>
+                                    {productDetails.description}
+                                </div>
+
+                                <div className='product-data flex border-t-[1px] py-2'>
+                                    <div className='w-[75%] flex flex-col'>
+                                        <div className='product-info-wrapper'>
+                                            <div className='mb-2'><span className='text-black font-medium'>Brand:</span> {productDetails.brand}</div>
+                                            <div className='mb-2'><span className='text-black font-medium'>Condition:</span> Refurbished</div>
+                                            <div className='mb-2'><span className='text-black font-medium'>Reference:</span> {productDetails._id}</div>
+                                            <div className='mb-2'><span className='text-black font-medium'>Available In Stock: <span className='text-green-500'>{productDetails.stockCount} Items</span></span></div>
+                                            <div className='mb-6'>
+                                                <span className='text-black font-medium'>Hurry up! only <span className='text-red-500'>{productDetails.stockCount}</span> items left in stock!</span>
+                                                <div className="progress-wrapper w-[75%] pt-2">
+                                                    <ProgressBar value={35} maxValue={100} height={7} />
+                                                </div>
+                                            </div>
+                                            <div className='mb-2 text-black font-medium'>
+                                                <span className=''>Size: Small</span>
+                                                <div className='mt-2'>
+                                                    <ul className='flex gap-2'>
+                                                        {productDetails.size.map(size => (
+                                                            <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>{size}</button></li>
+                                                        ))}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div className='mb-2'>
+                                                <span className='text-black font-medium'>Color: Black</span>
+                                                <div>
+                                                    <ul className='flex'>
+                                                        <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => { }} val={'#AAB2BD'} /></li>
+                                                        <li className='text-4xl'><ColorCheckbox checked={false} onChange={() => { }} val={'#A0D468'} /></li>
+                                                        <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => { }} val={'#F1C40F'} /></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
 
 
-                                    <div className="product-prices my-4">
-                                        <div className="product-price h5 ">
-                                            <div className="current-price">
-                                                <span className="current-price-value text-2xl font-semibold text-primary" content="94">
-                                                    ₹{productDetails.price}
+                                        <div className="product-prices my-4">
+                                            <div className="product-price h5 ">
+                                                <div className="current-price">
+                                                    <span className="current-price-value text-2xl font-semibold text-primary" content="94">
+                                                        ₹{productDetails.price}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div className="tax-shipping-delivery-label">
+                                                <span className="delivery-information text-sm font-light">Free Shipping (Est. Delivery Time 2-3 Days)</span>
+                                            </div>
+                                        </div>
+
+                                        <div className='product-add-to-cart mb-4'>
+                                            <div className='flex h-[45px] gap-2'>
+                                                <div className='product_quantity w-[100px]'>
+                                                    <Counter start={1} limit={10} onValueChange={value => setProductCount(value)} />
+                                                </div>
+                                                <div className='product_add w-[250px]'>
+                                                    <button className='btn' onClick={addItemToCart}>Add to Cart</button>
+                                                </div>
+                                            </div>
+                                            <div className='product_wish_compare flex gap-3 py-3'>
+                                                <span className='product_wish text-base flex items-center gap-1'>
+                                                    <IoMdHeartEmpty className='text-xl' />
+                                                    Add To Wishlist
+                                                </span>
+                                                <span className='product_compare text-base flex items-center gap-1'>
+                                                    <HiOutlineSquare2Stack className='text-xl' />
+                                                    Add To Compare
                                                 </span>
                                             </div>
-                                        </div>
-                                        <div className="tax-shipping-delivery-label">
-                                            <span className="delivery-information text-sm font-light">Free Shipping (Est. Delivery Time 2-3 Days)</span>
-                                        </div>
-                                    </div>
-
-                                    <div className='product-add-to-cart mb-4'>
-                                        <div className='flex h-[45px] gap-2'>
-                                            <div className='product_quantity w-[100px]'>
-                                                <Counter start={1} limit={10} onValueChange={value => setProductCount(value)} />
-                                            </div>
-                                            <div className='product_add w-[250px]'>
-                                                <button className='btn' onClick={addItemToCart}>Add to Cart</button>
+                                            <div className="product-availability flex">
+                                                {productDetails.stockCount > 0 && <div className="product-available border-[1px] px-2 bg-green-200">
+                                                    In Stock
+                                                </div>}
+                                                {productDetails.stockCount === 0 && <div className="product-unavailable border-[1px] px-2 bg-red-200">
+                                                    Out of Stock
+                                                </div>}
                                             </div>
                                         </div>
-                                        <div className='product_wish_compare flex gap-3 py-3'>
-                                            <span className='product_wish text-base flex items-center gap-1'>
-                                                <IoMdHeartEmpty className='text-xl' />
-                                                Add To Wishlist
-                                            </span>
-                                            <span className='product_compare text-base flex items-center gap-1'>
-                                                <HiOutlineSquare2Stack className='text-xl' />
-                                                Add To Compare
-                                            </span>
-                                        </div>
-                                        <div className="product-availability flex">
-                                            {productDetails.stockCount > 0 && <div className="product-available border-[1px] px-2 bg-green-200">
-                                                In Stock
-                                            </div>}
-                                            {productDetails.stockCount === 0 && <div className="product-unavailable border-[1px] px-2 bg-red-200">
-                                                Out of Stock
-                                            </div>}
+
+
+                                    </div>
+                                    <div className='w-[25%] flex justify-end'>
+                                        <div>
+                                            <img src={minim_brand_1} className='border-[1px] rounded-md p-2' />
                                         </div>
                                     </div>
-
-
                                 </div>
-                                <div className='w-[25%] flex justify-end'>
-                                    <div>
-                                        <img src={minim_brand_1} className='border-[1px] rounded-md p-2' />
-                                    </div>
+
+                                <div className='mt-2'>
+                                    <DeliveryPolicies />
                                 </div>
-                            </div>
 
-                            <div className='mt-2'>
-                                <DeliveryPolicies />
                             </div>
-
-                        </div>
+                            : loading && <div className='h-[1006px] w-[60%] border-2 p-4'><LoadingSpinner /></div>
+                        }
                     </div>
 
                     {/* product description and details wrapper */}
@@ -278,61 +286,71 @@ const ProductDetails = () => {
                         <div className=''>
 
                             <div className='topic-selection flex gap-4 my-4'>
-                                <span className='text-2xl text-black hover:text-primary cursor-pointer' onClick={() => setSectionId(0)}>Description</span>
-                                <span className='text-2xl text-black hover:text-primary cursor-pointer' onClick={() => setSectionId(1)}>Product Details</span>
+                                <span className={`text-2xl text-black hover:text-primary cursor-pointer border-b-2 ${sectionId === 0 ? 'border-primary' : 'border-transparent'}`} onClick={() => setSectionId(0)}>Description</span>
+                                <span className={`text-2xl text-black hover:text-primary cursor-pointer border-b-2 ${sectionId === 1 ? 'border-primary' : 'border-transparent'}`} onClick={() => setSectionId(1)}>Product Details</span>
                             </div>
 
                             {/* description section */}
                             {sectionId === 0 && <div className='description-wrapper border-2 rounded-lg'>
-                                <div className='m-8'>
-                                    The best is yet to come! Give your walls a voice with a framed poster. This aesthethic, optimistic poster will look great in your desk or in an open-space office.
-                                    Painted wooden frame with passe-partout for more depth.
+                                {!loading
+                                    ? <div className='m-8'>
+                                        <span className='block mt-4 font-semibold text-black text-base'>About the Product</span>
+                                        {productDetails.description}
 
-                                    <span className='block mt-4 font-semibold text-black text-base'>Lightweight Design</span>
-                                    Designed with a super light geometric case, the Versa family watches are slim, casual and comfortable enough to wear all day and night.
-                                    Switch up your look with classic, leather, metal and woven accessory bands. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
+                                        <span className='block mt-4 font-semibold text-black text-base'>Lightweight Design</span>
+                                        Designed with a super light geometric case, the Versa family watches are slim, casual and comfortable enough to wear all day and night.
+                                        Switch up your look with classic, leather, metal and woven accessory bands. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.
 
-                                    <span className='block mt-4 font-semibold text-black text-base'>Free Shipping & Return</span>
-                                    We offer free shipping for products on orders above 50$ and offer free delivery for all orders in US.
+                                        <span className='block mt-4 font-semibold text-black text-base'>Free Shipping & Return</span>
+                                        We offer free shipping for products on orders above 50$ and offer free delivery for all orders in US.
 
-                                    <span className='block mt-4 font-semibold text-black text-base'>Money Back Guarantee</span>
-                                    We guarantee our products and you could get back all of your money anytime you want in 30 days.
+                                        <span className='block mt-4 font-semibold text-black text-base'>Money Back Guarantee</span>
+                                        We guarantee our products and you could get back all of your money anytime you want in 30 days.
 
-                                    <span className='block mt-4 font-semibold text-black text-base'>Online Support</span>
-                                    You will get 24 hour support with this purchase product and you can return it within 30 days for an exchange.
-                                </div>
+                                        <span className='block mt-4 font-semibold text-black text-base'>Online Support</span>
+                                        You will get 24 hour support with this purchase product and you can return it within 30 days for an exchange.
+                                    </div>
+
+                                    : <div className='m-8 h-[433px]'>
+                                        <LoadingSpinner />
+                                    </div>}
                             </div>}
 
                             {/* details section */}
                             {sectionId === 1 && <div className='details-wrapper border-2 rounded-lg'>
-                                <div className='m-8'>
-                                    <div className='brand-img-wrapper border-2 rounded-md inline-block p-2'>
-                                        <img src={minim_brand_1} />
-                                    </div>
+                                {!loading
+                                    ? <div className='m-8'>
+                                        <div className='brand-img-wrapper border-2 rounded-md inline-block p-2'>
+                                            <img src={minim_brand_1} />
+                                        </div>
 
-                                    <div className=''>
-                                        <div className='flex gap-5'><span className='text-black font-semibold'>Reference:</span> Product5</div>
-                                        <div className='flex gap-5'><span className='text-black font-semibold'>Condition:</span> Refurbished</div>
-                                        <div className='flex gap-5'><span className='text-black font-semibold'>In stock:</span><span className='text-green-500'>142 Items</span></div>
-                                        <div>
-                                            <span className='text-black font-semibold'>Data sheet</span>
-                                            <dl className="data-sheet flex flex-col gap-2 text-black mt-2">
-                                                <div className='flex gap-2'>
-                                                    <dt className="name w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Composition</dt>
-                                                    <dd className="value w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Ceramic</dd>
-                                                </div>
-                                                <div className='flex gap-2'>
-                                                    <dt className="name w-[50%] border-[1px] py-2 pl-4">Property</dt>
-                                                    <dd className="value w-[50%] border-[1px] py-2 pl-4">Long sleeves</dd>
-                                                </div>
-                                                <div className='flex gap-2'>
-                                                    <dt className="name w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Style</dt>
-                                                    <dd className="value w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Classic</dd>
-                                                </div>
-                                            </dl>
+                                        <div className=''>
+                                            <div className='flex gap-5'><span className='text-black font-semibold'>Reference:</span> Product5</div>
+                                            <div className='flex gap-5'><span className='text-black font-semibold'>Condition:</span> Refurbished</div>
+                                            <div className='flex gap-5'><span className='text-black font-semibold'>In stock:</span><span className='text-green-500'>142 Items</span></div>
+                                            <div>
+                                                <span className='text-black font-semibold'>Data sheet</span>
+                                                <dl className="data-sheet flex flex-col gap-2 text-black mt-2">
+                                                    <div className='flex gap-2'>
+                                                        <dt className="name w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Composition</dt>
+                                                        <dd className="value w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Ceramic</dd>
+                                                    </div>
+                                                    <div className='flex gap-2'>
+                                                        <dt className="name w-[50%] border-[1px] py-2 pl-4">Property</dt>
+                                                        <dd className="value w-[50%] border-[1px] py-2 pl-4">Long sleeves</dd>
+                                                    </div>
+                                                    <div className='flex gap-2'>
+                                                        <dt className="name w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Style</dt>
+                                                        <dd className="value w-[50%] border-[1px] py-2 pl-4 bg-custom-light-gray">Classic</dd>
+                                                    </div>
+                                                </dl>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                    : <div className='m-8 h-[433px]'>
+                                        <LoadingSpinner />
+                                    </div>
+                                }
                             </div>}
 
                         </div>
@@ -340,12 +358,12 @@ const ProductDetails = () => {
 
                     {/* product slider section */}
                     <div className='pb-8'>
-                        <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                        <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 7)} />
                     </div>
 
                     {/* product slider section */}
                     <div className='pb-8'>
-                        <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                        <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 7)} />
                     </div>
 
                     {/* reviews section */}
@@ -355,7 +373,7 @@ const ProductDetails = () => {
                             <div className='review-section-content border-2 rounded-md'>
 
                                 {/* render the individual reviews */}
-                                {reviewList.slice(0, reviewListCount).map(item => <div className='review-wrapper flex'>
+                                {reviewList.length > 0 && reviewList.slice(0, reviewListCount).map(item => <div className='review-wrapper flex'>
                                     <div className='review-owner w-[20%] p-4'>
                                         <div className='rating-section flex mb-2'>
                                             <span className='w-[50%]'>Rating</span>
@@ -387,9 +405,17 @@ const ProductDetails = () => {
                                     </div>
                                 </div>)}
 
+                                {reviewList.length === 0 &&
+                                    <div className='flex justify-center'>
+                                        <div className=''><img src={no_reviews_img} className='w-[250px] h-[250px]' /></div>
+                                    </div>}
+
                             </div>
                             <div className='mt-4 text-lg flex justify-end'>
-                                <button className='btn-primary' onClick={() => setReviewListCount(state => state + 5)}>Load More</button>
+                                {reviewList.length > 0
+                                    ? <button className='btn-primary' onClick={() => setReviewListCount(state => state + 5)}>Load More</button>
+                                    : <button className='text-gray-400' disabled>Load More</button>
+                                }
                             </div>
                         </div>
                     </div>

@@ -39,6 +39,7 @@ const getAllCategories = createAsyncThunk('product/getCategories', async () => {
 const getAllProducts = createAsyncThunk('product/getProducts', async (data) => {
     try {
         const response = await getData(`/api/product/getAllProducts`);
+        console.log(response);
         return response;
     } catch (err) {
         return {

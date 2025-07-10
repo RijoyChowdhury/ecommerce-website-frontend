@@ -55,7 +55,7 @@ const ProductMiniature = (props) => {
                     ? <div className='product-miniature' onMouseEnter={() => showUtilities(true)} onMouseLeave={() => showUtilities(false)}>
                         <div className='thumbnail-container relative flex justify-center items-center'>
                             <div className='w-[188px] h-[194px] flex justify-center items-center'>
-                                <Link to={`/products/ytur56`}><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[188px] h-[194px] border-2' /></Link>
+                                <Link to={`/products/${data._id}`}><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[188px] h-[194px] border-2' /></Link>
                             </div>
 
                             <div className='product-status absolute top-0 left-0'>
@@ -116,7 +116,7 @@ const ProductMiniature = (props) => {
                     : <div className='product-expanded flex' onMouseEnter={() => showUtilities(true)} onMouseLeave={() => showUtilities(false)}>
                         <div className='thumbnail-container relative w-[20%] flex justify-center items-center'>
                             <div className='w-[188px] h-[194px] flex justify-center items-center'>
-                                <Link to={`/products/ytur56`}><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[188px] h-[194px] border-2' /></Link>
+                                <Link to={`/products/${data._id}`}><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[188px] h-[194px] border-2' /></Link>
                             </div>
 
                             <div className='product-status absolute top-0 left-0'>
@@ -167,7 +167,7 @@ const ProductMiniature = (props) => {
                                         </ul>
                                     </div>
                                     <div className='w-[150px] h-[40px]'>
-                                        <Link to={`/products/ytur56`}><button className='btn'>Options</button></Link>
+                                        <Link to={`/products/${data._id}`}><button className='btn'>Options</button></Link>
                                     </div>
                                 </div>
                             </div>

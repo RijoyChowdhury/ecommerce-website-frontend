@@ -233,7 +233,7 @@ const Home = () => {
                     {/* banner-section-3 */}
                     <div className='block banner-section-3'>
                         <div className='container'>
-                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 7)} />
                         </div>
                     </div>
 
@@ -261,7 +261,7 @@ const Home = () => {
                     {/* banner-section-5 */}
                     <div className='block banner-section-5 pb-7'>
                         <div className='container'>
-                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 7)} />
                         </div>
                     </div>
 
@@ -320,14 +320,14 @@ const Home = () => {
                     {/* banner-section-7 */}
                     <div className='block banner-section-7 pb-7'>
                         <div className='container'>
-                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 7)} />
                         </div>
                     </div>
 
                     {/* banner-section-8 */}
                     <div className='block banner-section-8 pb-7'>
                         <div className='container'>
-                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 6)} />
+                            <ProductSlider loading={loadingFeaturedProducts} data={sampleSize(featureProducts, 7)} />
                         </div>
                     </div>
 

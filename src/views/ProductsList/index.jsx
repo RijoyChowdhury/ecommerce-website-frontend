@@ -74,6 +74,7 @@ const ProductsList = () => {
     const [filters, setFilters] = useState(cloneDeep(defaultFilterConfiguration));
     const [listingOrder, setListingOrder] = useState(0);
     const [displayType, setDisplayType] = useState(0);
+    const [pageNumber, setPageNumber] = useState(1);
     const [breadcrumbList, setBreadcrumbList] = useState(deafultBreadcrumbList);
     const [category, setCategory] = useState({
         name: 'All Products',
@@ -104,18 +105,14 @@ const ProductsList = () => {
         setFilters(state => ({ ...filters }));
     }
 
-    const fetchAllProducts = async (categoryId) => {
+    const fetchAllProducts = (categoryId) => {
         console.log('Fetching all products');
-        const response = await dispatch(getAllProducts(categoryId)).unwrap();
-        // if (response.success) {
-        //     setProductList(response.data);
-        // }
-        // setLoadingProductList(false);
+        dispatch(getAllProducts(categoryId));
     }
 
     useEffect(() => {
         fetchAllProducts(categoryId);
-    }, [categoryId])
+    }, [categoryId, pageNumber])
 
     useEffect(() => {
         if (allCategories) {
@@ -337,11 +334,11 @@ const ProductsList = () => {
                                 {/* grid listing */}
                                 {displayType === 1 && <div className='product-list-grid'>
                                     <div className='grid grid-cols-5 border-2 rounded-md bg-slate-200 gap-0.5 overflow-hidden'>
-                                        {!loadingCategories && productList.map((productData, index) =>
+                                        {!loadingProductList && productList.map((productData, index) =>
                                             <ProductMiniature key={index} data={productData} />
                                         )}
 
-                                        {loadingCategories && <div className='h-[700px] w-[1110px]'><LoadingSpinner /></div>}
+                                        {loadingProductList && <div className='h-[700px] w-[1110px]'><LoadingSpinner /></div>}
                                     </div>
                                 </div>}
 
@@ -351,7 +348,7 @@ const ProductsList = () => {
                                         Showing 1-10 of 18 item(s)
                                     </div>
                                     <div className='poducts-list-pagination'>
-                                        <Pagination count={10} />
+                                        <Pagination page={pageNumber} count={4} shape='rounded' variant='outlined' onChange={(e, page) => setPageNumber(page)} />
                                     </div>
                                 </div>
                             </div>
