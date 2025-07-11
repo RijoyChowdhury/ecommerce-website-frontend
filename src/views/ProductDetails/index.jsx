@@ -214,7 +214,7 @@ const ProductDetails = () => {
                                                     <ul className='flex'>
                                                         <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => { }} val={'#AAB2BD'} /></li>
                                                         <li className='text-4xl'><ColorCheckbox checked={false} onChange={() => { }} val={'#A0D468'} /></li>
-                                                        <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => { }} val={'#F1C40F'} /></li>
+                                                        <li className='text-4xl'><ColorCheckbox checked={false} onChange={() => { }} val={'#F1C40F'} /></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -237,18 +237,24 @@ const ProductDetails = () => {
                                         <div className='product-add-to-cart mb-4'>
                                             <div className='flex h-[45px] gap-2'>
                                                 <div className='product_quantity w-[100px]'>
-                                                    <Counter start={1} limit={10} onValueChange={value => setProductCount(value)} />
+                                                    <Counter start={productCount} limit={10} onValueChange={value => setProductCount(value)} />
                                                 </div>
-                                                <div className='product_add w-[250px]'>
-                                                    <button className='btn' onClick={addItemToCart}>Add to Cart</button>
-                                                </div>
+                                                {user
+                                                    ? <div className='product_add w-[250px]'>
+                                                        <button className='btn' onClick={addItemToCart}>Add to Cart</button>
+                                                    </div>
+                                                    : <div className='product_add w-[250px]'>
+                                                        <Link to={'/login'} state={{ lastLocation: window.location.pathname }}>
+                                                            <button className='btn '>Login to add to Cart</button>
+                                                        </Link>
+                                                    </div>}
                                             </div>
                                             <div className='product_wish_compare flex gap-3 py-3'>
-                                                <span className='product_wish text-base flex items-center gap-1'>
+                                                <span className='hover:text-primary cursor-pointer product_wish text-base flex items-center gap-1'>
                                                     <IoMdHeartEmpty className='text-xl' />
                                                     Add To Wishlist
                                                 </span>
-                                                <span className='product_compare text-base flex items-center gap-1'>
+                                                <span className='hover:text-primary cursor-pointer product_compare text-base flex items-center gap-1'>
                                                     <HiOutlineSquare2Stack className='text-xl' />
                                                     Add To Compare
                                                 </span>

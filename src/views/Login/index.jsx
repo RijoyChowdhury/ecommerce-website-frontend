@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { CircularProgress, FormControl, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { MdVisibility, MdVisibilityOff } from 'react-icons/md';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { actions as userActions } from '../../redux/slices/userSlice';
 import { actions as cartActions } from '../../redux/slices/cartSlice';
@@ -24,6 +24,8 @@ const Login = () => {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
     const { loginUser, fetchUser } = userActions;
     const { getCartDetails, updateCartState } = cartActions;
+    const location = useLocation();
+    const lastLocation = location.state?.lastLocation;
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -48,7 +50,7 @@ const Login = () => {
             notifySuccess(response.message);
             dispatch(fetchUser());
             dispatch(getCartDetails());
-            navigate('/');
+            navigate(lastLocation ?? '/');
         }
         if (response.error) {
             notifyError(response.message);

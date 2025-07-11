@@ -12,7 +12,8 @@ import product_img_1 from '../../assets/images/products-slider-images/blue-lapto
 import { Divider, MenuItem, Pagination, Select } from '@mui/material';
 import { IoGridOutline } from 'react-icons/io5';
 import { FaChevronLeft, FaChevronRight, FaList } from 'react-icons/fa';
-import img_not_found from '../../assets/images/no-img-available.png'
+import img_not_found from '../../assets/images/no-img-available.png';
+import no_result_img from '../../assets/images/search-no-result-found.jpg';
 import Breadcrumb from '../../components/Breadcrumb';
 import ProductMiniature from '../../components/ProductMiniature';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,6 +57,13 @@ const defaultFilterConfiguration = {
     },
 };
 
+const AllCategories = {
+    name: 'All Products',
+    description: 'Discover an extraordinary world of possibilities with our diverse collection of quality items for every need, desire, and occasion. From everyday essentials to unexpected treasures, our carefully curated selection promises to enhance your life\'s experiences while reflecting your unique style and values.',
+    hasSubcategory: true,
+    subcategories: [],
+}
+
 const createAncestorList = (selectedCategory, allCategories) => {
     if (!selectedCategory) return [];
     let ancestorList = [];
@@ -69,28 +77,37 @@ const createAncestorList = (selectedCategory, allCategories) => {
 
 const ProductsList = () => {
     const deafultBreadcrumbList = ['Home', 'Products'];
-    // const [productList, setProductList] = useState(null);
-    // const [loadingProductList, setLoadingProductList] = useState(true);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const categoryId = searchParams.get('category') ?? '';
+    const keyword = searchParams.get('search') ?? '';
+
     const [filters, setFilters] = useState(cloneDeep(defaultFilterConfiguration));
     const [listingOrder, setListingOrder] = useState(0);
-    const [displayType, setDisplayType] = useState(0);
+    const [displayType, setDisplayType] = useState(1);
     const [pageNumber, setPageNumber] = useState(1);
     const [breadcrumbList, setBreadcrumbList] = useState(deafultBreadcrumbList);
-    const [category, setCategory] = useState({
-        name: 'All Products',
-        description: 'Discover an extraordinary world of possibilities with our diverse collection of quality items for every need, desire, and occasion. From everyday essentials to unexpected treasures, our carefully curated selection promises to enhance your life\'s experiences while reflecting your unique style and values.',
-        hasSubcategory: true,
-        subcategories: [],
-    });
+    const [category, setCategory] = useState(cloneDeep(AllCategories));
     const ref = useRef(null);
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const categoryId = searchParams.get('category') ?? 'All Products';
-    const searchTerm = searchParams.get('search') ?? '';
-
     const dispatch = useDispatch();
-    const { allCategories, categoriesList, loadingCategories, loadingProductList, productList } = useSelector(state => state.productSlice);
+    const { allCategories, categoriesList, loadingCategories, loadingProductList, productList, productListMetadata, subCategoriesMapping } = useSelector(state => state.productSlice);
     const { getAllProducts } = actions;
+
+    const getSubCategoryListForSearch = (categoryId) => {
+        if (!categoryId) return ''; 
+        return [categoryId, ...(subCategoriesMapping[categoryId] ?? [])].join(',');
+    }
+
+    const showCurrentResults = () => {
+        if (productListMetadata.total_docs === 0) {
+            return 'No Results';
+        }
+        const currentItemStart = (productListMetadata.current_page - 1) * 10 + 1;
+        const currentItemEnd = currentItemStart + (10 - 1);
+        const totalProductsFound = productListMetadata.total_docs;
+
+        return `Showing ${currentItemStart}-${currentItemEnd > totalProductsFound ? totalProductsFound : currentItemEnd} of ${totalProductsFound} item(s)`;
+    }
 
     const handleChange = (event) => {
         setListingOrder(event.target.value);
@@ -105,14 +122,24 @@ const ProductsList = () => {
         setFilters(state => ({ ...filters }));
     }
 
-    const fetchAllProducts = (categoryId) => {
+    const fetchAllProducts = (filters) => {
         console.log('Fetching all products');
-        dispatch(getAllProducts(categoryId));
+        dispatch(getAllProducts(filters));
     }
 
     useEffect(() => {
-        fetchAllProducts(categoryId);
-    }, [categoryId, pageNumber])
+        const filters = {
+            page: pageNumber,
+            keyword: keyword,
+            category: keyword ? '' : getSubCategoryListForSearch(categoryId),
+        };
+        const query = [];
+        for (const key in filters) {
+            if (filters[key]) query.push(`${key}=${filters[key]}`);
+        }
+        fetchAllProducts(query.join('&'));
+        if (keyword) setCategory(cloneDeep(AllCategories));
+    }, [categoryId, pageNumber, keyword])
 
     useEffect(() => {
         if (allCategories) {
@@ -188,16 +215,12 @@ const ProductsList = () => {
                                         </div>
                                     </section>
 
-                                    <section className='filters-section pb-6'>
+                                    {productListMetadata && productListMetadata.brands.length > 0 && <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Brand</p>
                                         <ul>
-                                            <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', value)}><span className='ml-1'>Small</span></Checkbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', value)}><span className='ml-1'>Medium</span></Checkbox><span>(5)</span></li>
-                                            <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', value)}><span className='ml-1'>Large</span></Checkbox><span>(7)</span></li>
-                                            <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', value)}><span className='ml-1'>XL</span></Checkbox><span>(1)</span></li>
-                                            <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', value)}><span className='ml-1'>XXL</span></Checkbox><span>(3)</span></li>
+                                            {productListMetadata.brands && productListMetadata.brands.map(brand => <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', brand._id)}><span className='ml-1'>{brand._id}</span></Checkbox><span>({brand.count})</span></li>)}
                                         </ul>
-                                    </section>
+                                    </section>}
 
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Condition</p>
@@ -224,7 +247,8 @@ const ProductsList = () => {
                                 <Divider />
                                 <div className='category-title mt-4'>
                                     <span className='text-2xl font-semibold text-primary'>
-                                        {loadingCategories ? 'Loading Category...' : category.name}
+                                        {!loadingCategories && category.name}
+                                        {loadingCategories && 'Loading Category...'}
                                     </span>
                                 </div>
                                 <div className='category-description'>
@@ -263,7 +287,7 @@ const ProductsList = () => {
                                         }
 
                                         {(loadingCategories || !category.hasSubcategory) && <li>
-                                            <div className='subcategory-img w-[150px] border-2 flex justify-center'>
+                                            <div className='subcategory-img w-[150px] h-[150px] border-2 flex justify-center'>
                                                 <img src={img_not_found} />
                                             </div>
                                             <span className='flex justify-center'>{loadingCategories ? 'Loading Subcategories' : 'No Subcategories'}</span>
@@ -326,6 +350,15 @@ const ProductsList = () => {
                                                 </li>
                                             )}
 
+                                            {!loadingProductList && productList.length === 0 &&
+                                                <li className='h-[300px]'>
+                                                    <div className='flex flex-col items-center justify-center'>
+                                                        <img src={no_result_img} className='h-[226px]' />
+                                                        <span>No Results</span>
+                                                    </div>
+                                                </li>
+                                            }
+
                                             {loadingProductList && <div className='h-[2528px] w-[1110px]'><LoadingSpinner /></div>}
                                         </ul>
                                     </div>
@@ -338,17 +371,32 @@ const ProductsList = () => {
                                             <ProductMiniature key={index} data={productData} />
                                         )}
 
-                                        {loadingProductList && <div className='h-[700px] w-[1110px]'><LoadingSpinner /></div>}
+                                        {!loadingProductList && productList.length === 0 &&
+                                            <div class="col-span-5 grid grid-cols-subgrid gap-0.5 bg-white">
+                                                <div class="col-start-3 flex flex-col items-center justify-center h-[352px]">
+                                                    <img src={no_result_img} />
+                                                    <span>No Results</span>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        {loadingProductList && <div className='h-[700px] w-[1118px]'><LoadingSpinner /></div>}
                                     </div>
                                 </div>}
 
                                 {/* pagination */}
                                 <div className='product-list-footer flex justify-between m-4'>
                                     <div className='poducts-list-count'>
-                                        Showing 1-10 of 18 item(s)
+                                        {!loadingProductList
+                                            ? `${showCurrentResults()}`
+                                            : `Loading...`
+                                        }
                                     </div>
                                     <div className='poducts-list-pagination'>
-                                        <Pagination page={pageNumber} count={4} shape='rounded' variant='outlined' onChange={(e, page) => setPageNumber(page)} />
+                                        {productListMetadata?.total_pages
+                                            ? <Pagination page={pageNumber} count={productListMetadata.total_pages} shape='rounded' variant='outlined' onChange={(e, page) => setPageNumber(page)} />
+                                            : <Pagination page={pageNumber} count={5} shape='rounded' variant='outlined' />
+                                        }
                                     </div>
                                 </div>
                             </div>
