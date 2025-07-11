@@ -69,7 +69,7 @@ const Home = () => {
                                                             <div className="button-shopnow w-[25%] mt-5">
                                                                 <Link className='text-sm' to={{
                                                                     pathname: "/products",
-                                                                    search: "?category=furniture",
+                                                                    search: "?category=685e39ddde768fcbce54785b",
                                                                 }}>
                                                                     <button className='btn !w-[125px] !h-[40px] transition'>Shop Now</button>
                                                                 </Link>
@@ -87,7 +87,7 @@ const Home = () => {
                                                             <div className="button-shopnow w-[25%] mt-5">
                                                                 <Link className='text-sm' to={{
                                                                     pathname: "/products",
-                                                                    search: "?category=fashion",
+                                                                    search: "?category=685e39b6de768fcbce547858",
                                                                 }}>
                                                                     <button className='btn !w-[125px] !h-[40px] transition'>Shop Now</button>
                                                                 </Link>
@@ -109,7 +109,7 @@ const Home = () => {
                                                         <div className="shopnow">
                                                             <Link className="btn btn-primary" to={{
                                                                 pathname: "/products",
-                                                                search: "?category=electronics",
+                                                                search: "?category=685d143b4ffac65fb991204e",
                                                             }}>Shop Now</Link>
                                                         </div>
                                                     </div>
@@ -124,7 +124,7 @@ const Home = () => {
                                                         <div className="shopnow">
                                                             <Link className="btn btn-primary" to={{
                                                                 pathname: "/products",
-                                                                search: "?category=furniture",
+                                                                search: "?category=685e39ddde768fcbce54785b",
                                                             }}>Shop Now</Link>
                                                         </div>
                                                     </div>
@@ -170,7 +170,7 @@ const Home = () => {
                                     <div className="cmsbanner cmsbanner3 overflow-hidden rounded-md group">
                                         <Link to={{
                                             pathname: "/products",
-                                            search: "?category=electronics",
+                                            search: "?category=685d143b4ffac65fb991204e",
                                         }} className="banner-anchor">
                                             <img src={cms_banner_1} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                             <div className="banner-text flex items-center">
@@ -179,7 +179,7 @@ const Home = () => {
                                                     <div className="offer-title text-xl font-bold text-primary my-3">$250.00</div>
                                                     <div className="view_more"><Link className="btn btn-primary" to={{
                                                         pathname: "/products",
-                                                        search: "?category=electronics",
+                                                        search: "?category=685d143b4ffac65fb991204e",
                                                     }}>Shop Now</Link></div>
                                                 </div>
                                             </div>
@@ -190,7 +190,7 @@ const Home = () => {
                                     <div className="cmsbanner cmsbanner3 overflow-hidden rounded-md group">
                                         <Link to={{
                                             pathname: "/products",
-                                            search: "?category=furniture",
+                                            search: "?category=685e39ddde768fcbce54785b",
                                         }} className="banner-anchor">
                                             <img src={cms_banner_2} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                             <div className="banner-text flex items-center">
@@ -199,7 +199,7 @@ const Home = () => {
                                                     <div className="offer-title text-xl font-bold text-primary my-3">$190.00</div>
                                                     <div className="view_more"><Link className="btn btn-primary" to={{
                                                         pathname: "/products",
-                                                        search: "?category=furniture",
+                                                        search: "?category=685e39ddde768fcbce54785b",
                                                     }}>Shop Now</Link></div>
                                                 </div>
                                             </div>
@@ -210,7 +210,7 @@ const Home = () => {
                                     <div className="cmsbanner cmsbanner3 overflow-hidden rounded-md group">
                                         <Link to={{
                                             pathname: "/products",
-                                            search: "?category=electronics",
+                                            search: "?category=685d143b4ffac65fb991204e",
                                         }} className="banner-anchor">
                                             <img src={cms_banner_3} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                             <div className="banner-text flex items-center">
@@ -219,7 +219,7 @@ const Home = () => {
                                                     <div className="offer-title text-xl font-bold text-primary my-3">$129.00</div>
                                                     <div className="view_more"><Link className="btn btn-primary" to={{
                                                         pathname: "/products",
-                                                        search: "?category=electronics",
+                                                        search: "?category=685d143b4ffac65fb991204e",
                                                     }}>Shop Now</Link></div>
                                                 </div>
                                             </div>
@@ -242,7 +242,7 @@ const Home = () => {
                         <div className='container relative overflow-hidden group'>
                             <Link to={{
                                 pathname: "/products",
-                                search: "?category=electronics",
+                                search: "?category=685d143b4ffac65fb991204e",
                             }} className="banner-anchor">
                                 <img src={offer_banner_1} className='transition-all ease-in-out duration-1000 group-hover:scale-105' />
                                 <div className='absolute top-0 flex justify-center w-[100%] h-[100%]'>
@@ -273,7 +273,7 @@ const Home = () => {
                                     <div className="cmsbanner cmsbanner1 overflow-hidden rounded-md group">
                                         <Link to={{
                                             pathname: "/products",
-                                            search: "?category=furniture",
+                                            search: "?category=685e39ddde768fcbce54785b",
                                         }} className="banner-anchor">
                                             <img src={cms_banner_4} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                         </Link>
@@ -283,7 +283,7 @@ const Home = () => {
                                                 <div className="main-title text-3xl text-black font-base my-3">Santa Lucia Three <span>Seater Sofa</span></div>
                                                 <Link to={{
                                                     pathname: "/products",
-                                                    search: "?category=furniture",
+                                                    search: "?category=685e39ddde768fcbce54785b",
                                                 }}>
                                                     <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
                                                 </Link>
@@ -295,7 +295,7 @@ const Home = () => {
                                     <div className="cmsbanner cmsbanner2 overflow-hidden rounded-md group">
                                         <Link to={{
                                             pathname: "/products",
-                                            search: "?category=fashion",
+                                            search: "?category=685e39b6de768fcbce547858",
                                         }} className="banner-anchor">
                                             <img src={cms_banner_5} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                         </Link>
@@ -305,7 +305,7 @@ const Home = () => {
                                                 <div className="main-title text-3xl text-black font-base my-3">Woman In Red Crew <span>Neck T-shirt</span></div>
                                                 <Link to={{
                                                     pathname: "/products",
-                                                    search: "?category=fashion",
+                                                    search: "?category=685e39b6de768fcbce547858",
                                                 }}>
                                                     <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
                                                 </Link>
@@ -339,7 +339,7 @@ const Home = () => {
                                     <div className="cmsbanner cmsbanner1 overflow-hidden rounded-md group">
                                         <Link to={{
                                             pathname: "/products",
-                                            search: "?category=electronics",
+                                            search: "?category=685d143b4ffac65fb991204e",
                                         }} className="banner-anchor">
                                             <img src={cms_banner_6} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                         </Link>
@@ -349,7 +349,7 @@ const Home = () => {
                                                 <div className="main-title text-3xl text-black font-base my-3">Mobile Shope-Smart <span>Watch T-55</span></div>
                                                 <Link to={{
                                                     pathname: "/products",
-                                                    search: "?category=electronics",
+                                                    search: "?category=685d143b4ffac65fb991204e",
                                                 }}>
                                                     <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
                                                 </Link>
@@ -361,7 +361,7 @@ const Home = () => {
                                     <div className="cmsbanner cmsbanner2 overflow-hidden rounded-md group">
                                         <Link to={{
                                             pathname: "/products",
-                                            search: "?category=electronics",
+                                            search: "?category=685d143b4ffac65fb991204e",
                                         }} className="banner-anchor">
                                             <img src={cms_banner_7} className='transition-all ease-in-out duration-1000 group-hover:scale-110' />
                                         </Link>
@@ -371,7 +371,7 @@ const Home = () => {
                                                 <div className="main-title text-3xl text-black font-base my-3">Decoration Design <span>Lamp Light</span></div>
                                                 <Link to={{
                                                     pathname: "/products",
-                                                    search: "?category=electronics",
+                                                    search: "?category=685d143b4ffac65fb991204e",
                                                 }}>
                                                     <button className="view_more btn !w-[125px] !h-[40px]">Shop Now</button>
                                                 </Link>

@@ -20,42 +20,42 @@ const index = () => {
         {
             img: category_img_1,
             value: 'Smart Tablets',
-            category: 'electronics',
+            category: '685d143b4ffac65fb991204e',
         },
         {
             img: category_img_2,
             value: 'T-shirts',
-            category: 'fashion',
+            category: '685e39b6de768fcbce547858',
         },
         {
             img: category_img_3,
             value: 'Leather Watches',
-            category: 'fashion',
+            category: '685e39b6de768fcbce547858',
         },
         {
             img: category_img_4,
             value: 'Diamond Rings',
-            category: 'fashion',
+            category: '685e39b6de768fcbce547858',
         },
         {
             img: category_img_5,
             value: 'Wooden Chairs',
-            category: 'furniture',
+            category: '685e39ddde768fcbce54785b',
         },
         {
             img: category_img_6,
             value: 'Shoes',
-            category: 'fashion',
+            category: '685e39b6de768fcbce547858',
         },
         {
             img: category_img_7,
             value: 'Bags & Purse',
-            category: 'fashion',
+            category: '685e39b6de768fcbce547858',
         },
         {
             img: category_img_8,
             value: 'Game Consoles',
-            category: 'electronics',
+            category: '685d143b4ffac65fb991204e',
         },
     ];
 

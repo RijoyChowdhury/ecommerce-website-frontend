@@ -441,7 +441,7 @@ const ProductDetails = () => {
                                 ></textarea>
                             </div>
                                 : <div className='review-textbox border-2 w-[80%] flex justify-center items-center'>
-                                    <div className='italic'><Link to={'/login'} className='link underline'>Login</Link> to add review.</div>
+                                    <div className='italic'><Link to={'/login'} state={{ lastLocation: window.location.pathname }} className='link underline'>Login</Link> to add review.</div>
                                 </div>}
 
                             {/* add review btn */}
