@@ -9,7 +9,7 @@ import product_img_7 from '../../assets/images/products-slider-images/white-cott
 import product_img_8 from '../../assets/images/products-slider-images/wireless-mouse.jpg'
 import ColorCheckbox from '../ColorCheckbox';
 import { LiaExpandArrowsAltSolid, LiaHeart } from 'react-icons/lia';
-import { IoIosCloseCircleOutline } from 'react-icons/io';
+import { IoIosCloseCircleOutline, IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
 import img_not_found from '../../assets/images/no-img-available.png'
 
 import Box from '@mui/material/Box';
@@ -61,17 +61,17 @@ const ProductMiniature = (props) => {
                             <div className='product-status absolute top-0 left-0'>
                                 <ul className='flex flex-col gap-1 text-sm'>
                                     {data.stockCount > 0 ? <li className='flex'>
-                                        <div className="border-[1px] rounded-sm px-2 bg-green-200">
+                                        <div className="border-[1px] rounded-sm px-2 bg-green-500 border-green-500 text-white">
                                             In Stock
                                         </div>
                                     </li>
-                                    : <li className='flex'>
-                                        <div className="border-[1px] rounded-sm px-2 bg-red-200">
-                                            Sold Out
-                                        </div>
-                                    </li>}
+                                        : <li className='flex'>
+                                            <div className="border-[1px] rounded-sm px-2 bg-red-500 border-red-500 text-white">
+                                                Sold Out
+                                            </div>
+                                        </li>}
                                     {data.discount > 0 && <li className='flex'>
-                                        <div className="border-[1px] rounded-sm px-2 bg-green-200">
+                                        <div className="border-[1px] rounded-sm px-2 bg-red-500 border-red-500 text-white">
                                             -{data.discount}%
                                         </div>
                                     </li>}
@@ -80,8 +80,8 @@ const ProductMiniature = (props) => {
 
                             {shouldShowUtilities && <div className='product-utils absolute top-0 right-0'>
                                 <ul className='text-xl flex flex-col gap-1'>
-                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
-                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><IoMdHeartEmpty /></li>
                                 </ul>
                             </div>}
                         </div>
@@ -97,7 +97,10 @@ const ProductMiniature = (props) => {
                                 </div>
                                 <span className="text-xs total-rating">{data.review.length} Review(s)</span>
                             </div>
-                            <div className="product-price-and-shipping">
+                            <div className="product-price-and-shipping flex items-center gap-1">
+                                {data.oldPrice && <span className="price text-sm text-gray-400 line-through" aria-label="Old Price">
+                                    ${data.oldPrice}
+                                </span>}
                                 <span className="price text-base text-primary font-bold" aria-label="Price">
                                     ${data.price}
                                 </span>
@@ -105,9 +108,9 @@ const ProductMiniature = (props) => {
 
                             <div className='product-colors absolute -right-1 bottom-1'>
                                 <ul className='text-xl flex'>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#AAB2BD'} /></li>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#5D9CEC'} /></li>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#AAB2BD'} /></li>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#5D9CEC'} /></li>
+                                    <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#A0D468'} /></li>
                                 </ul>
                             </div>
                         </div>
@@ -122,7 +125,7 @@ const ProductMiniature = (props) => {
                             <div className='product-status absolute top-0 left-0'>
                                 <ul className='flex flex-col gap-1 text-sm'>
                                     {data.discount > 0 && <li className='flex'>
-                                        <div className="border-[1px] rounded-sm px-2 bg-green-200">
+                                        <div className="border-[1px] rounded-sm px-2 bg-red-500 border-red-500 text-white">
                                             -{data.discount}%
                                         </div>
                                     </li>}
@@ -142,16 +145,21 @@ const ProductMiniature = (props) => {
                                     </div>
                                     <span className="text-xs total-rating">{data.review.length} Review(s)</span>
                                 </div>
-                                <div className="product-price-and-shipping flex items-center gap-4">
-                                    <span className="price text-base text-primary font-bold" aria-label="Price">
+                                <div className="product-price-and-shipping flex items-center gap-2">
+                                    {data.oldPrice && <span className="price text-base text-gray-400 line-through" aria-label="Old Price">
+                                        ${data.oldPrice}
+                                    </span>}
+                                    <span className="price text-lg text-primary font-bold" aria-label="Price">
                                         ${data.price}
                                     </span>
-                                    {data.stockCount > 0 ? <div className="border-[1px] rounded-sm px-2 bg-green-200">
-                                        In Stock
-                                    </div>
-                                    : <div className="border-[1px] rounded-sm px-2 bg-red-200">
-                                        Out of Stock
-                                    </div>}
+                                    {data.stockCount > 0
+                                        ? <div className="border-[1px] ml-2 rounded-sm px-2 bg-green-500 border-green-500 text-white">
+                                            In Stock
+                                        </div>
+                                        : <div className="border-[1px] ml-2 rounded-sm px-2 bg-red-500 border-red-500 text-white">
+                                            Out of Stock
+                                        </div>
+                                    }
                                 </div>
                                 <div>
                                     <p className='text-sm leading-tight line-clamp-2'>
@@ -161,9 +169,9 @@ const ProductMiniature = (props) => {
                                 <div className='flex gap-4 mt-2 items-center'>
                                     <div className='product-colors'>
                                         <ul className='text-3xl flex'>
-                                            <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#AAB2BD'} /></li>
-                                            <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#5D9CEC'} /></li>
-                                            <li><ColorCheckbox checked={false} onChange={(value) => {}} val={'#A0D468'} /></li>
+                                            <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#AAB2BD'} /></li>
+                                            <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#5D9CEC'} /></li>
+                                            <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#A0D468'} /></li>
                                         </ul>
                                     </div>
                                     <div className='w-[150px] h-[40px]'>
@@ -174,8 +182,8 @@ const ProductMiniature = (props) => {
 
                             {shouldShowUtilities && <div className='product-utils absolute top-0 right-0'>
                                 <ul className='text-xl flex flex-col gap-1'>
-                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
-                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer'><LiaHeart /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><IoMdHeartEmpty /></li>
                                 </ul>
                             </div>}
                         </div>
@@ -189,7 +197,7 @@ const ProductMiniature = (props) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <IoIosCloseCircleOutline className='text-4xl rounded-full absolute top-4 right-4 cursor-pointer bg-stone-200' style={{zIndex: '1000'}} onClick={handleClose} />
+                    <IoIosCloseCircleOutline className='text-4xl rounded-full absolute top-4 right-4 cursor-pointer bg-stone-200' style={{ zIndex: '1000' }} onClick={handleClose} />
                     <ProductDetailsModal data={data} />
                 </Box>
             </Modal>

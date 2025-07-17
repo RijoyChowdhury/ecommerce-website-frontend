@@ -10,7 +10,7 @@ import ProgressBar from '../../components/ProgressBar';
 import ColorCheckbox from '../../components/ColorCheckbox';
 import Counter from '../../components/Counter';
 import { HiOutlineSquare2Stack } from 'react-icons/hi2';
-import { IoMdHeartEmpty } from 'react-icons/io';
+import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
 import { CiDeliveryTruck, CiLock } from 'react-icons/ci';
 import { PiHandArrowDownLight } from 'react-icons/pi';
 import StarRating from '../../components/StarRating';
@@ -19,6 +19,7 @@ import product_thumbnail_1 from '../../assets/images/product_thumbnail_1.jpg';
 import minim_brand_1 from '../../assets/images/minim_brand_1.jpg';
 import './style.css';
 import img_not_found from '../../assets/images/no-img-available.png'
+import { LiaHeart } from 'react-icons/lia';
 
 const ProductDetailsModal = ({ data }) => {
     const [swiper, setSwiper] = useState(null);
@@ -30,8 +31,16 @@ const ProductDetailsModal = ({ data }) => {
 
                 <div className='product-img-sticky-wrapper w-[40%]'>
                     <div className='product-img-wrapper sticky top-20'>
-                        <div className='img-display-wrapper'>
-                            <div className='border-2 mb-6 w-[642px] h-[663px] overflow-hidden'><img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[642px] h-[663px] object-fill' /></div>
+                        <div className='img-display-wrapper relative'>
+                            <div className='border-2 mb-6 w-[642px] h-[663px] overflow-hidden'>
+                                <img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[642px] h-[663px] object-fill' />
+                            </div>
+                            <div className='absolute p-1 right-6 bottom-4 text-5xl text-black flex justify-center'>
+                                <IoMdHeartEmpty />
+                            </div>
+                            <div className='absolute p-1 right-6 bottom-4 text-5xl text-red-500 flex justify-center'>
+                                <IoMdHeart />
+                            </div>
                         </div>
 
                         {/* product img section wrapper */}
@@ -137,14 +146,19 @@ const ProductDetailsModal = ({ data }) => {
 
 
                             <div className="product-prices my-4">
-                                <div className="product-price h5 flex gap-4 items-center">
+                                <div className="product-price h5 flex gap-2 items-center">
+                                    <div className="old-price">
+                                        <span className="current-price-value text-xl text-gray-400 line-through">
+                                            ${data.oldPrice}.00
+                                        </span>
+                                    </div>
                                     <div className="current-price">
                                         <span className="current-price-value text-2xl font-semibold text-primary">
                                             ${data.price}.00
                                         </span>
                                     </div>
-                                    {data.discount > 0 && <div className="current-price">
-                                        <span className="current-price-value text-lg font-semibold text-green-500">
+                                    {data.discount > 0 && <div className="current-discount">
+                                        <span className="current-price-value ml-2 text-lg font-semibold text-green-500">
                                             (-{data.discount}%)
                                         </span>
                                     </div>}

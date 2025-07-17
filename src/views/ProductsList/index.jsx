@@ -94,7 +94,7 @@ const ProductsList = () => {
     const { getAllProducts } = actions;
 
     const getSubCategoryListForSearch = (categoryId) => {
-        if (!categoryId) return ''; 
+        if (!categoryId) return '';
         return [categoryId, ...(subCategoriesMapping[categoryId] ?? [])].join(',');
     }
 
@@ -128,18 +128,20 @@ const ProductsList = () => {
     }
 
     useEffect(() => {
-        const filters = {
-            page: pageNumber,
-            keyword: keyword,
-            category: keyword ? '' : getSubCategoryListForSearch(categoryId),
-        };
-        const query = [];
-        for (const key in filters) {
-            if (filters[key]) query.push(`${key}=${filters[key]}`);
+        if (allCategories) {
+            const filters = {
+                page: pageNumber,
+                keyword: keyword,
+                category: keyword ? '' : getSubCategoryListForSearch(categoryId),
+            };
+            const query = [];
+            for (const key in filters) {
+                if (filters[key]) query.push(`${key}=${filters[key]}`);
+            }
+            fetchAllProducts(query.join('&'));
+            if (keyword) setCategory(cloneDeep(AllCategories));
         }
-        fetchAllProducts(query.join('&'));
-        if (keyword) setCategory(cloneDeep(AllCategories));
-    }, [categoryId, pageNumber, keyword])
+    }, [categoryId, allCategories, pageNumber, keyword])
 
     useEffect(() => {
         if (allCategories) {
@@ -177,9 +179,8 @@ const ProductsList = () => {
                                     <section className='filters-section pb-6'>
                                         <p className="h6 facet-title hidden-md-down">Availability</p>
                                         <ul>
-                                            <li className='flex justify-between'><Checkbox value={filters.availability.available} onChange={(value) => updateFilters('availability', 'available', value)}><span className='ml-1'>Available</span></Checkbox><span>(17)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.availability.in_stock} onChange={(value) => updateFilters('availability', 'in_stock', value)}><span className='ml-1'>In Stock</span></Checkbox><span>(17)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.availability.na} onChange={(value) => updateFilters('availability', 'na', value)}><span className='ml-1'>Not Available</span></Checkbox><span>(1)</span></li>
+                                            <li className='flex justify-between'><Checkbox value={filters.availability.in_stock} onChange={(value) => updateFilters('availability', 'in_stock', value)}><span className='ml-1'>In Stock</span></Checkbox><span>({productListMetadata ? productListMetadata.in_stock : 0})</span></li>
+                                            <li className='flex justify-between'><Checkbox value={filters.availability.na} onChange={(value) => updateFilters('availability', 'na', value)}><span className='ml-1'>Not Available</span></Checkbox><span>({productListMetadata ? productListMetadata.total_docs - productListMetadata.in_stock : 0})</span></li>
                                         </ul>
                                     </section>
 
@@ -191,6 +192,15 @@ const ProductsList = () => {
                                             <li className='flex justify-between'><Checkbox value={filters.size.large} onChange={(value) => updateFilters('size', 'large', value)}><span className='ml-1'>Large</span></Checkbox><span>(7)</span></li>
                                             <li className='flex justify-between'><Checkbox value={filters.size.xl} onChange={(value) => updateFilters('size', 'xl', value)}><span className='ml-1'>XL</span></Checkbox><span>(1)</span></li>
                                             <li className='flex justify-between'><Checkbox value={filters.size.xxl} onChange={(value) => updateFilters('size', 'xxl', value)}><span className='ml-1'>XXL</span></Checkbox><span>(3)</span></li>
+                                        </ul>
+                                    </section>
+
+                                    <section className='filters-section pb-6'>
+                                        <p className="h6 facet-title hidden-md-down">Condition</p>
+                                        <ul>
+                                            <li className='flex justify-between'><Checkbox value={filters.condition.new} onChange={(value) => updateFilters('condition', 'new', value)}><span className='ml-1'>New</span></Checkbox><span>(6)</span></li>
+                                            <li className='flex justify-between'><Checkbox value={filters.condition.refurbished} onChange={(value) => updateFilters('condition', 'refurbished', value)}><span className='ml-1'>Refurbished</span></Checkbox><span>(5)</span></li>
+                                            <li className='flex justify-between'><Checkbox value={filters.condition.used} onChange={(value) => updateFilters('condition', 'used', value)}><span className='ml-1'>Used</span></Checkbox><span>(7)</span></li>
                                         </ul>
                                     </section>
 
@@ -221,15 +231,6 @@ const ProductsList = () => {
                                             {productListMetadata.brands && productListMetadata.brands.map(brand => <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', brand._id)}><span className='ml-1'>{brand._id}</span></Checkbox><span>({brand.count})</span></li>)}
                                         </ul>
                                     </section>}
-
-                                    <section className='filters-section pb-6'>
-                                        <p className="h6 facet-title hidden-md-down">Condition</p>
-                                        <ul>
-                                            <li className='flex justify-between'><Checkbox value={filters.condition.new} onChange={(value) => updateFilters('condition', 'new', value)}><span className='ml-1'>New</span></Checkbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.condition.refurbished} onChange={(value) => updateFilters('condition', 'refurbished', value)}><span className='ml-1'>Refurbished</span></Checkbox><span>(5)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.condition.used} onChange={(value) => updateFilters('condition', 'used', value)}><span className='ml-1'>Used</span></Checkbox><span>(7)</span></li>
-                                        </ul>
-                                    </section>
                                 </div>
                             </div>
                         </div>

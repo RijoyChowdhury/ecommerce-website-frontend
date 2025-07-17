@@ -17,7 +17,7 @@ import ProgressBar from '../../components/ProgressBar';
 import ColorCheckbox from '../../components/ColorCheckbox';
 import Counter from '../../components/Counter';
 import { HiOutlineSquare2Stack } from 'react-icons/hi2';
-import { IoMdHeartEmpty } from 'react-icons/io';
+import { IoMdHeart, IoMdHeartEmpty } from 'react-icons/io';
 import StarRating from '../../components/StarRating';
 import DeliveryPolicies from '../../components/Policies';
 import { Link, useParams } from 'react-router-dom';
@@ -118,11 +118,17 @@ const ProductDetails = () => {
 
                         <div className='product-img-sticky-wrapper w-[40%]'>
                             <div className='product-img-wrapper sticky top-20'>
-                                <div className='img-display-wrapper'>
+                                <div className='img-display-wrapper relative'>
                                     {!loading
-                                        ? <div className='border-2 mb-6'><img src={productDetails.images[0]} /></div>
+                                        ? <div className='border-2 mb-6'><img src={productDetails.images.length > 0 ? productDetails.images[0] : img_not_found} className='w-[548px] h-[548px] object-fill' /></div>
                                         : <div className='border-2 mb-6 w-[548px] h-[548px]'><LoadingSpinner /></div>
                                     }
+                                    <div className='absolute p-1 right-6 bottom-4 text-5xl text-black flex justify-center'>
+                                        <IoMdHeartEmpty />
+                                    </div>
+                                    <div className='absolute p-1 right-6 bottom-4 text-5xl text-red-500 flex justify-center'>
+                                        <IoMdHeart />
+                                    </div>
                                 </div>
 
                                 {/* product img section wrapper */}
@@ -141,7 +147,7 @@ const ProductDetails = () => {
                                             onSwiper={(swiper) => setSwiper(swiper)}
                                             className="mySwiper2"
                                         >
-                                            {!loading
+                                            {!loading && productDetails.images.length > 0
                                                 ? productDetails.images.map((img, index) => (
                                                     <SwiperSlide key={index} className='border-2 rounded-lg overflow-hidden hover:border-primary'>
                                                         <div>
@@ -222,12 +228,22 @@ const ProductDetails = () => {
 
 
                                         <div className="product-prices my-4">
-                                            <div className="product-price h5 ">
-                                                <div className="current-price">
-                                                    <span className="current-price-value text-2xl font-semibold text-primary" content="94">
-                                                        ₹{productDetails.price}
+                                            <div className="product-price h5 flex gap-2 items-center">
+                                                <div className="old-price">
+                                                    <span className="current-price-value text-xl text-gray-400 line-through">
+                                                        ${productDetails.oldPrice}.00
                                                     </span>
                                                 </div>
+                                                <div className="current-price">
+                                                    <span className="current-price-value text-2xl font-semibold text-primary">
+                                                        ₹{productDetails.price}.00
+                                                    </span>
+                                                </div>
+                                                {productDetails.discount > 0 && <div className="current-discount">
+                                                    <span className="current-price-value ml-2 text-lg font-semibold text-green-500">
+                                                        (-{productDetails.discount}%)
+                                                    </span>
+                                                </div>}
                                             </div>
                                             <div className="tax-shipping-delivery-label">
                                                 <span className="delivery-information text-sm font-light">Free Shipping (Est. Delivery Time 2-3 Days)</span>
