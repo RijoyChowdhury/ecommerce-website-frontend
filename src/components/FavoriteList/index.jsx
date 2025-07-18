@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
@@ -8,35 +8,39 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material';
 import ProductMiniature from '../ProductMiniature';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import LoadingSpinner from '../LoadingSpinner';
+import { actions as wishlistActions } from '../../redux/slices/wishlistSlice.jsx';
 
 const FavoriteList = ({displayGrid}) => {
-    const { loadingFeaturedProducts, featureProducts } = useSelector(state => state.productSlice);
+    const dispatch = useDispatch();
+    const { getWishlist } = wishlistActions;
+    const { loadingWishlist, wishlist } = useSelector(state => state.wishlistSlice);
+
+    useEffect(() => {
+        if (!wishlist) {
+            dispatch(getWishlist());
+        }
+    }, [])
 
     return (
-        <div className='no-scrollbar'>
+        <div className=''>
 
-            {displayGrid && <div className='grid grid-cols-5 bg-slate-200 gap-0.5 overflow-hidden'>
-                {loadingFeaturedProducts 
-                ? new Array(18).fill(0).map((val, index) =>
-                    <div> Test</div>
-                )
-                : featureProducts.map((data, index) =>
-                    <ProductMiniature key={index} data={data} />
+            {displayGrid && <div className={`grid grid-cols-5 bg-slate-200 gap-0.5 overflow-hidden ${wishlist && wishlist.length <= 5 && 'border-b'}`}>
+                {loadingWishlist 
+                ? <div className='h-[420px] w-[1118px]'><LoadingSpinner /></div>
+                : wishlist.map((data, index) =>
+                    <ProductMiniature key={index} data={data.product} />
                 )}
             </div>}
 
             {!displayGrid && <div className='grid grid-cols-1 overflow-hidden'>
                 <ul className='divide-y-2'>
-                    {loadingFeaturedProducts 
-                    ? new Array(8).fill(0).map((val, index) =>
-                        <li className=''>
-                            <div> Test</div>
-                        </li>
-                    )
-                    : featureProducts.map((data, index) =>
+                    {loadingWishlist 
+                    ? <div className='h-[420px]'><LoadingSpinner /></div>
+                    : wishlist.map((data, index) =>
                         <li className='' key={index}>
-                            <ProductMiniature data={data} layout='expanded' />
+                            <ProductMiniature data={data.product} layout='expanded' />
                         </li>
                     )}
                 </ul>

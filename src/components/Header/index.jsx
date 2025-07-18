@@ -196,56 +196,56 @@ const Header = () => {
 
                             {/* login/register */}
                             {!isLoading && !user && <li className='list-none'> {/* login & resiter */}
-                                    <Link className='link transition pr-1' to={'/login'}>Login</Link>
-                                    /
-                                    <Link className='link transition pl-1' to={'/register'}>Register</Link>
+                                <Link className='link transition pr-1' to={'/login'}>Login</Link>
+                                /
+                                <Link className='link transition pl-1' to={'/register'}>Register</Link>
                             </li>}
 
                             {/* when user is logged in */}
                             {user && < li className='list-none relative' ref={userMenuRef}> {/* user account link */}
 
-                                    <Link to={"#"} className='link transition flex items-center justify-between' onClick={() => setShowUserDropdownMenu(true)}>
-                                        <div className='w-[120px] flex justify-center' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
-                                        <HiOutlineUserCircle className='text-3xl' />
-                                    </Link>
+                                <Link className='link transition flex items-center justify-between' onClick={() => setShowUserDropdownMenu(true)}>
+                                    <div className='w-[120px] flex justify-center' style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</div>
+                                    <HiOutlineUserCircle className='text-3xl' />
+                                </Link>
 
-                                    {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="user-dropdown">
-                                        <li className="link">
-                                            <Link to={'/user'} className="dropdown-item" onClick={closeMenu}>
-                                                <RiSettings3Line className='text-xl' />
-                                                Settings
-                                            </Link>
-                                        </li>
-                                        <li className="link">
-                                            <Link to={'/user'} className="dropdown-item" onClick={closeMenu}>
-                                                <LiaBoxOpenSolid className='text-xl' />
-                                                My Orders
-                                            </Link>
-                                        </li>
-                                        <li className="link">
-                                            <Link to={'#'} className="dropdown-item" onClick={handleLogout}>
-                                                <RiShutDownLine className='text-xl' />
-                                                Logout
-                                            </Link>
-                                        </li>
-                                    </ul>}
+                                {showUserDropdownMenu && <ul className="dropdown-menu bg-white flex flex-col gap-2 border-2 rounded-md" aria-labelledby="user-dropdown">
+                                    <li className="link">
+                                        <Link to={{pathname: "/user", search: `?section=section1`}} className="dropdown-item" onClick={closeMenu}>
+                                            <RiSettings3Line className='text-xl' />
+                                            Settings
+                                        </Link>
+                                    </li>
+                                    <li className="link">
+                                        <Link to={{pathname: "/user", search: `?section=section3`}} className="dropdown-item" onClick={closeMenu}>
+                                            <LiaBoxOpenSolid className='text-xl' />
+                                            My Orders
+                                        </Link>
+                                    </li>
+                                    <li className="link">
+                                        <Link to={'#'} className="dropdown-item" onClick={handleLogout}>
+                                            <RiShutDownLine className='text-xl' />
+                                            Logout
+                                        </Link>
+                                    </li>
+                                </ul>}
                             </li>}
 
                             {/* user utilities */}
                             <li className='list-none border-l-[1px] border-gray-200 pl-2'>
                                 <div className='quick-actions'>
                                     <div className='quick-action-btn'>
-                                        <Tooltip title="Compare Items" placement="top" arrow>
-                                            <Badge badgeContent={user ? 4 : 0} color="error">
+                                        <Tooltip title="Coming Soon..." placement="top" arrow>
+                                            <div>
                                                 <IoIosGitCompare />
-                                            </Badge>
+                                            </div>
                                         </Tooltip>
                                     </div>
-                                    <div className='quick-action-btn'>
+                                    <div className='quick-action-btn cursor-pointer' onClick={() => navigate({ pathname: "/user", search: `?section=section4`, })}>
                                         <Tooltip title="Wish-List" placement="top" arrow>
-                                            <Badge badgeContent={user ? 4 : 0} color="error">
+                                            <div>
                                                 <IoIosHeartEmpty />
-                                            </Badge>
+                                            </div>
                                         </Tooltip>
                                     </div>
                                     <div className='quick-action-btn cursor-pointer' onClick={() => handleCartOpen(true)}>

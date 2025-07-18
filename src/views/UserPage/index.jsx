@@ -15,6 +15,7 @@ import { actions, blankStates } from '../../redux/slices/userSlice.jsx';
 import { CircularProgress } from '@mui/material';
 import countriesJson from '../../assets/countries.json';
 import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
+import { useSearchParams } from 'react-router-dom';
 
 const blankSelectionState = {
     section1: false,
@@ -28,13 +29,15 @@ const notifySuccess = (value) => toast.success(value);
 const notifyError = (value) => toast.error(value);
 
 const UserPage = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const sectionId = searchParams.get('section') ?? 'section1';
     const dispatch = useDispatch();
     const { user, avatar, active_address } = useSelector(state => state.userSlice);
 
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
 
-    const [sections, setSectionState] = useState({ ...blankSelectionState, section1: true });
+    const [sections, setSectionState] = useState({ ...blankSelectionState, [sectionId]: true });
     const [userDetails, setUserDetails] = useState({ ...user });
     const [userAddress, setUserAddress] = useState(active_address ?? { ...blankStates.blankUserAddress });
 
@@ -250,7 +253,7 @@ const UserPage = () => {
                         {/* user address section */}
                         <div className={`${sections.section2 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Address</span></div>
-                            {loadingAddress && <LoadingSpinner />}
+                            {loadingAddress && <div className='flex justify-center items-center w-full h-[420px]'><LoadingSpinner /></div>}
                             {!loadingAddress && <div className='w-[77%]'>
                                 <AddressInfo data={userAddress} handleInput={handleAddressInput}>
                                     <div className='h-[40px] flex justify-center'>
@@ -280,7 +283,7 @@ const UserPage = () => {
                                     <div className={`list-type text-lg cursor-pointer hover:text-primary border-2 p-2 ${!gridDisplay ? 'border-primary' : 'border-transparent'}`} onClick={() => setGridDisplay(false)}><FaList /></div>
                                 </div>
                             </div>
-                            <div className='w-full h-[500px] overflow-scroll no-scrollbar'><FavoriteList data={user.wishlist} displayGrid={gridDisplay} /></div>
+                            <div className='w-full h-fit overflow-scroll no-scrollbar'><FavoriteList displayGrid={gridDisplay} /></div>
                         </div>
                     </div>
                 </div>
