@@ -15,30 +15,28 @@ import { actions as wishlistActions } from '../../redux/slices/wishlistSlice.jsx
 const FavoriteList = ({displayGrid}) => {
     const dispatch = useDispatch();
     const { getWishlist } = wishlistActions;
-    const { loadingWishlist, wishlist } = useSelector(state => state.wishlistSlice);
+    const { loadingWishlist, isWishlistDirty, wishlist } = useSelector(state => state.wishlistSlice);
 
     useEffect(() => {
-        if (!wishlist) {
+        if (!wishlist || isWishlistDirty) {
             dispatch(getWishlist());
         }
-    }, [])
+    }, [isWishlistDirty, wishlist])
 
     return (
         <div className=''>
 
-            {displayGrid && <div className={`grid grid-cols-5 bg-slate-200 gap-0.5 overflow-hidden ${wishlist && wishlist.length <= 5 && 'border-b'}`}>
-                {loadingWishlist 
-                ? <div className='h-[420px] w-[1118px]'><LoadingSpinner /></div>
-                : wishlist.map((data, index) =>
+            {displayGrid && <div className='grid grid-cols-5 bg-slate-200 gap-0.5 overflow-hidden'>
+                {loadingWishlist && <div className='h-[420px] w-[1118px]'><LoadingSpinner /></div>}
+                {wishlist && wishlist.map((data, index) =>
                     <ProductMiniature key={index} data={data.product} />
                 )}
             </div>}
 
             {!displayGrid && <div className='grid grid-cols-1 overflow-hidden'>
                 <ul className='divide-y-2'>
-                    {loadingWishlist 
-                    ? <div className='h-[420px]'><LoadingSpinner /></div>
-                    : wishlist.map((data, index) =>
+                    {loadingWishlist && <div className='h-[420px]'><LoadingSpinner /></div>}
+                    {wishlist && wishlist.map((data, index) =>
                         <li className='' key={index}>
                             <ProductMiniature data={data.product} layout='expanded' />
                         </li>

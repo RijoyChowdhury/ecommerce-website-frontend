@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 import { FaList } from 'react-icons/fa';
 import { useSelector, useDispatch } from 'react-redux';
 import { actions, blankStates } from '../../redux/slices/userSlice.jsx';
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Pagination } from '@mui/material';
 import countriesJson from '../../assets/countries.json';
 import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
 import { useSearchParams } from 'react-router-dom';
@@ -33,6 +33,7 @@ const UserPage = () => {
     const sectionId = searchParams.get('section') ?? 'section1';
     const dispatch = useDispatch();
     const { user, avatar, active_address } = useSelector(state => state.userSlice);
+    const { loadingWishlist, wishlist } = useSelector(state => state.wishlistSlice);
 
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
@@ -56,6 +57,7 @@ const UserPage = () => {
     const [loadingImg, setLoadingImg] = useState(false);
     const [loadingAddress, setLoadingAddress] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [wishlistPage, setWishlistPage] = useState(1);
 
     const handleSelect = async (event) => {
         if (event.target.id === 'section2' && !active_address) {
@@ -283,7 +285,15 @@ const UserPage = () => {
                                     <div className={`list-type text-lg cursor-pointer hover:text-primary border-2 p-2 ${!gridDisplay ? 'border-primary' : 'border-transparent'}`} onClick={() => setGridDisplay(false)}><FaList /></div>
                                 </div>
                             </div>
-                            <div className='w-full h-fit overflow-scroll no-scrollbar'><FavoriteList displayGrid={gridDisplay} /></div>
+                            <div className='w-full h-fit overflow-scroll no-scrollbar'><FavoriteList displayGrid={gridDisplay} /></div> 
+
+                            {/* pagination */}
+                            <div className={`product-list-footer w-full flex items-center justify-center p-4 border-t-2`}>
+                                <div className='poducts-list-pagination'>
+                                    {!loadingWishlist && wishlist && <Pagination page={wishlistPage} count={7} shape='rounded' variant='outlined' onChange={(e, page) => setWishlistPage(page)} />}
+                                    {loadingWishlist && <Pagination page={1} count={1} shape='rounded' variant='outlined' />}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

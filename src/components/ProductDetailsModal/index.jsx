@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -20,9 +20,61 @@ import minim_brand_1 from '../../assets/images/minim_brand_1.jpg';
 import './style.css';
 import img_not_found from '../../assets/images/no-img-available.png'
 import { LiaHeart } from 'react-icons/lia';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions as cartActions } from '../../redux/slices/cartSlice';
+import { actions as wishlistActions } from '../../redux/slices/wishlistSlice';
+import toast from 'react-hot-toast';
+
+const notify = (message) => toast.success(message);
 
 const ProductDetailsModal = ({ data }) => {
     const [swiper, setSwiper] = useState(null);
+    const [productCount, setProductCount] = useState(1);
+    const [addedToWishlist, setAddedToWishlist] = useState(false);
+    const { user } = useSelector(state => state.userSlice);
+
+    const dispatch = useDispatch();
+    const { addItemToCart } = cartActions;
+    const { addToWishlist, checkInWishlist } = wishlistActions;
+
+    const handleAddItemToCart = () => {
+        const payload = {
+            product: data,
+            quantity: productCount,
+            size: 'S',
+            color: 'Red',
+            user: user._id,
+        };
+        dispatch(addItemToCart(payload));
+        notify('Item added to cart');
+    };
+
+    const addItemToWishlist = async (productId) => {
+        if (!user) {
+            notify('Please login to add item to wishlist');
+            return;
+        }
+        if (addedToWishlist) {
+            notify('Item already added to Wishlist');
+            return;
+        }
+        setAddedToWishlist(true);
+        const response = await dispatch(addToWishlist(productId)).unwrap();
+        if (response.success) {
+            notify('Added to Wishlist');
+        }
+    }
+
+    const checkProductAddedInWishlist = async (productId) => {
+        const response = await dispatch(checkInWishlist(productId)).unwrap();
+        if (response.success && response.data) {
+            setAddedToWishlist(true);
+        }
+    }
+
+    useEffect(() => {
+        checkProductAddedInWishlist(data._id);
+    }, [data]);
 
     return (
         <>
@@ -35,11 +87,10 @@ const ProductDetailsModal = ({ data }) => {
                             <div className='border-2 mb-6 w-[642px] h-[663px] overflow-hidden'>
                                 <img src={data.images.length > 0 ? data.images[0] : img_not_found} className='w-[642px] h-[663px] object-fill' />
                             </div>
-                            <div className='absolute p-1 right-6 bottom-4 text-5xl text-black flex justify-center'>
-                                <IoMdHeartEmpty />
-                            </div>
-                            <div className='absolute p-1 right-6 bottom-4 text-5xl text-red-500 flex justify-center'>
-                                <IoMdHeart />
+
+                            <div className='absolute cursor-pointer p-1 right-6 bottom-4 text-3xl text-red-500 flex justify-center bg-white border-2' onClick={() => addItemToWishlist(data._id)}>
+                                {addedToWishlist && <IoMdHeart />}
+                                {!addedToWishlist && <IoMdHeartEmpty />}
                             </div>
                         </div>
 
@@ -111,7 +162,7 @@ const ProductDetailsModal = ({ data }) => {
                                         <ProgressBar value={35} maxValue={100} height={7} />
                                     </div>
                                 </div>
-                                
+
                                 {/* size variations */}
                                 {data.size.length > 0
                                     ? <div className='mb-2 text-black font-medium'>
@@ -130,7 +181,7 @@ const ProductDetailsModal = ({ data }) => {
                                             </ul>
                                         </div>
                                     </div>}
-                                
+
                                 {/* color variations */}
                                 <div className='mb-2'>
                                     <span className='text-black font-medium'>Color: Black</span>
@@ -171,10 +222,10 @@ const ProductDetailsModal = ({ data }) => {
                             <div className='product-add-to-cart mb-4'>
                                 <div className='flex h-[45px] gap-2'>
                                     <div className='product_quantity w-[100px]'>
-                                        <Counter start={1} limit={10} step={1} />
+                                        <Counter start={productCount} limit={10} onValueChange={value => setProductCount(value)} />
                                     </div>
                                     <div className='product_add w-[250px]'>
-                                        <button className='btn'>Add to Cart</button>
+                                        <button className='btn' onClick={handleAddItemToCart}>Add to Cart</button>
                                     </div>
                                 </div>
                                 <div className='product_wish_compare flex gap-3 py-3'>

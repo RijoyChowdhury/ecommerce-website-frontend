@@ -40,11 +40,10 @@ const cartSlice = createSlice({
         updateCartState: (state, action) => {
             state.cart = action.payload;
         },
+        addItemToCart: (state, action) => {
+            state.cart.push(action.payload);
+        },
         removeCartItem: (state, action) => {
-            console.log('state');
-            console.log(state.cart);
-            console.log('action');
-            console.log(action.payload);
             const cart = state.cart.filter(item => item._id !== action.payload);
             state.cart = cart;
         },

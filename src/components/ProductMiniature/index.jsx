@@ -17,6 +17,7 @@ import Modal from '@mui/material/Modal';
 import StarRating from '../StarRating';
 import ProductDetailsModal from '../ProductDetailsModal';
 import { Link } from 'react-router-dom';
+import { BsCartPlus } from 'react-icons/bs';
 
 const style = {
     position: 'absolute',
@@ -82,6 +83,7 @@ const ProductMiniature = (props) => {
                                 <ul className='text-xl flex flex-col gap-1'>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><IoMdHeartEmpty /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><BsCartPlus /></li>
                                 </ul>
                             </div>}
                         </div>
@@ -175,7 +177,7 @@ const ProductMiniature = (props) => {
                                         </ul>
                                     </div>
                                     <div className='w-[150px] h-[40px]'>
-                                        <Link to={`/products/${data._id}`}><button className='btn'>Options</button></Link>
+                                        <Link to={`/products/${data._id}`}><button className='btn'>Check Details</button></Link>
                                     </div>
                                 </div>
                             </div>
@@ -184,6 +186,7 @@ const ProductMiniature = (props) => {
                                 <ul className='text-xl flex flex-col gap-1'>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><IoMdHeartEmpty /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><BsCartPlus /></li>
                                 </ul>
                             </div>}
                         </div>

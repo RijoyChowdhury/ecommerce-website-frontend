@@ -22,10 +22,15 @@ import StarRating from '../../components/StarRating';
 import DeliveryPolicies from '../../components/Policies';
 import { Link, useParams } from 'react-router-dom';
 import { actions } from '../../redux/slices/productSlice';
+import { actions as wishlistActions } from '../../redux/slices/wishlistSlice';
+import { actions as cartActions } from '../../redux/slices/cartSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
 import { sampleSize } from 'lodash-es';
 import img_not_found from '../../assets/images/no-img-available.png'
+import toast from 'react-hot-toast';
+
+const notify = (message) => toast.success(message);
 
 const ProductDetails = () => {
     const breadcrumbList = ['Home', 'Fashion', 'Cropped Satin Bomber Jacket'];
@@ -38,9 +43,15 @@ const ProductDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [sectionId, setSectionId] = useState(0);
+    const [addedToWishlist, setAddedToWishlist] = useState(false);
+    
     const dispatch = useDispatch();
     const { id } = useParams();
+    
     const { getProductDetails, submitProductReview } = actions;
+    const { addToWishlist, checkInWishlist } = wishlistActions;
+    const { addItemToCart } = cartActions;
+    
     const { user } = useSelector(state => state.userSlice);
     const { loadingFeaturedProducts, featureProducts } = useSelector(state => state.productSlice);
 
@@ -89,15 +100,44 @@ const ProductDetails = () => {
         }
     };
 
-    const addItemToCart = () => {
-        console.log('Product Id:', productDetails._id);
-        console.log('Count:', productCount);
-        console.log('User Id:', user._id,);
+    const handleAddItemToCart = () => {
+        const payload = {
+            product: productDetails,
+            quantity: productCount,
+            size: 'S',
+            color: 'Red',
+            user: user._id,
+        };
+        dispatch(addItemToCart(payload));
     };
+
+    const addItemToWishlist = async (productId) => {
+        if (!user) {
+            notify('Please login to add item to wishlist');
+            return;
+        }
+        if (addedToWishlist) {
+            notify('Item already added to Wishlist');
+            return;
+        }
+        setAddedToWishlist(true);
+        const response = await dispatch(addToWishlist(productId)).unwrap();
+        if (response.success) {
+            notify('Added to Wishlist');
+        }
+    }
+
+    const checkProductAddedInWishlist = async (productId) => {
+        const response = await dispatch(checkInWishlist(productId)).unwrap();
+        if (response.success && response.data) {
+            setAddedToWishlist(true);
+        }
+    }
 
     useEffect(() => {
         fetchProductDetails(id);
-    }, []);
+        checkProductAddedInWishlist(id);
+    }, [id]);
 
     if (error) {
         return (<div className='h-[600px]'>
@@ -123,12 +163,14 @@ const ProductDetails = () => {
                                         ? <div className='border-2 mb-6'><img src={productDetails.images.length > 0 ? productDetails.images[0] : img_not_found} className='w-[548px] h-[548px] object-fill' /></div>
                                         : <div className='border-2 mb-6 w-[548px] h-[548px]'><LoadingSpinner /></div>
                                     }
-                                    <div className='absolute p-1 right-6 bottom-4 text-5xl text-black flex justify-center'>
-                                        <IoMdHeartEmpty />
-                                    </div>
-                                    <div className='absolute p-1 right-6 bottom-4 text-5xl text-red-500 flex justify-center'>
-                                        <IoMdHeart />
-                                    </div>
+
+                                    {!loading && <div className='absolute cursor-pointer p-1 right-6 bottom-4 text-3xl text-red-500 flex justify-center bg-white border-2' onClick={() => addItemToWishlist(id)}>
+                                        {addedToWishlist && <IoMdHeart />}
+                                        {!addedToWishlist && <IoMdHeartEmpty />}
+                                    </div>}
+                                    {loading && <div className='absolute p-1 right-6 bottom-4 text-3xl text-red-500 flex justify-center bg-white border-2'>
+                                        {<IoMdHeartEmpty />}
+                                    </div>}
                                 </div>
 
                                 {/* product img section wrapper */}
@@ -257,7 +299,7 @@ const ProductDetails = () => {
                                                 </div>
                                                 {user
                                                     ? <div className='product_add w-[250px]'>
-                                                        <button className='btn' onClick={addItemToCart}>Add to Cart</button>
+                                                        <button className='btn' onClick={handleAddItemToCart}>Add to Cart</button>
                                                     </div>
                                                     : <div className='product_add w-[250px]'>
                                                         <Link to={'/login'} state={{ lastLocation: window.location.pathname }}>
