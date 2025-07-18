@@ -33,7 +33,7 @@ const UserPage = () => {
     const sectionId = searchParams.get('section') ?? 'section1';
     const dispatch = useDispatch();
     const { user, avatar, active_address } = useSelector(state => state.userSlice);
-    const { loadingWishlist, wishlist } = useSelector(state => state.wishlistSlice);
+    const { loadingWishlist, wishlist, wishlistMetadata } = useSelector(state => state.wishlistSlice);
 
     const [gridDisplay, setGridDisplay] = useState(false);
     const [showSymbol, setShowSymbol] = useState(false);
@@ -234,7 +234,7 @@ const UserPage = () => {
                     </div>
 
                     {/* main bar contenr */}
-                    <div className='w-[80%] border-2 rounded-md overflow-hidden'>
+                    <div className='w-[80%] border-2 rounded-md overflow-hidden h-full'>
                         {/* personal info section */}
                         <div className={`${sections.section1 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Personal Information</span></div>
@@ -285,13 +285,18 @@ const UserPage = () => {
                                     <div className={`list-type text-lg cursor-pointer hover:text-primary border-2 p-2 ${!gridDisplay ? 'border-primary' : 'border-transparent'}`} onClick={() => setGridDisplay(false)}><FaList /></div>
                                 </div>
                             </div>
-                            <div className='w-full h-fit overflow-scroll no-scrollbar'><FavoriteList displayGrid={gridDisplay} /></div> 
+                            <div className='w-full h-fit overflow-scroll no-scrollbar'><FavoriteList displayGrid={gridDisplay} /></div>
 
                             {/* pagination */}
-                            <div className={`product-list-footer w-full flex items-center justify-center p-4 border-t-2`}>
-                                <div className='poducts-list-pagination'>
-                                    {!loadingWishlist && wishlist && <Pagination page={wishlistPage} count={7} shape='rounded' variant='outlined' onChange={(e, page) => setWishlistPage(page)} />}
-                                    {loadingWishlist && <Pagination page={1} count={1} shape='rounded' variant='outlined' />}
+                            <div className={`product-list-footer w-full border-t-2`}>
+                                <div className='flex items-center justify-between mx-2 my-3'>
+                                    {loadingWishlist && <span className='text-sm italics text-gray-400 ml-2'>Loading...</span>}
+                                    {!loadingWishlist && wishlistMetadata && <span className='text-sm italics text-gray-400 ml-2'>Total: {wishlistMetadata.total_docs} item(s)</span>}
+                                    
+                                    <div className='poducts-list-pagination'>
+                                        {!loadingWishlist && wishlist && <Pagination page={wishlistPage} count={wishlistMetadata.total_pages} shape='rounded' variant='outlined' onChange={(e, page) => setWishlistPage(page)} />}
+                                        {loadingWishlist && <Pagination page={1} count={1} shape='rounded' variant='outlined' />}
+                                    </div>
                                 </div>
                             </div>
                         </div>

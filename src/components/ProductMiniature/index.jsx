@@ -81,15 +81,15 @@ const ProductMiniature = (props) => {
 
                             {shouldShowUtilities && <div className='product-utils absolute top-0 right-0'>
                                 <ul className='text-xl flex flex-col gap-1'>
-                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><IoMdHeartEmpty /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><BsCartPlus /></li>
                                 </ul>
                             </div>}
                         </div>
 
                         <div className="product-description relative flex flex-col gap-2 mt-1">
-                            <div className="brand-title text-xs" itemprop="name">
+                            <div className="brand-title text-xs" itemProp="name">
                                 <a href="https://demos.codezeel.com/prestashop/PRS21/PRS210502/en/brand/8-pro-tech-gear">Pro Tech Gear</a>
                             </div>
                             <h3 className="h3 product-title text-black text-sm h-[40px]">{data.name}</h3>
@@ -183,10 +183,10 @@ const ProductMiniature = (props) => {
                             </div>
 
                             {shouldShowUtilities && <div className='product-utils absolute top-0 right-0'>
-                                <ul className='text-xl flex flex-col gap-1'>
+                                <ul className='text-xl flex gap-1'>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white' onClick={handleOpen}><LiaExpandArrowsAltSolid /></li>
-                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><IoMdHeartEmpty /></li>
                                     <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><BsCartPlus /></li>
+                                    <li className='bg-white border-2 rounded-full p-2 cursor-pointer hover:bg-primary hover:border-primary hover:text-white'><IoMdHeartEmpty /></li>
                                 </ul>
                             </div>}
                         </div>

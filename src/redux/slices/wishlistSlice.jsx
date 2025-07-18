@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getData, postData, postFile } from "../../api/dataService";
+import { getData, postData, deleteData } from "../../api/dataService";
 
 const initialState = {
     loadingWishlist: true,
     wishlist: null,
+    wishlistMetadata: null,
     error: false,
     isWishlistDirty: false,
 };
@@ -53,10 +54,29 @@ const checkInWishlist = createAsyncThunk('wishlist/checkWishlist', async (produc
     }
 });
 
+const deleteItemFromWishlist = createAsyncThunk('wishlist/deleteWishlistItem', async (id) => {
+    try {
+        console.log(`/api/wishlist/checkWatchlist/${id}`);
+        const response = await deleteData(`/api/wishlist/${id}`);
+        console.log(response);
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
 const wishlistSlice = createSlice({
     name: 'wishlist',
     initialState,
     reducers: {
+        removeItemFromWishlist: (state, action) => {
+            const wishlist = state.wishlist.filter(item => item._id !== action.payload);
+            state.wishlist = wishlist;
+        },
     },
     extraReducers: builder => {
         builder
@@ -67,6 +87,7 @@ const wishlistSlice = createSlice({
         }).addCase(getWishlist.fulfilled, (state, action) => {
             state.loadingWishlist = false;
             state.wishlist = action.payload.data;
+            state.wishlistMetadata = action.payload.result_metadata;
             state.isWishlistDirty = false;
             state.error = false;
         }).addCase(getWishlist.rejected, (state, action) => {
@@ -74,6 +95,12 @@ const wishlistSlice = createSlice({
             state.wishlist = null;
             state.error = true;
         }).addCase(addToWishlist.fulfilled, (state, action) => {
+            state.isWishlistDirty = true;
+        }).addCase(deleteItemFromWishlist.pending, (state, action) => {
+            state.loadingWishlist = true;
+            state.wishlist = null;
+        }).addCase(deleteItemFromWishlist.fulfilled, (state, action) => {
+            state.loadingWishlist = false;
             state.isWishlistDirty = true;
         })
     }
@@ -86,4 +113,5 @@ export const actions = {
     getWishlist,
     addToWishlist,
     checkInWishlist,
+    deleteItemFromWishlist,
 };
