@@ -70,11 +70,11 @@ const index = () => {
             onSlideChange={() => { }}
             className='mySwiper'
         >
-            {bannerItems.map((item) => <SwiperSlide className='lower-banner-slide'>
+            {bannerItems.map((item, index) => <SwiperSlide className='lower-banner-slide'>
                 <Link to={{
                     pathname: "/products",
                     search: `?category=${item.category}`,
-                }}>
+                }} key={index}>
                     <div className='flex justify-center'>
                         <img src={item.img} />
                         <span className='absolute bottom-3'>{item.value}</span>

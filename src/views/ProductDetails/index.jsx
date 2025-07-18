@@ -44,14 +44,14 @@ const ProductDetails = () => {
     const [error, setError] = useState(false);
     const [sectionId, setSectionId] = useState(0);
     const [addedToWishlist, setAddedToWishlist] = useState(false);
-    
+
     const dispatch = useDispatch();
     const { id } = useParams();
-    
+
     const { getProductDetails, submitProductReview } = actions;
     const { addToWishlist, checkInWishlist } = wishlistActions;
     const { addItemToCart } = cartActions;
-    
+
     const { user } = useSelector(state => state.userSlice);
     const { loadingFeaturedProducts, featureProducts } = useSelector(state => state.productSlice);
 
@@ -250,8 +250,8 @@ const ProductDetails = () => {
                                                 <span className=''>Size: Small</span>
                                                 <div className='mt-2'>
                                                     <ul className='flex gap-2'>
-                                                        {productDetails.size.map(size => (
-                                                            <li><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>{size}</button></li>
+                                                        {productDetails.size.map((size, index) => (
+                                                            <li key={index}><button className='border-[1px] w-[60px] h-[30px] hover:bg-primary hover:text-white'>{size}</button></li>
                                                         ))}
                                                     </ul>
                                                 </div>
@@ -437,7 +437,7 @@ const ProductDetails = () => {
                             <div className='review-section-content border-2 rounded-md'>
 
                                 {/* render the individual reviews */}
-                                {reviewList.length > 0 && reviewList.slice(0, reviewListCount).map(item => <div className='review-wrapper flex'>
+                                {reviewList.length > 0 && reviewList.slice(0, reviewListCount).map((item, index) => <div key={index} className='review-wrapper flex'>
                                     <div className='review-owner w-[20%] p-4'>
                                         <div className='rating-section flex mb-2'>
                                             <span className='w-[50%]'>Rating</span>

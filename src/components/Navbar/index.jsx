@@ -39,8 +39,11 @@ const Navbar = () => {
                             <li className='list-none transition'>
                                 <Link to={'/'} className='link text-black'>Home</Link>
                             </li>
+                            <li className='list-none transition'>
+                                <Link to={'/products'} className='link text-black'>All Products</Link>
+                            </li>
                             <li className='list-none transition relative'>
-                                <Link to={'#'} className='link text-black'>Fashion</Link>
+                                <Link to={'#'} className='link text-black'>New Arrivals</Link>
                                 <SubmenuBox>
                                     <div className='flex flex-col w-[525px]'>
                                         <div className='upper flex justify-between gap-5 mb-4'>
@@ -77,9 +80,6 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                 </SubmenuBox>
-                            </li>
-                            <li className='list-none transition'>
-                                <Link to={'#'} className='link text-black'>New Arrivals</Link>
                             </li>
                             <li className='list-none transition relative'>
                                 <Link to={'#'} className='link text-black'>All brands</Link>
