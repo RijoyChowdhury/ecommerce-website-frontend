@@ -35,6 +35,7 @@ const CartPage = () => {
     }
 
     const goToCheckout = () => {
+        if (cartItems.length === 0) return;
         navigate('/checkout');
     }
 
@@ -152,7 +153,7 @@ const CartPage = () => {
                                     </div>
                                 </div>
                                 <div className='flex p-2 gap-2 h-[60px]'>
-                                    <button className='btn' onClick={goToCheckout}>Proceed to Checkout</button>
+                                    <button className={`btn ${cartItems.length === 0 && 'btn-disabled'}`} onClick={goToCheckout}>Proceed to Checkout</button>
                                 </div>
                             </div>
 

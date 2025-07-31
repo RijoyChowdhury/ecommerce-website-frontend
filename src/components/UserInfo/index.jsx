@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
     FormControl, 
     FormControlLabel, 
@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import { MdAccountCircle, MdVisibility, MdVisibilityOff } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import Checkbox from '../../components/Checkbox';
+import { cloneDeep } from 'lodash-es';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -21,8 +22,8 @@ const RadioStyle = {
     },
 };
 
-const UserInfo = ({data, handleInput, children}) => {
-    const formFields = { ...data };
+const UserInfo = ({data, onChange, children}) => {
+    const [formFields, setFormFields] = useState({ ...data });
 
     const [partnerOffers, setPartnerOffers] = useState(false);
     const [newsletterSubscription, setNewsletterSubscription] = useState(false);
@@ -36,6 +37,19 @@ const UserInfo = ({data, handleInput, children}) => {
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
     const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+
+    const handleInput = (event) => {
+        const { name, value } = event.target;
+        setFormFields((state) => ({
+            ...state,
+            [name]: value,
+        }));
+        onChange(cloneDeep(formFields));
+    }
+
+    useEffect(() => {
+        setFormFields(data);
+    }, [data])
 
     return (
         <div>

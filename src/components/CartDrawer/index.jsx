@@ -26,6 +26,7 @@ const CartDrawer = (props) => {
     };
 
     const goToChechoutPage = () => {
+        if (cartItems.length === 0) return;
         toggleDrawer(false);
         navigate('/checkout');
     };
@@ -94,7 +95,7 @@ const CartDrawer = (props) => {
                 </div>
                 <div className='flex p-2 gap-2 h-[60px] border-t-2 border-custom-light-gray bg-custom-light-gray'>
                     <button className='btn' onClick={goToCartPage}>Cart</button>
-                    <button className='btn' onClick={goToChechoutPage}>Checkout</button>
+                    <button className={`btn ${cartItems.length === 0 && 'btn-disabled'}`} onClick={goToChechoutPage}>Checkout</button>
                 </div>
             </div>
         </Box>

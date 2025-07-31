@@ -80,6 +80,7 @@ const Header = () => {
     const handleLogout = async () => {
         closeMenu();
         const response = await dispatch(logoutUser()).unwrap();
+        dispatch({ type: 'RESET_STORE' }); //calls the root reducer with RESET as action!
         if (response.success) {
             notifySuccess(response.message);
         }

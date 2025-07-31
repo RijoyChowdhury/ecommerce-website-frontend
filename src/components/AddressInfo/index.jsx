@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
     FormControl,
     FormControlLabel,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import countriesJson from '../../assets/countries.json';
 import { useState } from 'react';
+import { cloneDeep, isEqual } from 'lodash-es';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -18,8 +19,24 @@ const RadioStyle = {
     },
 };
 
-const AddressInfo = ({ data, handleInput, children }) => {
-    const formFields = { ...data };
+const AddressInfo = ({ data, onChange, children }) => {
+    const [formFields, setFormFields] = useState(cloneDeep(data));
+
+    const updateAddress = (event) => {
+        const { name, value } = event.target;
+        if (name === 'country' && formFields.country !== value) {
+            formFields.state = countriesJson.filter((country) => country.code3 === value)[0].states[0]?.code ?? '';
+        }
+        setFormFields((state) => cloneDeep({
+            ...state,
+            [name]: value,
+        }));
+        onChange(formFields);
+    }
+
+    useEffect(() => {
+        setFormFields(data);
+    }, [data])
 
     return (
         <div>
@@ -38,7 +55,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                                 value={formFields.location_type}
                                 name="location_type"
                                 className='flex'
-                                onChange={e => handleInput(e)}
+                                onChange={e => updateAddress(e)}
                             >
                                 <FormControlLabel value="home" control={<Radio sx={RadioStyle} disableRipple={true} />} label={<span>Home <em className='text-stone-400'>(between 8AM - 10PM)</em></span>} />
                                 <FormControlLabel value="office" control={<Radio sx={RadioStyle} disableRipple={true} />} label={<span>Office <em className='text-stone-400'>(between 9AM - 7PM)</em></span>} />
@@ -58,7 +75,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                         <div className='w-[18%] text-base flex justify-end'><span>Address<sup className='text-primary text-lg'>*</sup></span></div>
                         <div className='w-[82%]'>
                             <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <TextField id="outlined-basic" name='address_line_1' value={formFields.address_line_1} placeholder="House No. and Street Name" variant="outlined" size="small" onChange={e => handleInput(e)} />
+                                <TextField id="outlined-basic" name='address_line_1' value={formFields.address_line_1} placeholder="House No. and Street Name" variant="outlined" size="small" onChange={e => updateAddress(e)} />
                             </FormControl>
                         </div>
                     </div>
@@ -66,7 +83,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                         <div className='w-[18%] text-base flex justify-end'></div>
                         <div className='w-[82%]'>
                             <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <TextField id="outlined-basic" name='address_line_2' value={formFields.address_line_2} placeholder="Apartment Name, Area (optional)" variant="outlined" size="small" onChange={e => handleInput(e)} />
+                                <TextField id="outlined-basic" name='address_line_2' value={formFields.address_line_2} placeholder="Apartment Name, Area (optional)" variant="outlined" size="small" onChange={e => updateAddress(e)} />
                             </FormControl>
                         </div>
                     </div>
@@ -76,7 +93,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                     <div className='w-[18%] text-base flex justify-end'><span>Town/City<sup className='text-primary text-lg'>*</sup></span></div>
                     <div className='w-[82%]'>
                         <FormControl sx={{ width: '100%' }} variant="outlined">
-                            <TextField id="outlined-basic" name='city' value={formFields.city} variant="outlined" size="small" onChange={e => handleInput(e)} />
+                            <TextField id="outlined-basic" name='city' value={formFields.city} variant="outlined" size="small" onChange={e => updateAddress(e)} />
                         </FormControl>
                     </div>
                 </div>
@@ -90,7 +107,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                             <Select
                                 value={formFields.state}
                                 name='state'
-                                onChange={e => handleInput(e)}
+                                onChange={e => updateAddress(e)}
                                 MenuProps={{
                                     PaperProps: {
                                         sx: {
@@ -127,7 +144,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                                 <Select
                                     value={formFields.country}
                                     name='country'
-                                    onChange={e => handleInput(e)}
+                                    onChange={e => updateAddress(e)}
                                     MenuProps={{
                                         PaperProps: {
                                             sx: {
@@ -164,7 +181,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                     <div className='w-[82%] flex justify-between'>
                         <div className='dropdown-select w-[270px] h-[40px]'>
                             <FormControl sx={{ width: '100%' }} variant="outlined">
-                                <TextField id="outlined-basic" name='pincode' value={formFields.pincode} variant="outlined" size="small" onChange={e => handleInput(e)} />
+                                <TextField id="outlined-basic" name='pincode' value={formFields.pincode} variant="outlined" size="small" onChange={e => updateAddress(e)} />
                             </FormControl>
                         </div>
 
@@ -172,7 +189,7 @@ const AddressInfo = ({ data, handleInput, children }) => {
                             <div className='text-base flex items-center mr-2'>Phone Number<sup className='text-primary text-lg'>*</sup></div>
                             <div className='dropdown-select w-[270px] h-[40px]'>
                                 <FormControl sx={{ width: '100%' }} variant="outlined">
-                                    <TextField id="outlined-basic" name='mobile' value={formFields.mobile} variant="outlined" size="small" onChange={e => handleInput(e)} />
+                                    <TextField id="outlined-basic" name='mobile' value={formFields.mobile} variant="outlined" size="small" onChange={e => updateAddress(e)} />
                                 </FormControl>
                             </div>
                         </div>

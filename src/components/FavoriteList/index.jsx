@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../LoadingSpinner';
 import { actions as wishlistActions } from '../../redux/slices/wishlistSlice.jsx';
 import { MdDeleteOutline } from 'react-icons/md';
+import no_wishlist from '../../assets/images/wishlist-no-result-found.png';
 
 const FavoriteList = ({ displayGrid }) => {
     const [shouldShowDelete, setShouldShowDelete] = React.useState(null);
@@ -64,6 +65,11 @@ const FavoriteList = ({ displayGrid }) => {
                         </li>
                     )}
                 </ul>
+            </div>}
+
+            {wishlist && wishlist.length === 0 && <div className='flex flex-col items-center'>
+                <img src={no_wishlist} className='w-[30%]' />
+                <span className='text-gray-400'>No Items Found</span>
             </div>}
 
         </div>

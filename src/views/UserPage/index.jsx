@@ -16,6 +16,8 @@ import { CircularProgress, Pagination } from '@mui/material';
 import countriesJson from '../../assets/countries.json';
 import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
 import { useSearchParams } from 'react-router-dom';
+import { cloneDeep } from 'lodash-es';
+import user_profile from '../../assets/images/user-profile-img.jpg';
 
 const blankSelectionState = {
     section1: false,
@@ -41,6 +43,8 @@ const UserPage = () => {
     const [sections, setSectionState] = useState({ ...blankSelectionState, [sectionId]: true });
     const [userDetails, setUserDetails] = useState({ ...user });
     const [userAddress, setUserAddress] = useState(active_address ?? { ...blankStates.blankUserAddress });
+    const [modifiedAddress, setModifiedAddress] = useState({});
+    const [modifiedUserDetails, setModifiedUserDetails] = useState({});
 
     const {
         uploadAvatar,
@@ -82,38 +86,29 @@ const UserPage = () => {
         setFormFields((state) => ({ ...blankForm }));
     }
 
-    const handleAddressInput = (event) => {
-        const { name, value } = event.target;
-        if (name === 'country' && userAddress.country !== value) {
-            userAddress.state = countriesJson.filter((country) => country.code3 === value)[0].states[0]?.code ?? '';
-        }
-        setUserAddress((state) => ({
-            ...state,
-            [name]: value,
-        }));
+    const handleAddressInput = (value) => {
+        setModifiedAddress(value);
     }
 
-    const handleDetailsInput = (event) => {
-        const { name, value } = event.target;
-        setUserDetails((state) => ({
-            ...state,
-            [name]: value,
-        }));
+    const handleDetailsInput = (value) => {
+        setModifiedUserDetails(value);
     }
 
     const handleUserAddressUpdate = async () => {
         try {
             setLoading(true);
-            dispatch(updateUserAddress(userAddress));
-            let response;
-            if (userAddress._id) {
-                response = await dispatch(updateUserAddresses(userAddress)).unwrap();
-            } else {
-                response = await dispatch(createUserAddresses(userAddress)).unwrap();
-            }
+            dispatch(updateUserAddress(modifiedAddress));
+            // let response;
+            // if (userAddress._id) {
+            //     response = await dispatch(updateUserAddresses(userAddress)).unwrap();
+            // } else {
+            //     response = await dispatch(createUserAddresses(userAddress)).unwrap();
+            // }
+            const response = await dispatch(createUserAddresses(userAddress)).unwrap();
             if (response.success) {
                 notifySuccess(response.message);
-                fetchUserAddressDetails();
+                setUserAddress(modifiedAddress);
+                // fetchUserAddressDetails();
             }
             if (response.error) {
                 notifyError(response.message);
@@ -127,8 +122,8 @@ const UserPage = () => {
     const handleUserDataUpdate = async () => {
         try {
             setLoading(true);
-            dispatch(updateUserState(userDetails));
-            const response = await dispatch(updateUserDetails(userDetails)).unwrap();
+            // dispatch(updateUserState(userDetails));
+            const response = await dispatch(updateUserDetails(modifiedUserDetails)).unwrap();
             if (response.success) {
                 notifySuccess(response.message);
             }
@@ -143,6 +138,7 @@ const UserPage = () => {
 
     const handleLogout = async () => {
         const response = await dispatch(logoutUser()).unwrap();
+        dispatch({ type: 'RESET_STORE' }); //calls the root reducer with RESET as action!
         if (response.success) {
             notifySuccess(response.message);
         }
@@ -175,7 +171,7 @@ const UserPage = () => {
                         <div className='flex flex-col p-4 bg-white'>
                             <div className='flex justify-center'>
                                 <div className='border-4 rounded-full overflow-hidden relative'>
-                                    <img src={`${avatar ? avatar : profile}`} width={'150px'} />
+                                    <img src={`${avatar ? avatar : user_profile}`} width={'150px'} />
                                     <div
                                         className='overlay w-[100%] h-[100%] absolute top-0 left-0'
                                         onMouseEnter={() => setShowSymbol(true)}
@@ -235,11 +231,12 @@ const UserPage = () => {
 
                     {/* main bar contenr */}
                     <div className='w-[80%] border-2 rounded-md overflow-hidden h-full'>
+                        
                         {/* personal info section */}
                         <div className={`${sections.section1 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Personal Information</span></div>
-                            <div className='w-[77%]'>
-                                <UserInfo data={userDetails} handleInput={handleDetailsInput}>
+                            <div className='w-[77%] py-4'>
+                                <UserInfo data={userDetails} onChange={handleDetailsInput}>
                                     <div className='h-[40px] flex justify-center'>
                                         <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={handleUserDataUpdate}>
                                             {loading
@@ -256,8 +253,8 @@ const UserPage = () => {
                         <div className={`${sections.section2 ? '' : 'hidden'} flex flex-col items-center`}>
                             <div className='w-full border-b-2 p-4 text-xl'><span>Address</span></div>
                             {loadingAddress && <div className='flex justify-center items-center w-full h-[420px]'><LoadingSpinner /></div>}
-                            {!loadingAddress && <div className='w-[77%]'>
-                                <AddressInfo data={userAddress} handleInput={handleAddressInput}>
+                            {!loadingAddress && <div className='w-[77%] py-4'>
+                                <AddressInfo data={userAddress} onChange={input => handleAddressInput(input)}>
                                     <div className='h-[40px] flex justify-center'>
                                         <button className={`btn !w-[20%] ${loading ? 'btn-disabled' : ''}`} onClick={handleUserAddressUpdate}>
                                             {loading
@@ -285,7 +282,9 @@ const UserPage = () => {
                                     <div className={`list-type text-lg cursor-pointer hover:text-primary border-2 p-2 ${!gridDisplay ? 'border-primary' : 'border-transparent'}`} onClick={() => setGridDisplay(false)}><FaList /></div>
                                 </div>
                             </div>
-                            <div className='w-full h-fit overflow-scroll no-scrollbar'><FavoriteList displayGrid={gridDisplay} /></div>
+                            <div className='w-full h-fit overflow-scroll no-scrollbar'>
+                                <FavoriteList displayGrid={gridDisplay} />
+                            </div>
 
                             {/* pagination */}
                             <div className={`product-list-footer w-full border-t-2`}>
