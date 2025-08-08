@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Divider } from '@mui/material';
+import { Divider, Tooltip } from '@mui/material';
 import { CiDeliveryTruck, CiEdit, CiLock } from 'react-icons/ci';
 import { FaChevronDown, FaChevronLeft, FaChevronUp, FaRegTrashAlt } from 'react-icons/fa';
 import { PiHandArrowDownLight } from 'react-icons/pi';
@@ -29,7 +29,9 @@ import Logo4 from '../../assets/images/shipping-logo/fedex-logo.png';
 import img_not_found from '../../assets/images/no-img-available.png'
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { actions, blankStates } from '../../redux/slices/userSlice.jsx';
+import { actions as cartActions } from '../../redux/slices/cartSlice.jsx';
 import { cloneDeep } from 'lodash-es';
+import { IoMdInformationCircleOutline } from 'react-icons/io';
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -38,12 +40,16 @@ const RadioStyle = {
     },
 };
 
+const notifyError = (value) => toast.error(value);
+
 const CheckoutPage = () => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { user, active_address } = useSelector(state => state.userSlice);
     const { cart, isLoading } = useSelector(state => state.cartSlice);
 
     const { fetchUserAddresses } = actions;
+    const { checkoutCartItems } = cartActions;
 
     const [showPromoSegment, setShowPromoSegment] = useState(false);
     const [showItemLIst, setShowItemLIst] = useState(false);
@@ -51,7 +57,8 @@ const CheckoutPage = () => {
     const [addressLoading, setAddressLoading] = useState(false);
     const [updatedAddress, setUpdatedAddress] = useState({});
     const [deliveryMode, setDeliveryMode] = useState('amazon');
-    const [paymentMethod, setPaymentMethod] = useState('cod');
+    const [paymentMethod, setPaymentMethod] = useState('card');
+    const [loadingPaymentPage, setLoadingPaymentPage] = useState(false);
 
     const [userDetails, setUserDetails] = useState({
         name: user.firstName + ' ' + user.lastName,
@@ -91,14 +98,41 @@ const CheckoutPage = () => {
         const response = await dispatch(fetchUserAddresses()).unwrap();
         if (response.success) {
             const addressData = response.data[0];
-            setUserDetails(state => ({...state, address: response.data[0] ?? cloneDeep({ ...blankStates.blankUserAddress })}));
+            setUserDetails(state => ({ ...state, address: response.data[0] ?? cloneDeep({ ...blankStates.blankUserAddress }) }));
             setAddressLoading(false);
         }
     }
 
+    const proceedToCheckout = async () => {
+        setLoadingPaymentPage(true);
+        const response = await dispatch(checkoutCartItems({
+            email: userDetails.email,
+            items: cart,
+            payment_method_types: [paymentMethod],
+            metadata: { // all metadata fields must be "key: string" format
+                user: JSON.stringify(userDetails),
+            },
+        })).unwrap();
+        if (response.success) {
+            window.location.href = response.data.payment_url;
+        } else {
+            notifyError('Redirection Failed!');
+            setLoadingPaymentPage(false);
+        }
+    }
+
+    const getTotalCartAmt = () => {
+        if (!cart || cart.length === 0) return 0;
+        return cart.reduce((acc, item) => acc + (item.quantity * item.product.price), 0);
+    }
+
+    const isPayLaterNotAllowed = () => {
+        return Math.ceil(getTotalCartAmt() / 90) <= 35.0;
+    }
+
     useEffect(() => {
         if (active_address) {
-            setUserDetails(state => ({...state, address: active_address}));
+            setUserDetails(state => ({ ...state, address: active_address }));
         } else {
             setAddressLoading(true);
             loadUserAddress();
@@ -109,7 +143,9 @@ const CheckoutPage = () => {
         <>
             <div className='block cart-page'>
                 <div className='container py-8'>
-                    <div className='flex gap-8'>
+                    <div className='flex gap-8 relative'>
+
+                        {loadingPaymentPage && <div className='absolute w-full h-full z-10'><LoadingSpinner text='Redirecting to payment page...' /></div>}
 
                         {/* Left Section */}
                         <div className='w-[70%]'>
@@ -208,7 +244,7 @@ const CheckoutPage = () => {
 
                                     <div className={`section-content transition-all duration-1000 overflow-hidden ${openedSection === 2 ? 'h-[468px]' : 'h-[0px]'}`}>
 
-                                        {addressLoading && <div className='w-full h-full'><LoadingSpinner/></div>}
+                                        {addressLoading && <div className='w-full h-full'><LoadingSpinner /></div>}
                                         {<div className='w-[92%]'>
                                             <AddressInfo data={userDetails.address} onChange={value => setUpdatedAddress(value)}></AddressInfo>
                                         </div>}
@@ -242,7 +278,7 @@ const CheckoutPage = () => {
 
                                         <div className='flex justify-center'>
 
-                                            <FormControl sx={{ width: '85%' }} variant="outlined">
+                                            <FormControl sx={{ width: '100%', marginLeft: '5rem' }} variant="outlined">
                                                 <RadioGroup
                                                     row
                                                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -334,61 +370,48 @@ const CheckoutPage = () => {
                                         <div className='flex items-center justify-end text-sm hover:text-primary mx-4 cursor-pointer' onClick={() => setOpenedSection(4)}><CiEdit /><span className='ml-1'>Edit</span></div>
                                     </div>
 
-                                    <div className={`section-content transition-all duration-1000 overflow-hidden ${openedSection === 4 ? 'h-[238px]' : 'h-[0px]'}`}>
+                                    <div className={`section-content transition-all duration-1000 overflow-hidden ${openedSection === 4 ? 'h-[268px]' : 'h-[0px]'}`}>
 
 
-                                        <div className='w-[85%] flex'>
-                                            <div className='flex justify-center items-center ml-6'>
-                                                <Radio
-                                                    checked={false}
-                                                    onChange={() => { }}
-                                                    value="a"
-                                                    name="radio-buttons"
-                                                    inputProps={{ 'aria-label': 'A' }}
-                                                    sx={RadioStyle}
-                                                />
-                                            </div>
-                                            <div className='w-[100%] flex justify-left items-center'>
-                                                Pay by Check <span className='ml-2 italic'>(Please send a demand draft to sales@yourcompany.com)</span>
-                                            </div>
-                                        </div>
+                                        <div className='w-full flex justify-center'>
+                                            <div className='flex'>
 
-                                        <div className='w-[85%] flex '>
-                                            <div className='flex justify-center items-center ml-6'>
-                                                <Radio
-                                                    checked={false}
-                                                    onChange={() => { }}
-                                                    value="a"
-                                                    name="radio-buttons"
-                                                    inputProps={{ 'aria-label': 'A' }}
-                                                    sx={RadioStyle}
-                                                />
-                                            </div>
-                                            <div className='w-[100%] flex justify-left items-center'>
-                                                Cash On Delivery
-                                            </div>
-                                        </div>
+                                                <FormControl sx={{ width: '100%' }} variant="outlined">
+                                                    <RadioGroup
+                                                        row
+                                                        aria-labelledby="demo-row-radio-buttons-group-label"
+                                                        value={paymentMethod}
+                                                        name="location_type"
+                                                        className='flex justify-center'
+                                                        onChange={e => setPaymentMethod(e.target.value)}
+                                                    >
+                                                        <div className='flex flex-col w-[100%] gap-4'>
+                                                            <FormControlLabel value="card" control={<Radio sx={RadioStyle} disableRipple={true} />} label={
+                                                                <div className='w-[100%] flex justify-center items-center'>Debit/Credit Card (paid in INR/USD)</div>
+                                                            } />
+                                                            <FormControlLabel value="amazon_pay" control={<Radio sx={RadioStyle} disableRipple={true} />} label={
+                                                                <div className='w-[100%] flex justify-center items-center'>Digital Wallet (paid only in USD)</div>
+                                                            } />
+                                                            <FormControlLabel value="affirm" control={<Radio sx={RadioStyle} disabled={isPayLaterNotAllowed()} disableRipple={true} />} label={
+                                                                <div className='w-[100%] flex justify-center items-center'>
+                                                                    Buy Now, Pay Later (paid in USD)
+                                                                    <Tooltip title="Amount must be no less than $35.00 USD for the Affirm payment method" placement="top" arrow>
+                                                                        <span className='text-primary text-xl ml-1'><IoMdInformationCircleOutline /></span>
+                                                                    </Tooltip>
+                                                                </div>
+                                                            } />
+                                                        </div>
+                                                    </RadioGroup>
+                                                </FormControl>
 
-                                        <div className='w-[85%] flex '>
-                                            <div className='flex justify-center items-center ml-6'>
-                                                <Radio
-                                                    checked={true}
-                                                    onChange={() => { }}
-                                                    value="a"
-                                                    name="radio-buttons"
-                                                    inputProps={{ 'aria-label': 'A' }}
-                                                    sx={RadioStyle}
-                                                />
-                                            </div>
-                                            <div className='w-[100%] flex justify-left items-center'>
-                                                Internet Payment
+
                                             </div>
                                         </div>
 
                                         {/* Confirm section */}
                                         <div className='flex justify-center mt-8 mb-6'>
                                             <div className='flex gap-6 w-[480px] h-[50px]'>
-                                                <button className='btn'>Confirm</button>
+                                                <button className='btn' onClick={proceedToCheckout}>Confirm</button>
                                                 <button className='btn !bg-white !text-primary'>Cancel</button>
                                             </div>
                                         </div>
@@ -438,16 +461,16 @@ const CheckoutPage = () => {
                                 <div className={`transition-all duration-1000 ${showItemLIst ? 'opacity-100 my-2' : 'opacity-0'}`}><Divider /></div>
 
                                 <div className='item-count'>
-                                    <li className='flex justify-between font-semibold'><span>Subtotal</span><span className='text-primary'>$42.00</span></li>
-                                    <li className='flex justify-between font-semibold'><span>Shipping</span><span className='text-primary'>$7.00</span></li>
+                                    <li className='flex justify-between font-semibold'><span>Subtotal</span><span className='text-primary'>${getTotalCartAmt()}</span></li>
+                                    <li className='flex justify-between font-semibold'><span>Shipping</span><span className='text-primary'>Free</span></li>
                                 </div>
 
                                 <div className='my-2'><Divider /></div>
 
                                 <div className='item-total'>
-                                    <li className='flex justify-between font-semibold'><span>Total (tax excl.)</span><span className='text-primary'>$49.00</span></li>
-                                    <li className='flex justify-between font-semibold'><span>Taxes:</span><span className='text-primary'>5.75%</span></li>
-                                    <li className='flex justify-between font-semibold'><span>Total (tax incl.)</span><span className='text-primary'>$49.00</span></li>
+                                    <li className='flex justify-between font-semibold'><span>Total (shipping excl.)</span><span className='text-primary'>${getTotalCartAmt()}</span></li>
+                                    <li className='flex justify-between font-semibold'><span>Shipping:</span><span className='text-primary'>Free</span></li>
+                                    <li className='flex justify-between font-semibold'><span>Total (shipping incl.)</span><span className='text-primary'>${getTotalCartAmt()}</span></li>
                                     <div className='my-2'>
                                         <span className='link underline' onClick={togglePromoSegment}>Have a promo code?</span>
                                         {showPromoSegment && <div className='promo-segment flex gap-2 h-[40px] mt-2'>

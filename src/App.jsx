@@ -23,6 +23,7 @@ import { actions as productActions } from './redux/slices/productSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useRef } from 'react';
 import PageNotFound from './views/PageNotFound';
+import PaymentSuccess from './views/PaymentSuccess';
 
 function App() {
     const dispatch = useDispatch();
@@ -88,6 +89,7 @@ function App() {
                     <Route path="/cart" element={<CartPage />} />
                     <Route path="/checkout" element={<CheckoutPage />} />
                     <Route path="/user" element={<UserPage />} />
+                    <Route path='/paymentsuccess' element={<PaymentSuccess/>} />
                 </Route>
                 <Route path="/forgotpassword" element={<ForgotPassword />} />
                 <Route path="/login" element={<Login />} />

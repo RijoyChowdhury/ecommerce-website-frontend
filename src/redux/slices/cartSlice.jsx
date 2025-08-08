@@ -33,6 +33,34 @@ const updateCartDetails = createAsyncThunk('cart/updateDetails', async (formFiel
     }
 });
 
+const checkoutCartItems = createAsyncThunk('cart/checkout', async (formFields) => {
+    try {
+        const response = await postData(`/api/cart/checkout`, formFields);
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
+const fetchCheckoutDetails = createAsyncThunk('cart/getCheckoutDetails', async (sessionId) => {
+    try {
+        const response = await getData(`/api/cart/getCheckoutDetails/${sessionId}`);
+        console.log('fetchCheckoutDetails')
+        console.log(response)
+        return response;
+    } catch (err) {
+        return {
+            success: false,
+            error: true,
+            message: err.message,
+        };
+    }
+});
+
 const cartSlice = createSlice({
     name: 'cart',
     initialState,
@@ -78,4 +106,6 @@ export const actions = {
     ...cartSlice.actions, 
     getCartDetails,
     updateCartDetails,
+    checkoutCartItems,
+    fetchCheckoutDetails,
 };
