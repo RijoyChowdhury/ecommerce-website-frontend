@@ -32,6 +32,7 @@ import { actions, blankStates } from '../../redux/slices/userSlice.jsx';
 import { actions as cartActions } from '../../redux/slices/cartSlice.jsx';
 import { cloneDeep } from 'lodash-es';
 import { IoMdInformationCircleOutline } from 'react-icons/io';
+import {VisaCard, MasterCard, AmexCard, PayPal, ApplePay, AffirmPay, GooglePay} from '../../components/VectorIcons/index.jsx'
 
 const RadioStyle = {
     color: 'var(--gray)',
@@ -387,17 +388,32 @@ const CheckoutPage = () => {
                                                     >
                                                         <div className='flex flex-col w-[100%] gap-4'>
                                                             <FormControlLabel value="card" control={<Radio sx={RadioStyle} disableRipple={true} />} label={
-                                                                <div className='w-[100%] flex justify-center items-center'>Debit/Credit Card (paid in INR/USD)</div>
+                                                                <div className='w-[100%] flex justify-center items-center gap-2'>
+                                                                    <VisaCard />
+                                                                    <MasterCard />
+                                                                    <AmexCard />
+                                                                    <span>(Use Debit/Credit Card. Paid in INR/USD)</span>
+                                                                </div>
                                                             } />
                                                             <FormControlLabel value="amazon_pay" control={<Radio sx={RadioStyle} disableRipple={true} />} label={
-                                                                <div className='w-[100%] flex justify-center items-center'>Digital Wallet (paid only in USD)</div>
+                                                                <div className='w-[100%] flex justify-center items-center gap-2'>
+                                                                    <PayPal />
+                                                                    <ApplePay />
+                                                                    <GooglePay />
+                                                                    <span>(Use Digital Wallet. Region specific & paid only in USD)</span>
+                                                                </div>
                                                             } />
                                                             <FormControlLabel value="affirm" control={<Radio sx={RadioStyle} disabled={isPayLaterNotAllowed()} disableRipple={true} />} label={
-                                                                <div className='w-[100%] flex justify-center items-center'>
-                                                                    Buy Now, Pay Later (paid in USD)
+                                                                <div className='w-[100%] flex justify-center items-center gap-2'>
+                                                                    <span style={{opacity: isPayLaterNotAllowed() ? '0.5' : '1.0'}}>
+                                                                        <AffirmPay />
+                                                                    </span>
+                                                                    <span className='flex items-center'>
+                                                                        (Buy Now, Pay Later. Paid in USD)
                                                                     <Tooltip title="Amount must be no less than $35.00 USD for the Affirm payment method" placement="top" arrow>
                                                                         <span className='text-primary text-xl ml-1'><IoMdInformationCircleOutline /></span>
                                                                     </Tooltip>
+                                                                    </span>
                                                                 </div>
                                                             } />
                                                         </div>
