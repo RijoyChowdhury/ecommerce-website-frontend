@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { cloneDeep } from 'lodash-es';
 import { actions } from '../../redux/slices/productSlice';
+import FilterPane from './FilterPane';
 
 const defaultFilterConfiguration = {
     availability: {
@@ -87,7 +88,9 @@ const ProductsList = () => {
     const [pageNumber, setPageNumber] = useState(1);
     const [breadcrumbList, setBreadcrumbList] = useState(deafultBreadcrumbList);
     const [category, setCategory] = useState(cloneDeep(AllCategories));
+    const [noFilters, setNoFilters] = useState('true');
     const ref = useRef(null);
+
 
     const dispatch = useDispatch();
     const { allCategories, categoriesList, loadingCategories, loadingProductList, productList, productListMetadata, subCategoriesMapping } = useSelector(state => state.productSlice);
@@ -99,12 +102,12 @@ const ProductsList = () => {
     }
 
     const showCurrentResults = () => {
-        if (productListMetadata.total_docs === 0) {
+        if (productListMetadata.totalDocs === 0) {
             return 'No Results';
         }
-        const currentItemStart = (productListMetadata.current_page - 1) * 10 + 1;
+        const currentItemStart = (productListMetadata.currentPage - 1) * 10 + 1;
         const currentItemEnd = currentItemStart + (10 - 1);
-        const totalProductsFound = productListMetadata.total_docs;
+        const totalProductsFound = productListMetadata.totalDocs;
 
         return `Showing ${currentItemStart}-${currentItemEnd > totalProductsFound ? totalProductsFound : currentItemEnd} of ${totalProductsFound} item(s)`;
     }
@@ -117,9 +120,11 @@ const ProductsList = () => {
         ref.current.scrollLeft += scrollOffset;
     };
 
-    const updateFilters = (section, property, value) => {
-        filters[section][property] = value;
-        setFilters(state => ({ ...filters }));
+    const updateFilters = (value) => {
+        // filters[section][property] = value;
+        // setFilters(state => ({ ...filters }));
+        setNoFilters('false');
+        console.log(value);
     }
 
     const fetchAllProducts = (filters) => {
@@ -166,76 +171,7 @@ const ProductsList = () => {
 
                     {/* Left Filter Panel */}
                     <div className='sidePanel w-[19%]'>
-                        <div className='border-[1px] rounded-md'>
-                            <div id='search_filters' className=''>
-                                <h4 className="block_title text-black text-lg border-b-[1px] py-2 pl-4">Filter By</h4>
-                                <div className='clear-filter-section flex justify-center'>
-                                    <div className='clear-filter-button w-[50%] h-[30px] mt-4 rounded flex justify-center items-center border-[2px] leading-6 cursor-pointer hover:text-primary' onClick={() => setFilters(state => cloneDeep(defaultFilterConfiguration))}>
-                                        <IoIosCloseCircleOutline className='text-lg mr-1' />
-                                        Clear All
-                                    </div>
-                                </div>
-                                <div className='block_content px-5 py-4'>
-                                    <section className='filters-section pb-6'>
-                                        <p className="h6 facet-title hidden-md-down">Availability</p>
-                                        <ul>
-                                            <li className='flex justify-between'><Checkbox value={filters.availability.in_stock} onChange={(value) => updateFilters('availability', 'in_stock', value)}><span className='ml-1'>In Stock</span></Checkbox><span>({productListMetadata ? productListMetadata.in_stock : 0})</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.availability.na} onChange={(value) => updateFilters('availability', 'na', value)}><span className='ml-1'>Not Available</span></Checkbox><span>({productListMetadata ? productListMetadata.total_docs - productListMetadata.in_stock : 0})</span></li>
-                                        </ul>
-                                    </section>
-
-                                    <section className='filters-section pb-6'>
-                                        <p className="h6 facet-title hidden-md-down">Size</p>
-                                        <ul>
-                                            <li className='flex justify-between'><Checkbox value={filters.size.small} onChange={(value) => updateFilters('size', 'small', value)}><span className='ml-1'>Small</span></Checkbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.size.medium} onChange={(value) => updateFilters('size', 'medium', value)}><span className='ml-1'>Medium</span></Checkbox><span>(5)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.size.large} onChange={(value) => updateFilters('size', 'large', value)}><span className='ml-1'>Large</span></Checkbox><span>(7)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.size.xl} onChange={(value) => updateFilters('size', 'xl', value)}><span className='ml-1'>XL</span></Checkbox><span>(1)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.size.xxl} onChange={(value) => updateFilters('size', 'xxl', value)}><span className='ml-1'>XXL</span></Checkbox><span>(3)</span></li>
-                                        </ul>
-                                    </section>
-
-                                    <section className='filters-section pb-6'>
-                                        <p className="h6 facet-title hidden-md-down">Condition</p>
-                                        <ul>
-                                            <li className='flex justify-between'><Checkbox value={filters.condition.new} onChange={(value) => updateFilters('condition', 'new', value)}><span className='ml-1'>New</span></Checkbox><span>(6)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.condition.refurbished} onChange={(value) => updateFilters('condition', 'refurbished', value)}><span className='ml-1'>Refurbished</span></Checkbox><span>(5)</span></li>
-                                            <li className='flex justify-between'><Checkbox value={filters.condition.used} onChange={(value) => updateFilters('condition', 'used', value)}><span className='ml-1'>Used</span></Checkbox><span>(7)</span></li>
-                                        </ul>
-                                    </section>
-
-                                    <section className='filters-section pb-6'>
-                                        <p className="h6 facet-title hidden-md-down">Color</p>
-                                        <ul className='flex flex-col gap-1'>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.grey} onChange={(value) => updateFilters('color', 'grey', value)} val={'#AAB2BD'}><span className='ml-1'>Grey</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.red} onChange={(value) => updateFilters('color', 'red', value)} val={'#E84C3D'}><span className='ml-1'>Red</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.black} onChange={(value) => updateFilters('color', 'black', value)} val={'#434A54'}><span className='ml-1'>Black</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.orange} onChange={(value) => updateFilters('color', 'orange', value)} val={'#F39C11'}><span className='ml-1'>Orange</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.blue} onChange={(value) => updateFilters('color', 'blue', value)} val={'#5D9CEC'}><span className='ml-1'>Blue</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.green} onChange={(value) => updateFilters('color', 'green', value)} val={'#A0D468'}><span className='ml-1'>Green</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.yellow} onChange={(value) => updateFilters('color', 'yellow', value)} val={'#F1C40F'}><span className='ml-1'>Yellow</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                            <li className='flex justify-between text-xl'><ColorCheckbox checked={filters.color.pink} onChange={(value) => updateFilters('color', 'pink', value)} val={'#FCCACD'}><span className='ml-1'>Pink</span></ColorCheckbox><span className='text-sm'>(6)</span></li>
-                                        </ul>
-                                    </section>
-
-                                    <section className='filters-section pb-6'>
-                                        <p className="h6 facet-title hidden-md-down">Price</p>
-                                        <div className=''>
-                                            <ValueSlider min={10} max={100} low={filters.price.range[0]} high={filters.price.range[1]} onChange={(range) => updateFilters('price', 'range', range)} />
-                                        </div>
-                                    </section>
-
-                                    {productListMetadata && productListMetadata.brands.length > 0 && <section className='filters-section pb-6'>
-                                        <p className="h6 facet-title hidden-md-down">Brand</p>
-                                        <ul>
-                                            {productListMetadata.brands && productListMetadata.brands.map(brand => <li className='flex justify-between'><Checkbox onChange={(value) => updateFilters('brand', '', brand._id)}><span className='ml-1'>{brand._id}</span></Checkbox><span>({brand.count})</span></li>)}
-                                        </ul>
-                                    </section>}
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* <div className='h-[500px] border-2 rounded-md'></div> */}
+                        <FilterPane filtersData={productListMetadata} noFilters={noFilters} onFiltersChange={value => updateFilters(value)} />
                     </div>
 
                     {/* Right Main panel */}
@@ -394,8 +330,8 @@ const ProductsList = () => {
                                         }
                                     </div>
                                     <div className='poducts-list-pagination'>
-                                        {productListMetadata?.total_pages
-                                            ? <Pagination page={pageNumber} count={productListMetadata.total_pages} shape='rounded' variant='outlined' onChange={(e, page) => setPageNumber(page)} />
+                                        {productListMetadata?.totalPages
+                                            ? <Pagination page={pageNumber} count={productListMetadata.totalPages} shape='rounded' variant='outlined' onChange={(e, page) => setPageNumber(page)} />
                                             : <Pagination page={pageNumber} count={5} shape='rounded' variant='outlined' />
                                         }
                                     </div>

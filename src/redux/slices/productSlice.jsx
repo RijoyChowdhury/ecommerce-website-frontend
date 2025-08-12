@@ -109,13 +109,13 @@ const productSlice = createSlice({
             state.loadingCategoriesError = false;
         }).addCase(getAllCategories.fulfilled, (state, action) => {
             state.loadingCategories = false;
-            state.categoriesList = action.payload.data.filter(category => category.isTopLevel === true);
             state.allCategories = action.payload.data;
+            state.categoriesList = state.allCategories.filter(category => category.isTopLevel === true);
             state.subCategoriesMapping = {};
-            state.categoriesList.forEach(category => {
+            state.allCategories.forEach(category => {
                 state.subCategoriesMapping[category._id] = createSubCategoriesMapping(category);
             });
-            console.log(state.subCategoriesMapping);
+            // console.log(state.subCategoriesMapping);
             state.loadingCategoriesError = false;
         }).addCase(getAllCategories.rejected, (state, action) => {
             state.loadingCategories = false;
