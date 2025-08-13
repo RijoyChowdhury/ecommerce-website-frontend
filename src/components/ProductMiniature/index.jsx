@@ -18,6 +18,8 @@ import StarRating from '../StarRating';
 import ProductDetailsModal from '../ProductDetailsModal';
 import { Link } from 'react-router-dom';
 import { BsCartPlus } from 'react-icons/bs';
+import convert from 'color-convert';
+import { Tooltip } from '@mui/material';
 
 const style = {
     position: 'absolute',
@@ -108,13 +110,19 @@ const ProductMiniature = (props) => {
                                 </span>
                             </div>
 
-                            <div className='product-colors absolute -right-1 bottom-1'>
-                                <ul className='text-xl flex'>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#AAB2BD'} /></li>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#5D9CEC'} /></li>
-                                    <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#A0D468'} /></li>
+                            {data.color.length > 0 && <div className='product-colors absolute -right-1 bottom-1'>
+                                <ul className='text-xl flex items-center'>
+                                    {
+                                        data.color.slice(0,3).map((color, index) => <li key={index}><ColorCheckbox checked={false} onChange={(value) => { }} val={`#${convert.keyword.hex(color.toLowerCase())}`} /></li>)
+                                    }
+                                    {
+                                        data.color.length > 3 && 
+                                        <Tooltip title="More colors available" placement="top" arrow>
+                                            <li className='ml-1 text-sm text-primary cursor-pointer'>+{data.color.length - 3}</li>
+                                        </Tooltip>
+                                    }
                                 </ul>
-                            </div>
+                            </div>}
                         </div>
                     </div>
 
@@ -169,13 +177,13 @@ const ProductMiniature = (props) => {
                                     </p>
                                 </div>
                                 <div className='flex gap-4 mt-2 items-center'>
-                                    <div className='product-colors'>
+                                    {data.color.length > 0 && <div className='product-colors'>
                                         <ul className='text-3xl flex'>
-                                            <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#AAB2BD'} /></li>
-                                            <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#5D9CEC'} /></li>
-                                            <li><ColorCheckbox checked={false} onChange={(value) => { }} val={'#A0D468'} /></li>
+                                            {
+                                                data.color.map((color, index) => <li key={index}><ColorCheckbox checked={false} onChange={(value) => { }} val={`#${convert.keyword.hex(color.toLowerCase())}`} /></li>)
+                                            }
                                         </ul>
-                                    </div>
+                                    </div>}
                                     <div className='w-[150px] h-[40px]'>
                                         <Link to={`/products/${data._id}`}><button className='btn'>Check Details</button></Link>
                                     </div>
