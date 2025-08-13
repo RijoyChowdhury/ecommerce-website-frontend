@@ -29,6 +29,7 @@ import LoadingSpinner from '../../components/LoadingSpinner/index.jsx';
 import { sampleSize } from 'lodash-es';
 import img_not_found from '../../assets/images/no-img-available.png'
 import toast from 'react-hot-toast';
+import convert from 'color-convert';
 
 const notify = (message) => toast.success(message);
 
@@ -256,16 +257,17 @@ const ProductDetails = () => {
                                                     </ul>
                                                 </div>
                                             </div>
-                                            <div className='mb-2'>
-                                                <span className='text-black font-medium'>Color: Black</span>
+                                            {productDetails.color.length > 0 && <div className='mb-2'>
+                                                <span className='text-black font-medium'>Color: {productDetails.color[0]}</span>
                                                 <div>
-                                                    <ul className='flex'>
-                                                        <li className='text-4xl'><ColorCheckbox checked={true} onChange={() => { }} val={'#AAB2BD'} /></li>
-                                                        <li className='text-4xl'><ColorCheckbox checked={false} onChange={() => { }} val={'#A0D468'} /></li>
-                                                        <li className='text-4xl'><ColorCheckbox checked={false} onChange={() => { }} val={'#F1C40F'} /></li>
+                                                    <ul className='flex gap-0'>
+                                                        {
+                                                            productDetails.color.map((color, index) => 
+                                                            <li className='text-4xl' key={index}><ColorCheckbox checked={index === 0} onChange={(value) => { }} val={`#${convert.keyword.hex(color.toLowerCase())}`} /></li>
+                                                        )}
                                                     </ul>
                                                 </div>
-                                            </div>
+                                            </div>}
                                         </div>
 
 
@@ -307,7 +309,7 @@ const ProductDetails = () => {
                                                         </Link>
                                                     </div>}
                                             </div>
-                                            <div className='product_wish_compare flex gap-3 py-3'>
+                                            {/* <div className='product_wish_compare flex gap-3 py-3'>
                                                 <span className='hover:text-primary cursor-pointer product_wish text-base flex items-center gap-1'>
                                                     <IoMdHeartEmpty className='text-xl' />
                                                     Add To Wishlist
@@ -316,14 +318,34 @@ const ProductDetails = () => {
                                                     <HiOutlineSquare2Stack className='text-xl' />
                                                     Add To Compare
                                                 </span>
-                                            </div>
-                                            <div className="product-availability flex">
+                                            </div> */}
+                                            <div className="product-availability flex py-3">
                                                 {productDetails.stockCount > 0 && <div className="product-available border-[1px] px-2 bg-green-200">
                                                     In Stock
                                                 </div>}
                                                 {productDetails.stockCount === 0 && <div className="product-unavailable border-[1px] px-2 bg-red-200">
                                                     Out of Stock
                                                 </div>}
+                                            </div>
+                                            <div className="product-condition flex">
+                                                {
+                                                    productDetails.condition === 'New' &&
+                                                    <div className="product-new border-[1px] px-2 bg-green-200">
+                                                        New
+                                                    </div>
+                                                }
+                                                {
+                                                    productDetails.condition === 'Refurbished' &&
+                                                    <div className="product-refurbished border-[1px] px-2 bg-blue-200">
+                                                        Refurbished
+                                                    </div>
+                                                }
+                                                {
+                                                    productDetails.condition === 'Used' &&
+                                                    <div className="product-used border-[1px] px-2 bg-red-200">
+                                                        Used
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
 

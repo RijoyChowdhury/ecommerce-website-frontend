@@ -24,6 +24,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions as cartActions } from '../../redux/slices/cartSlice';
 import { actions as wishlistActions } from '../../redux/slices/wishlistSlice';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
+import convert from 'color-convert';
 
 const notify = (message) => toast.success(message);
 
@@ -183,16 +185,17 @@ const ProductDetailsModal = ({ data }) => {
                                     </div>}
 
                                 {/* color variations */}
-                                <div className='mb-2'>
-                                    <span className='text-black font-medium'>Color: Black</span>
+                                {data.color.length > 0 && <div className='mb-2'>
+                                    <span className='text-black font-medium'>Color: {data.color[0]}</span>
                                     <div>
-                                        <ul className='flex'>
-                                            <li className='text-4xl'><ColorCheckbox checked={true} onChange={(value) => { }} val={'#AAB2BD'} /></li>
-                                            <li className='text-4xl'><ColorCheckbox checked={false} onChange={(value) => { }} val={'#A0D468'} /></li>
-                                            <li className='text-4xl'><ColorCheckbox checked={true} onChange={(value) => { }} val={'#F1C40F'} /></li>
+                                        <ul className='flex gap-0'>
+                                            {
+                                                data.color.map((color, index) => 
+                                                <li className='text-4xl' key={index}><ColorCheckbox checked={index === 0} onChange={(value) => { }} val={`#${convert.keyword.hex(color.toLowerCase())}`} /></li>
+                                            )}
                                         </ul>
                                     </div>
-                                </div>
+                                </div>}
                             </div>
 
 
@@ -224,11 +227,17 @@ const ProductDetailsModal = ({ data }) => {
                                     <div className='product_quantity w-[100px]'>
                                         <Counter start={productCount} limit={10} onValueChange={value => setProductCount(value)} />
                                     </div>
-                                    <div className='product_add w-[250px]'>
-                                        <button className='btn' onClick={handleAddItemToCart}>Add to Cart</button>
-                                    </div>
+                                    {user
+                                        ? <div className='product_add w-[250px]'>
+                                            <button className='btn' onClick={handleAddItemToCart}>Add to Cart</button>
+                                        </div>
+                                        : <div className='product_add w-[250px]'>
+                                            <Link to={'/login'} state={{ lastLocation: window.location.pathname }}>
+                                                <button className='btn '>Login to add to Cart</button>
+                                            </Link>
+                                        </div>}
                                 </div>
-                                <div className='product_wish_compare flex gap-3 py-3'>
+                                {/* <div className='product_wish_compare flex gap-3 py-3'>
                                     <span className='product_wish text-base flex items-center gap-1'>
                                         <IoMdHeartEmpty className='text-xl' />
                                         Add To Wishlist
@@ -237,8 +246,8 @@ const ProductDetailsModal = ({ data }) => {
                                         <HiOutlineSquare2Stack className='text-xl' />
                                         Add To Compare
                                     </span>
-                                </div>
-                                <div className="product-availability flex">
+                                </div> */}
+                                <div className="product-availability flex py-3">
                                     {data.stockCount > 0
                                         ? <div className="product-available border-[1px] px-2 bg-green-200">
                                             In Stock
@@ -246,6 +255,26 @@ const ProductDetailsModal = ({ data }) => {
                                         : <div className="product-unavailable border-[1px] px-2 bg-red-200">
                                             Out of Stock
                                         </div>}
+                                </div>
+                                <div className="product-condition flex">
+                                    {
+                                        data.condition === 'New' &&
+                                        <div className="product-new border-[1px] px-2 bg-green-200">
+                                            New
+                                        </div>
+                                    }
+                                    {
+                                        data.condition === 'Refurbished' &&
+                                        <div className="product-refurbished border-[1px] px-2 bg-blue-200">
+                                            Refurbished
+                                        </div>
+                                    }
+                                    {
+                                        data.condition === 'Used' &&
+                                        <div className="product-used border-[1px] px-2 bg-red-200">
+                                            Used
+                                        </div>
+                                    }
                                 </div>
                             </div>
 
